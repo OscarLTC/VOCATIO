@@ -1,13 +1,16 @@
 import express from 'express';
-import * as path from 'path';
+import cors from 'cors';
 import { alumnoRouter } from './app/routers/alumno.router';
+import { documentoRouter } from './app/routers/document.router';
 
 const app = express();
 
 app.use(express.json());
+app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/alumnos', alumnoRouter);
+app.use('/documentos', documentoRouter);
 
 const port = process.env.PORT || 3333;
 
