@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { getDocumentos } from "../controllers/documento.controller";
+import { Router } from 'express';
+import { getDocumentos as getDocuments } from '../controllers/document.controller';
 
-export const documentoRouter = Router()
+export const documentRouter = Router();
 
-documentoRouter.get("/all", getDocumentos)
+documentRouter.get('/all', getDocuments);

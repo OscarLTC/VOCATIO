@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Alumno } from '../../models/alumno.model';
+import { Student } from '../../models/student.model';
 
 /* eslint-disable-next-line */
 export interface AlumnosListProps {}
 
 export function AlumnosList(props: AlumnosListProps) {
-  const [alumnos, setAlumnos] = useState<Array<Alumno>>();
+  const [alumnos, setAlumnos] = useState<Array<Student>>();
 
   const onDeleteClick = (id: number) => {
     toast.loading('Eliminando alumno');
-    axios.delete(`http://localhost:3333/alumnos/${id}`).then(() => {
+    axios.delete(`http://localhost:8000/api/student/${id}`).then(() => {
       getAlumnos();
       toast.dismiss();
       toast.success('Se eliminó correctamente');
@@ -22,7 +22,7 @@ export function AlumnosList(props: AlumnosListProps) {
 
   const getAlumnos = () => {
     axios
-      .get('http://localhost:3333/alumnos/all')
+      .get('http://localhost:8000/api/student/all')
       .then((res) => setAlumnos(res.data));
   };
 
@@ -76,12 +76,12 @@ export function AlumnosList(props: AlumnosListProps) {
             <tbody>
               {alumnos
                 ?.sort((a: any, b: any) => a.id - b.id)
-                .map((alumno: Alumno) => (
+                .map((alumno: Student) => (
                   <tr className="hover:bg-slate-100" key={alumno.id}>
                     <td className="p-2 rounded-l-lg">{alumno.id}</td>
                     <td>{alumno.name}</td>
                     <td>{alumno.lastName}</td>
-                    <td>{alumno.docType}</td>
+                    <td>{alumno.doc_type.description}</td>
                     <td>{alumno.docNumber}</td>
                     <td>{alumno.phoneNumber}</td>
                     <td>{alumno.emailAddress}</td>
