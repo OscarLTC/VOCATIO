@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import './alumnos-form.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Documento } from '../../models/documento.model';
+import { DocType } from '../../models/doctype.model';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -12,7 +12,7 @@ export interface AlumnosFormProps {
 }
 
 export function AlumnosForm(props: AlumnosFormProps) {
-  const [docTypes, setDocTypes] = useState<Array<Documento>>();
+  const [docTypes, setDocTypes] = useState<Array<DocType>>();
   const {
     register,
     setValue,
@@ -25,7 +25,7 @@ export function AlumnosForm(props: AlumnosFormProps) {
       name: '',
       lastName: '',
       emailAddress: '',
-      docType: 1,
+      docType_id: 1,
       docNumber: '',
       phoneNumber: '',
     },
@@ -40,14 +40,14 @@ export function AlumnosForm(props: AlumnosFormProps) {
   const send_data = (value: number, alumno: any) => {
     if (value === 1) {
       toast.loading('Creando alumno');
-      axios.post('http://localhost:3333/alumnos/save', alumno).then(() => {
+      axios.post('http://localhost:8000/api/student/save', alumno).then(() => {
         toast.remove();
         toast.success('Alumno creado');
         reset();
       });
     } else if (value === 2) {
       console.log(alumno);
-      axios.put(`http://localhost:3333/alumnos/${id}`, alumno).then(() => {
+      axios.put(`http://localhost:8000/api/student/${id}`, alumno).then(() => {
         reset();
         toast.remove();
         toast.success('Alumno actualizado');
@@ -58,11 +58,11 @@ export function AlumnosForm(props: AlumnosFormProps) {
   useEffect(() => {
     if (props.formState === 2) {
       const getAlumno = () => {
-        axios.get(`http://localhost:3333/alumnos/${id}`).then((res) => {
+        axios.get(`http://localhost:8000/api/student/${id}`).then((res) => {
           setValue('name', res.data.name);
           setValue('lastName', res.data.lastName);
           setValue('emailAddress', res.data.emailAddress);
-          setValue('docType', res.data.docType);
+          setValue('docType_id', res.data.doc_type.id);
           setValue('docNumber', res.data.docNumber);
           setValue('phoneNumber', res.data.phoneNumber);
         });
@@ -72,7 +72,7 @@ export function AlumnosForm(props: AlumnosFormProps) {
 
     const getDocumentos = () =>
       axios
-        .get('http://localhost:3333/documentos/all')
+        .get('http://localhost:8000/api/doctype/all')
         .then((res) => setDocTypes(res.data));
 
     getDocumentos();
@@ -119,7 +119,7 @@ export function AlumnosForm(props: AlumnosFormProps) {
           <div className="flex gap-4 items-center mt-5 place-content-center">
             <span className="w-44 text-start">Tipo de documento:</span>
             <select
-              {...register('docType', { required: true })}
+              {...register('docType_id', { required: true })}
               defaultValue={'docType'}
               className="bg-gray-200 py-2 px-5 rounded outline-none"
             >

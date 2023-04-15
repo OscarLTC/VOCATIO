@@ -1,9 +1,11 @@
-export interface Alumno {
+import { DocType } from './doctype.model';
+
+export interface Student {
   id: string;
   name: string;
   lastName: string;
   emailAddress: string;
-  docType: string;
+  doc_type: DocType;
   docNumber: string;
   phoneNumber: string;
 }
