@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Alumnos from './alumnos';
+import Alumnos from './people';
 
 describe('Alumnos', () => {
   it('should render successfully', () => {

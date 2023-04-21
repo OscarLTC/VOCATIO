@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import AlumnosForm from './alumnos-form';
+import PersonForm from './person-form';
 
 describe('AlumnosForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<AlumnosForm formState={1} />);
+    const { baseElement } = render(<PersonForm formState={1} />);
     expect(baseElement).toBeTruthy();
   });
 });
