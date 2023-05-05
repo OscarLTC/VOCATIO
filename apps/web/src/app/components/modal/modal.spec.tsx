@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import PersonForm from './people-form';
+import Modal from './modal';
 
-describe('AlumnosForm', () => {
+describe('Modal', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<PersonForm formState={1} />);
+    const { baseElement } = render(<Modal />);
     expect(baseElement).toBeTruthy();
   });
 });

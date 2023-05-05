@@ -1,27 +1,27 @@
-import './people-list.scss';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Person } from '../../models/person.model';
-import { MdDelete, MdEdit } from 'react-icons/md';
-import { ImSearch } from 'react-icons/im';
 import { useRecoilState } from 'recoil';
-import { peopleState } from '../../store/people/people.atom';
-import Modal from '../../components/modal/modal';
+import './enterprises-list.scss';
+import { useEffect, useState } from 'react';
+import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { environment } from '../../../environments/environment';
+import axios from 'axios';
+import { ImSearch } from 'react-icons/im';
+import { Link } from 'react-router-dom';
+import { MdDelete, MdEdit } from 'react-icons/md';
+import { Enterprise } from '../../models/enterprise.model';
+import Modal from '../../components/modal/modal';
 
 /* eslint-disable-next-line */
-export interface PeopleListProps {}
+export interface EnterprisesListProps {}
 
-export function PeopleList(props: PeopleListProps) {
-  const [people, setPeople] = useRecoilState(peopleState);
+export function EnterprisesList(props: EnterprisesListProps) {
+  const [enterprises, setEnterprises] = useRecoilState(enterpriseState);
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const onDeleteClick = async (id: number) => {
-    await axios.delete(`${environment.apiUrl}/person/${id}`).then(() => {
-      getPeople();
+    await axios.delete(`${environment.apiUrl}/enterprise/${id}`).then(() => {
+      getEnterprises();
       setIsModalOpen(false);
     });
   };
@@ -29,10 +29,10 @@ export function PeopleList(props: PeopleListProps) {
   const onSearchClick = async (data: string) => {
     if (data !== '') {
       await axios
-        .get(`${environment.apiUrl}/person/search/${data}`)
-        .then((res) => setPeople(res.data));
+        .get(`${environment.apiUrl}/enterprise/search/${data}`)
+        .then((res) => setEnterprises(res.data));
     } else {
-      getPeople();
+      getEnterprises();
     }
   };
 
@@ -42,23 +42,27 @@ export function PeopleList(props: PeopleListProps) {
     }
   };
 
-  const getPeople = async () => {
+  const getEnterprises = async () => {
     await axios
-      .get(`${environment.apiUrl}/person/all`)
-      .then((res) => setPeople(res.data.sort((a: any, b: any) => a.id - b.id)));
+      .get(`${environment.apiUrl}/enterprise/all`)
+      .then((res) =>
+        setEnterprises(res.data.sort((a: any, b: any) => a.id - b.id))
+      );
   };
 
   useEffect(() => {
-    if (!people) getPeople();
+    if (!enterprises) {
+      getEnterprises();
+    }
   }, []);
 
   return (
     <div className="p-4">
-      <h1 className="text-5xl ">Lista de Personas</h1>
+      <h1 className="text-5xl ">Lista de Empresas</h1>
       <div className="p-8 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">
-            <span className="text-lg self-center">Buscar persona: </span>
+            <span className="text-lg self-center">Buscar empresa: </span>
             <input
               type="text"
               className="bg-white  rounded px-2 outline-none"
@@ -74,9 +78,9 @@ export function PeopleList(props: PeopleListProps) {
               <ImSearch size={20} color="white" />
             </span>
           </div>
-          <Link to="/personas/save">
+          <Link to="/empresas/save">
             <button className="py-2 px-5 rounded-lg text-white bg-[#57c5a0] hover:bg-[#81d1b6]">
-              Crear persona
+              Crear empresa
             </button>
           </Link>
         </div>
@@ -85,34 +89,35 @@ export function PeopleList(props: PeopleListProps) {
             <thead className="justify-between border-y border-gray-600">
               <tr className="text-gray-400">
                 <th className="p-2">ID</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Tipo de documento</th>
-                <th>Documento</th>
+                <th>Empresa</th>
+                <th>Nombre de contacto</th>
                 <th>Celular</th>
                 <th>Correo</th>
-                <th>Empresa</th>
+                <th>Giro de negocio</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              {people?.map((person: Person) => (
-                <tr className="even:bg-white odd:bg-gray-100" key={person.id}>
+              {enterprises?.map((enterprise: Enterprise) => (
+                <tr
+                  className="even:bg-white odd:bg-gray-100"
+                  key={enterprise.id}
+                >
                   <td className="p-2 underline text-[#57c5a0]">
-                    <Link className="p-2" to={`/personas/${person.id}`}>
-                      {person.id}
+                    <Link className="p-2" to={`/empresas/${enterprise.id}`}>
+                      {enterprise.id}
                     </Link>
                   </td>
-                  <td>{person.name}</td>
-                  <td>{person.lastName}</td>
-                  <td>{person.doc_type.description}</td>
-                  <td>{person.docNumber}</td>
-                  <td>{person.phoneNumber}</td>
-                  <td>{person.emailAddress}</td>
-                  <td className="truncate">{person.enterprise.name}</td>
+                  <td>{enterprise.name}</td>
+                  <td>{enterprise.contactName}</td>
+                  <td>{enterprise.phoneContact}</td>
+                  <td>{enterprise.emailContact}</td>
+                  <td className="truncate">
+                    {enterprise.bussines_line.description}
+                  </td>
                   <td className="p-2">
                     <div className="flex justify-center gap-4">
-                      <Link to={`/personas/${person.id}`}>
+                      <Link to={`/empresas/${enterprise.id}`}>
                         <div className="p-1 bg-slate-200 rounded text-slate-400 hover:text-[#57c5a0]">
                           <MdEdit size={24} />
                         </div>
@@ -120,7 +125,7 @@ export function PeopleList(props: PeopleListProps) {
                       <button
                         onClick={() => {
                           setIsModalOpen(true);
-                          setIdToDelete(parseInt(person.id));
+                          setIdToDelete(parseInt(enterprise.id));
                         }}
                         className="p-1 bg-slate-200 rounded text-slate-400 hover:text-[#c55757]"
                       >
@@ -136,12 +141,13 @@ export function PeopleList(props: PeopleListProps) {
       </div>
       <Modal
         isOpen={isModalOpen}
-        message="¿Estas seguro de que quieres eliminar a esta persona?"
-        item="persona"
+        message="¿Estas seguro de que quieres eliminar a esta empresa?"
+        item="empresa"
         onConfirm={() => onDeleteClick(idToDelete)}
         onClose={() => setIsModalOpen(false)}
       />
     </div>
   );
 }
-export default PeopleList;
+
+export default EnterprisesList;
