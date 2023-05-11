@@ -53,9 +53,9 @@ export function PeopleList(props: PeopleListProps) {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-5xl ">Lista de Personas</h1>
-      <div className="p-8 mt-5">
+    <div className="py-8 bg-[aliceblue]">
+      <h1 className="text-4xl ">Lista de Personas</h1>
+      <div className="p-4 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">
             <span className="text-lg self-center">Buscar persona: </span>
@@ -80,15 +80,15 @@ export function PeopleList(props: PeopleListProps) {
             </button>
           </Link>
         </div>
-        <div className="mt-10">
+        <div className="mt-10 overflow-y-auto h-[30rem]">
           <table className="w-full p-4">
             <thead className="justify-between border-y border-gray-600">
               <tr className="text-gray-400">
                 <th className="p-2">ID</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Tipo de documento</th>
-                <th>Documento</th>
+                <th>Sexo</th>
+                <th>Nro. Documento</th>
                 <th>Celular</th>
                 <th>Correo</th>
                 <th>Empresa</th>
@@ -105,7 +105,7 @@ export function PeopleList(props: PeopleListProps) {
                   </td>
                   <td>{person.name}</td>
                   <td>{person.lastName}</td>
-                  <td>{person.doc_type.description}</td>
+                  <td className="capitalize">{person.genre?.name}</td>
                   <td>{person.docNumber}</td>
                   <td>{person.phoneNumber}</td>
                   <td>{person.emailAddress}</td>

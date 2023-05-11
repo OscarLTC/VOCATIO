@@ -1,14 +1,15 @@
-import { useRecoilState } from 'recoil';
-import './enterprises-list.scss';
-import { useEffect, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { environment } from '../../../environments/environment';
-import axios from 'axios';
+import { peopleState } from '../../store/people/people.atom';
+import { Enterprise } from '../../models/enterprise.model';
+import { MdDelete, MdEdit } from 'react-icons/md';
+import Modal from '../../components/modal/modal';
+import { useEffect, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { MdDelete, MdEdit } from 'react-icons/md';
-import { Enterprise } from '../../models/enterprise.model';
-import Modal from '../../components/modal/modal';
+import './enterprises-list.scss';
+import axios from 'axios';
 
 /* eslint-disable-next-line */
 export interface EnterprisesListProps {}
@@ -18,11 +19,13 @@ export function EnterprisesList(props: EnterprisesListProps) {
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const setPeople = useSetRecoilState(peopleState);
 
   const onDeleteClick = async (id: number) => {
     await axios.delete(`${environment.apiUrl}/enterprise/${id}`).then(() => {
       getEnterprises();
       setIsModalOpen(false);
+      setPeople(null);
     });
   };
 
@@ -57,9 +60,9 @@ export function EnterprisesList(props: EnterprisesListProps) {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-5xl ">Lista de Empresas</h1>
-      <div className="p-8 mt-5">
+    <div className="my-8">
+      <h1 className="text-4xl ">Lista de Empresas</h1>
+      <div className="p-4 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">
             <span className="text-lg self-center">Buscar empresa: </span>

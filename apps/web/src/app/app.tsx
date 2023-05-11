@@ -4,6 +4,7 @@ import Alumnos from './people/people';
 import { RecoilRoot } from 'recoil';
 import Enterprises from './enterprises/enterprises';
 import Surveys from './surveys/surveys';
+import Reports from './reports/reports';
 
 export function App() {
   return (
@@ -38,6 +39,14 @@ export function App() {
           element={
             <Layout>
               <Surveys />
+            </Layout>
+          }
+        />
+        <Route
+          path="/reportes/*"
+          element={
+            <Layout>
+              <Reports />
             </Layout>
           }
         />

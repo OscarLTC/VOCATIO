@@ -1,14 +1,14 @@
 import { Enterprise } from './enterprise.model';
-import { Person } from './person.model';
 import { State } from './state.model';
 import { Survey } from './survey.model';
-import { SurveyEnterprisePersons } from './surveyEnterprisePersons';
+import { SurveyEnterprisePersons } from './surveyEnterprisePersons.model';
 
 export interface SurveyEnterprise {
   id: string;
+  name: string;
+  section: string;
   startDate: string;
   endDate: string;
-  name: string;
   survey: Survey;
   enterprise: Enterprise;
   state: State;

@@ -95,8 +95,8 @@ export function EnterprisesForm(props: EnterprisesFormProps) {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-5xl ">
+    <div className="p-8">
+      <h1 className="text-4xl ">
         {props.formState === 1 ? 'Crear empresa' : 'Actualizar empresa'}
       </h1>
       <div className="mt-24">

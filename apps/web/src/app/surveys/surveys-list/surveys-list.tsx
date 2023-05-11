@@ -6,9 +6,8 @@ import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { ImSearch } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { SurveyEnterprise } from '../../models/surveyEnterprise';
+import { SurveyEnterprise } from '../../models/surveyEnterprise.model';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { GiCancel } from 'react-icons/gi';
 import State from '../../components/state/state';
 import Modal from '../../components/modal/modal';
@@ -70,7 +69,9 @@ export function SurveysList(props: SurveysListProps) {
   };
 
   const formatDate = (date: any) => {
-    return new Date(date).toLocaleDateString('es-ES', {
+    const [year, month, day] = date.split('-');
+    const dateObject = new Date(Number(year), Number(month) - 1, Number(day));
+    return dateObject.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -83,9 +84,9 @@ export function SurveysList(props: SurveysListProps) {
     }
   }, []);
   return (
-    <div className="p-4">
-      <h1 className="text-5xl ">Lista de Encuestas Programadas</h1>
-      <div className="p-8 mt-5">
+    <div className="my-8">
+      <h1 className="text-4xl ">Lista de Encuestas Programadas</h1>
+      <div className="p-4 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">
             <span className="text-lg self-center">Buscar encuesta: </span>
@@ -115,7 +116,8 @@ export function SurveysList(props: SurveysListProps) {
             <thead className="justify-between border-y border-gray-600">
               <tr className="text-gray-400">
                 <th className="p-2">ID</th>
-                <th>Nombre de Programación</th>
+                <th>Nombre</th>
+                <th>Sección</th>
                 <th>Tipo de Encuesta</th>
                 <th>Empresa</th>
                 <th>Fecha de Inicio</th>
@@ -136,6 +138,7 @@ export function SurveysList(props: SurveysListProps) {
                     </Link>
                   </td>
                   <td>{survey.name}</td>
+                  <td>{survey.section}</td>
                   <td>{survey.survey.name}</td>
                   <td>{survey.enterprise.name}</td>
                   <td>{formatDate(survey.startDate)}</td>
