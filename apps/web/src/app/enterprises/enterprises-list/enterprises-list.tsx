@@ -61,7 +61,7 @@ export function EnterprisesList(props: EnterprisesListProps) {
 
   return (
     <div className="my-8">
-      <h1 className="text-4xl ">Lista de Empresas</h1>
+      <h1 className="text-4xl px-4 text-left">Lista de Empresas</h1>
       <div className="p-4 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">

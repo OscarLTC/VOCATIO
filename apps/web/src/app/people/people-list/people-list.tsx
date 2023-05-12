@@ -54,7 +54,7 @@ export function PeopleList(props: PeopleListProps) {
 
   return (
     <div className="py-8 bg-[aliceblue]">
-      <h1 className="text-4xl ">Lista de Personas</h1>
+      <h1 className="text-4xl px-4 text-left">Lista de Personas</h1>
       <div className="p-4 mt-5">
         <div className="flex justify-between ">
           <div className="my-auto flex gap-3">
