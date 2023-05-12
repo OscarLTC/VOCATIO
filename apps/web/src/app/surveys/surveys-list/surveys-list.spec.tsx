@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import PersonForm from './people-form';
+import SurveysList from './surveys-list';
 
-describe('AlumnosForm', () => {
+describe('SurveysList', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<PersonForm formState={1} />);
+    const { baseElement } = render(<SurveysList />);
     expect(baseElement).toBeTruthy();
   });
 });

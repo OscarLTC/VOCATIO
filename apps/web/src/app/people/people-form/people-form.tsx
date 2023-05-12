@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import './people-form.scss';
 import { Link, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { doctypeState } from '../../store/doctype/doctype.atom';
@@ -10,6 +10,9 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { DocType } from '../../models/docType.model';
 import { Enterprise } from '../../models/enterprise.model';
 import { peopleState } from '../../store/people/people.atom';
+import { environment } from '../../../environments/environment';
+import { genreState } from '../../store/genre/genre.atom';
+import { Genre } from '../../models/genre.model';
 
 /* eslint-disable-next-line */
 export interface PeopleFormProps {
@@ -19,6 +22,7 @@ export interface PeopleFormProps {
 export function PeopleForm(props: PeopleFormProps) {
   const [docTypes, setDocTypes] = useRecoilState(doctypeState);
   const [entreprises, setEnterprises] = useRecoilState(enterpriseState);
+  const [genres, setGenres] = useRecoilState(genreState);
   const setPeople = useSetRecoilState(peopleState);
   const {
     register,
@@ -32,6 +36,7 @@ export function PeopleForm(props: PeopleFormProps) {
       name: '',
       lastName: '',
       emailAddress: '',
+      genre_id: 1,
       docType_id: 1,
       docNumber: '',
       phoneNumber: '',
@@ -58,14 +63,14 @@ export function PeopleForm(props: PeopleFormProps) {
   const send_data = (value: number, person: any) => {
     if (value === 1) {
       toast.loading('Creando persona');
-      axios.post('http://localhost:8000/api/person/save', person).then(() => {
+      axios.post(`${environment.apiUrl}/person/save`, person).then(() => {
         toast.remove();
         toast.success('Persona creada');
         reset();
       });
     } else if (value === 2) {
       toast.loading('Actualizando persona');
-      axios.put(`http://localhost:8000/api/person/${id}`, person).then(() => {
+      axios.put(`${environment.apiUrl}/person/${id}`, person).then(() => {
         reset();
         toast.remove();
         toast.success('Datos actualizados');
@@ -77,10 +82,12 @@ export function PeopleForm(props: PeopleFormProps) {
   useEffect(() => {
     if (props.formState === 2) {
       const getPerson = () => {
-        axios.get(`http://localhost:8000/api/person/${id}`).then((res) => {
+        axios.get(`${environment.apiUrl}/person/${id}`).then((res) => {
+          console.log(res.data);
           setValue('name', res.data.name);
           setValue('lastName', res.data.lastName);
           setValue('emailAddress', res.data.emailAddress);
+          setValue('genre_id', res.data.genre.id);
           setValue('docType_id', res.data.doc_type.id);
           setValue('docNumber', res.data.docNumber);
           setValue('phoneNumber', res.data.phoneNumber);
@@ -92,34 +99,40 @@ export function PeopleForm(props: PeopleFormProps) {
 
     if (!docTypes) {
       const getDocTypes = async () => {
-        await axios
-          .get('http://localhost:8000/api/doctype/all')
-          .then((res) =>
-            setDocTypes(res.data.sort((a: any, b: any) => a.id - b.id))
-          );
+        await axios.get(`${environment.apiUrl}/doctype/all`).then((res) => {
+          setDocTypes(res.data.sort((a: any, b: any) => a.id - b.id));
+          setValue('enterprise_id', res.data[0].id);
+        });
       };
       getDocTypes();
     }
 
     if (!entreprises) {
       const getEnterprises = () => {
-        axios
-          .get('http://localhost:8000/api/enterprise/all')
-          .then((res) =>
-            setEnterprises(res.data.sort((a: any, b: any) => a.id - b.id))
-          );
+        axios.get(`${environment.apiUrl}/enterprise/all`).then((res) => {
+          setEnterprises(res.data.sort((a: any, b: any) => a.id - b.id));
+        });
       };
       getEnterprises();
     }
+
+    if (!genres) {
+      const getGenres = () => {
+        axios.get(`${environment.apiUrl}/genre/all`).then((res) => {
+          setGenres(res.data);
+        });
+      };
+      getGenres();
+    }
   }, []);
   return (
-    <div className="p-4">
-      <h1 className="text-5xl ">
+    <div className="p-8">
+      <h1 className="text-4xl ">
         {props.formState === 1 ? 'Crear persona' : 'Actualizar persona'}
       </h1>
-      <div className="mt-28">
+      <div className="mt-10">
         <form
-          className="max-w-xl bg-white mx-auto shadow p-5 rounded-lg"
+          className="max-w-xl bg-white mx-auto shadow px-5 py-10 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-4 items-center place-content-center">
@@ -129,7 +142,7 @@ export function PeopleForm(props: PeopleFormProps) {
                 required: true,
                 pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/,
               })}
-              className={`bg-gray-200 p-2 rounded outline-none ${
+              className={`w-52 bg-gray-200 p-2 rounded outline-none ${
                 errors.name && 'outline-red-400 outline-1'
               }`}
               type="text"
@@ -143,7 +156,7 @@ export function PeopleForm(props: PeopleFormProps) {
                 required: true,
                 pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/,
               })}
-              className={`bg-gray-200 p-2 rounded outline-none ${
+              className={`w-52 bg-gray-200 p-2 rounded outline-none ${
                 errors.lastName && 'outline-red-400 outline-1'
               }`}
               type="text"
@@ -157,7 +170,7 @@ export function PeopleForm(props: PeopleFormProps) {
                 required: true,
                 pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               })}
-              className={`bg-gray-200 p-2 rounded outline-none ${
+              className={`w-52 bg-gray-200 p-2 rounded outline-none ${
                 errors.emailAddress && 'outline-red-400 outline-1'
               }`}
               type="text"
@@ -165,11 +178,26 @@ export function PeopleForm(props: PeopleFormProps) {
             />
           </div>
           <div className="flex gap-4 items-center mt-5 place-content-center">
+            <span className="w-44 text-start">Sexo:</span>
+            <select
+              {...register('genre_id', { required: true })}
+              defaultValue={'genre_id'}
+              className="w-52 bg-gray-200 p-2 rounded outline-none capitalize
+              "
+            >
+              {genres?.map((genre: Genre) => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex gap-4 items-center mt-5 place-content-center">
             <span className="w-44 text-start">Tipo de documento:</span>
             <select
               {...register('docType_id', { required: true })}
               defaultValue={'docType'}
-              className="bg-gray-200 py-2 px-5 rounded outline-none"
+              className="w-52 bg-gray-200 p-2 rounded outline-none"
             >
               {docTypes?.map((doc: DocType) => (
                 <option key={doc.id} value={doc.id}>
@@ -186,7 +214,7 @@ export function PeopleForm(props: PeopleFormProps) {
                 pattern: docType == 1 ? /^[0-9]+$/i : /^[A-Za-z0-9]+$/i,
                 validate: validateInput,
               })}
-              className={`bg-gray-200 p-2 rounded outline-none ${
+              className={`w-52 bg-gray-200 p-2 rounded outline-none ${
                 errors.docNumber && 'outline-red-400 outline-1'
               }`}
               type="text"
@@ -202,7 +230,7 @@ export function PeopleForm(props: PeopleFormProps) {
                 maxLength: 9,
                 pattern: /^[9][0-9]*$/,
               })}
-              className={`bg-gray-200 p-2 rounded outline-none ${
+              className={`w-52 bg-gray-200 p-2 rounded outline-none ${
                 errors.phoneNumber && 'outline-red-400 outline-1'
               }`}
               type="text"
@@ -214,7 +242,7 @@ export function PeopleForm(props: PeopleFormProps) {
             <select
               {...register('enterprise_id', { required: true })}
               defaultValue={'docType'}
-              className="bg-gray-200 py-2 px-8 rounded outline-none"
+              className="w-52 bg-gray-200 p-2 rounded outline-none"
             >
               {entreprises?.map((enterprise: Enterprise) => (
                 <option key={enterprise.id} value={enterprise.id}>

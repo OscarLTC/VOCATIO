@@ -9,14 +9,30 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/web"
+        "outputPath": "dist/apps/web",
+        "postcssConfig": "apps/web/postcss.config.js"
       },
       "configurations": {
         "development": {
-          "mode": "development"
+          "localhost": {
+            "mode": "development"
+          },
+          "mode": "development",
+          "fileReplacements": [
+            {
+              "replace": "apps/web/src/environments/environment.ts",
+              "with": "apps/web/src/environments/environment.dev.ts"
+            }
+          ]
         },
         "production": {
-          "mode": "production"
+          "mode": "production",
+          "fileReplacements": [
+            {
+              "replace": "apps/web/src/environments/environment.ts",
+              "with": "apps/web/src/environments/environment.prod.ts"
+            }
+          ]
         }
       }
     },
@@ -27,6 +43,10 @@
         "buildTarget": "web:build"
       },
       "configurations": {
+        "localhost": {
+          "buildTarget": "web:build:localhost",
+          "hmr": true
+        },
         "development": {
           "buildTarget": "web:build:development",
           "hmr": true
@@ -44,6 +64,9 @@
         "buildTarget": "web:build"
       },
       "configurations": {
+        "localhost": {
+          "buildTarget": "web:build:localhost"
+        },
         "development": {
           "buildTarget": "web:build:development"
         },
@@ -65,12 +88,6 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "serve-static": {
-      "executor": "@nrwl/web:file-server",
-      "options": {
-        "buildTarget": "web:build"
       }
     }
   },

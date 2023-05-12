@@ -1,8 +1,10 @@
 import { Route, Routes } from 'react-router';
 import Layout from './layout/layout';
-import Empresas from './empresas/empresas';
 import Alumnos from './people/people';
 import { RecoilRoot } from 'recoil';
+import Enterprises from './enterprises/enterprises';
+import Surveys from './surveys/surveys';
+import Reports from './reports/reports';
 
 export function App() {
   return (
@@ -25,10 +27,26 @@ export function App() {
           }
         />
         <Route
-          path="/empresas"
+          path="/empresas/*"
           element={
             <Layout>
-              <Empresas />
+              <Enterprises />
+            </Layout>
+          }
+        />
+        <Route
+          path="/encuestas/*"
+          element={
+            <Layout>
+              <Surveys />
+            </Layout>
+          }
+        />
+        <Route
+          path="/reportes/*"
+          element={
+            <Layout>
+              <Reports />
             </Layout>
           }
         />

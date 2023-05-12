@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Empresas from './empresas';
+import State from './state';
 
-describe('Empresas', () => {
+describe('State', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Empresas />);
+    const { baseElement } = render(<State />);
     expect(baseElement).toBeTruthy();
   });
 });

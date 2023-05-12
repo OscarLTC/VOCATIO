@@ -1,5 +1,6 @@
 import { DocType } from './docType.model';
 import { Enterprise } from './enterprise.model';
+import { Genre } from './genre.model';
 
 export interface Person {
   id: string;
@@ -10,4 +11,5 @@ export interface Person {
   phoneNumber: string;
   doc_type: DocType;
   enterprise: Enterprise;
+  genre?: Genre;
 }
