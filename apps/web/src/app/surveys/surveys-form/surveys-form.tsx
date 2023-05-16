@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
 import { Enterprise } from '../../models/enterprise.model';
@@ -30,7 +30,7 @@ export function SurveysForm(props: SurveysFormProps) {
   const setSurveysEnterprises = useSetRecoilState(surveysEnterpriseState);
   const setPeople = useSetRecoilState(peopleState);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [peopleIds, setPeopleIds] = useState<Array<number> | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const onFileChange = (event: any) => {
     console.log(event.target.files);
@@ -90,51 +90,59 @@ export function SurveysForm(props: SurveysFormProps) {
   };
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    if (!selectedFile) {
-      console.log('No se ha seleccionado ningún archivo');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    try {
+    if (props.formState == 1) {
+      setIsLoaded(true);
+      if (!selectedFile) {
+        console.log('No se ha seleccionado ningún archivo');
+        return;
+      }
       const formData = new FormData();
-      formData.append('excel_file', selectedFile);
-      formData.append('file_name', selectedFile);
+      formData.append('file', selectedFile);
+      try {
+        const formData = new FormData();
+        formData.append('excel_file', selectedFile);
+        formData.append('file_name', selectedFile);
 
-      await axios
-        .post(
-          `${environment.apiUrl}/person/import/${watchEterpriseId}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
-        .then((res) => {
-          send_data(
-            props.formState,
-            data,
-            res.data.map((p: Person) => p.id)
-          );
-          setPeople(null);
-          setSelectedFile(null);
-        })
-        .catch((err) => {
-          toast.remove();
-          toast.error('No se pudo programar la encuesta :c ');
-        });
-    } catch (error) {
-      console.error(error);
+        await axios
+          .post(
+            `${environment.apiUrl}/person/import/${watchEterpriseId}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          )
+          .then((res) => {
+            send_data(
+              props.formState,
+              data,
+              res.data.map((p: Person) => p.id)
+            );
+            setPeople(null);
+            setSelectedFile(null);
+          })
+          .catch((err) => {
+            toast.remove();
+            toast.error('No se pudo programar la encuesta');
+          });
+      } catch (error) {
+        setIsLoaded(false);
+
+        console.error(error);
+      }
+    } else {
+      send_data(props.formState, data);
     }
   };
 
   const send_data = async (
     value: number,
     surveyEnterprise: any,
-    surveyEnterprisePersonIds: any
+    surveyEnterprisePersonIds?: any
   ) => {
     if (value === 1) {
       toast.loading('Programando encuesta');
@@ -147,8 +155,12 @@ export function SurveysForm(props: SurveysFormProps) {
           toast.remove();
           toast.success('Encuesta programada');
           reset();
+          setIsLoaded(false);
+          navigate('/encuestas');
         })
         .catch(() => {
+          setIsLoaded(false);
+
           toast.error('No se pudo programar la encuesta');
         });
     } else if (value === 2) {
@@ -158,11 +170,14 @@ export function SurveysForm(props: SurveysFormProps) {
         .then(() => {
           reset();
           toast.remove();
+          setIsLoaded(false);
           toast.success('Datos actualizados');
+          navigate('/encuestas');
         })
         .catch(() => {
           toast.remove();
           toast.error('Error al actualizar');
+          setIsLoaded(false);
         });
     }
     setSurveysEnterprises(null);

@@ -42,33 +42,47 @@ export function SurveysPerson(props: SurveysPersonProps) {
     getSurveyPerson();
   }, []);
   return (
-    <div className="p-4">
+    <div className="p-4 bg-[aliceblue]">
       {surveyPerson && parseInt(surveyPerson.state.id) === 2 ? (
         <div>
-          <div className="p-4 flex text-2xl justify-between">
-            <div className="flex">
-              <h2>Tipo de Encuesta:</h2>
-              <span className="ml-5 font-medium">
-                {surveyPerson?.survey_enterprise.survey.name}
-              </span>
+          <div className="p-4 flex text-lg justify-between">
+            <div>
+              <div className="flex">
+                <h2>Tipo de Encuesta:</h2>
+                <span className="ml-5 font-medium">
+                  {surveyPerson?.survey_enterprise.survey.name}
+                </span>
+              </div>
+              <div className="flex mt-5">
+                <h2>Encuesta Dirigida a:</h2>
+                <span className="ml-5 font-medium">
+                  {surveyPerson?.person.name} {surveyPerson?.person.lastName}
+                </span>
+              </div>
+
+              <div className="flex mt-5">
+                <h2>Empresa - sección:</h2>
+                <span className="ml-5 font-medium">
+                  {`${surveyPerson?.survey_enterprise.enterprise.name} - ${surveyPerson?.survey_enterprise.section}`}
+                </span>
+              </div>
             </div>
-            <div className="flex">
-              <h2>Encuesta Dirigida a:</h2>
-              <span className="ml-5 font-medium">
-                {surveyPerson?.person.name} {surveyPerson?.person.lastName}
-              </span>
-            </div>
+            <img
+              className="w-20"
+              src="/src/assets/img/logo_principal_color.png"
+              alt=""
+            />
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-2 gap-3 place-items-center">
               {surveyPerson?.survey_enterprise.survey.question.map(
-                (question) => (
+                (question, index) => (
                   <div
                     className="w-full bg-white  shadow px-5 py-10 rounded-lg mt-10"
                     key={question.id}
                   >
                     <h3 className="mb-4 font-medium text-2xl text-green-800">
-                      {question.description}
+                      {`${index + 1} - ${question.description}`}
                     </h3>
                     <Controller
                       name={`pregunta${question.id}`}

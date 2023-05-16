@@ -61,11 +61,9 @@ export function SurveysList(props: SurveysListProps) {
   };
 
   const getSurveysEnterprise = () => {
-    axios
-      .get(`${environment.apiUrl}/surveyEnterprise/all`)
-      .then((res) =>
-        setSurveys(res.data.sort((a: any, b: any) => b.id - a.id))
-      );
+    axios.get(`${environment.apiUrl}/surveyEnterprise/all`).then((res) => {
+      setSurveys(res.data.sort((a: any, b: any) => b.id - a.id));
+    });
   };
 
   const formatDate = (date: any) => {
@@ -77,6 +75,7 @@ export function SurveysList(props: SurveysListProps) {
       year: 'numeric',
     });
   };
+  console.log(surveys);
 
   useEffect(() => {
     if (!surveys) {
@@ -125,6 +124,7 @@ export function SurveysList(props: SurveysListProps) {
                 <th>Fecha de Inicio</th>
                 <th>Fecha de Fin</th>
                 <th>Estado</th>
+                <th>Avance</th>
                 <th>Opciones</th>
               </tr>
             </thead>
@@ -150,6 +150,45 @@ export function SurveysList(props: SurveysListProps) {
                       <State stateId={parseInt(survey.state.id)} />
                     </div>
                   </td>
+                  <td>
+                    <div
+                      className={`${
+                        parseInt(
+                          (
+                            (survey?.survey_enterprise_persons.filter(
+                              (a) => parseInt(a.state.id) === 3
+                            ).length /
+                              survey.survey_enterprise_persons.length) *
+                            100
+                          ).toFixed(0)
+                        ) == 0
+                          ? 'bg-red-400'
+                          : parseInt(
+                              (
+                                (survey?.survey_enterprise_persons.filter(
+                                  (a) => parseInt(a.state.id) === 3
+                                ).length /
+                                  survey.survey_enterprise_persons.length) *
+                                100
+                              ).toFixed(0)
+                            ) == 100
+                          ? 'bg-green-400'
+                          : 'bg-yellow-400'
+                      } w-10 h-10 rounded-full m-auto text-white text-[12px] flex `}
+                    >
+                      <span className="self-center m-auto">
+                        {(
+                          (survey?.survey_enterprise_persons.filter(
+                            (a) => parseInt(a.state.id) === 3
+                          ).length /
+                            survey.survey_enterprise_persons.length) *
+                          100
+                        ).toFixed(0)}
+                        %
+                      </span>
+                    </div>
+                  </td>
+
                   <td className="p-2">
                     <div className="flex justify-center gap-4">
                       <Link
