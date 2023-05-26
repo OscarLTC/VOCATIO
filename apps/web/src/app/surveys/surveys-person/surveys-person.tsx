@@ -14,10 +14,38 @@ export function SurveysPerson(props: SurveysPersonProps) {
   const [surveyPerson, setSurveyPerson] = useState<
     SurveyEnterprisePersons | undefined
   >();
+  const [selectedValues, setSelectedValues] = useState<any>();
 
   const { id } = useParams();
 
   const { control, handleSubmit } = useForm();
+
+  const getResult = (data: any) => {
+    const ques = surveyPerson?.survey_enterprise.survey.question;
+
+    const values = ques?.map(
+      (q, index) =>
+        q.alternative.filter((a: any) => a.id == Object.values(data)[index])[0]
+          .value
+    );
+
+    const count = values?.reduce((acc, number) => {
+      acc[number] = (acc[number] || 0) + 1;
+      return acc;
+    }, {});
+
+    const { maxIndex }: any = Object.values(count).reduce(
+      (acc: any, curr: any, index) => {
+        if (curr > acc.maxNumber) {
+          return { maxNumber: curr, maxIndex: index };
+        }
+        return acc;
+      },
+      { maxNumber: -Infinity, maxIndex: -1 }
+    );
+
+    return maxIndex + 1;
+  };
 
   const onSubmit = async (data: any) => {
     await axios
@@ -25,9 +53,14 @@ export function SurveysPerson(props: SurveysPersonProps) {
         id: parseInt(id!),
         answer: Object.values(data),
       })
-      .then((res) => {
-        console.log(res.data);
-        window.location.reload();
+      .then(() => {
+        axios
+          .put(`${environment.apiUrl}/surveyEnterprisePerson/result/${id}`, {
+            result_id: getResult(data),
+          })
+          .then(() => {
+            window.location.reload();
+          });
       })
       .catch((res) => console.log(res));
   };
@@ -105,9 +138,9 @@ export function SurveysPerson(props: SurveysPersonProps) {
                                   <input
                                     type="radio"
                                     value={alternative.value}
-                                    onChange={() =>
-                                      field.onChange(alternative.id)
-                                    }
+                                    onChange={() => {
+                                      field.onChange(alternative.id);
+                                    }}
                                     checked={field.value === alternative.id}
                                     className="form-radio h-4 w-4"
                                   />
@@ -125,12 +158,14 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 )
               )}
             </div>
-            <button
-              className=" mt-4 p-4 bg-green-400 text-white rounded"
-              type="submit"
-            >
-              Enviar encuesta
-            </button>
+            <div className="text-center mt-10">
+              <button
+                className="p-4 bg-green-400 text-white rounded mx-auto"
+                type="submit"
+              >
+                Enviar encuesta
+              </button>
+            </div>
           </form>
         </div>
       ) : (

@@ -76,14 +76,14 @@ export function EnterprisesList(props: EnterprisesListProps) {
             />
             <span
               onClick={() => onSearchClick(searchData)}
-              className="rounded bg-[#57c5a0] hover:bg-[#81d1b6] p-2 cursor-pointer"
+              className="rounded bg-[#5a6268] hover:bg-[#5a6268] p-2 cursor-pointer"
             >
               <ImSearch size={20} color="white" />
             </span>
           </div>
           <Link to="/empresas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#57c5a0] hover:bg-[#81d1b6]">
-              Crear empresa
+            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+              Crear Empresa
             </button>
           </Link>
         </div>
@@ -106,7 +106,7 @@ export function EnterprisesList(props: EnterprisesListProps) {
                   className="even:bg-white odd:bg-gray-100"
                   key={enterprise.id}
                 >
-                  <td className="p-2 underline text-[#57c5a0]">
+                  <td className="p-2 underline text-blue-600">
                     <Link className="p-2" to={`/empresas/${enterprise.id}`}>
                       {enterprise.id}
                     </Link>

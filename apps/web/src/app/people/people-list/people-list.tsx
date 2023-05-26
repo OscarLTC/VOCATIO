@@ -1,5 +1,5 @@
 import './people-list.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Person } from '../../models/person.model';
@@ -9,6 +9,8 @@ import { useRecoilState } from 'recoil';
 import { peopleState } from '../../store/people/people.atom';
 import Modal from '../../components/modal/modal';
 import { environment } from '../../../environments/environment';
+import Chart from '../../components/chart/chart';
+import { Doughnut, Pie } from 'react-chartjs-2';
 
 /* eslint-disable-next-line */
 export interface PeopleListProps {}
@@ -69,14 +71,14 @@ export function PeopleList(props: PeopleListProps) {
             />
             <span
               onClick={() => onSearchClick(searchData)}
-              className="rounded bg-[#57c5a0] hover:bg-[#81d1b6] p-2 cursor-pointer"
+              className="rounded bg-[#5a6268] hover:bg-[#5a6268] p-2 cursor-pointer"
             >
               <ImSearch size={20} color="white" />
             </span>
           </div>
           <Link to="/personas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#57c5a0] hover:bg-[#81d1b6]">
-              Crear persona
+            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+              Crear Persona
             </button>
           </Link>
         </div>
@@ -87,7 +89,6 @@ export function PeopleList(props: PeopleListProps) {
                 <th className="p-2">ID</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Sexo</th>
                 <th>Nro. Documento</th>
                 <th>Celular</th>
                 <th>Correo</th>
@@ -98,14 +99,13 @@ export function PeopleList(props: PeopleListProps) {
             <tbody>
               {people?.map((person: Person) => (
                 <tr className="even:bg-white odd:bg-gray-100" key={person.id}>
-                  <td className="p-2 underline text-[#57c5a0]">
+                  <td className="p-2 underline text-blue-600">
                     <Link className="p-2" to={`/personas/${person.id}`}>
                       {person.id}
                     </Link>
                   </td>
                   <td>{person.name}</td>
                   <td>{person.lastName}</td>
-                  <td className="capitalize">{person.genre?.name}</td>
                   <td>{person.docNumber}</td>
                   <td>{person.phoneNumber}</td>
                   <td>{person.emailAddress}</td>

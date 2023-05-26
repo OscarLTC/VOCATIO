@@ -22,13 +22,13 @@ export function SurveysDetail(props: SurveysDetailProps) {
   return (
     <div className="p-8">
       <h1 className="text-4xl">
-        Detalle de la Encuesta: {surveyDetails ? surveyDetails?.id : 0}
+        Detalle de la Encuesta - ID {surveyDetails ? surveyDetails?.id : 0}
       </h1>
       <div className="p-8">
         <div className="mt-10 flex justify-center gap-10">
           <div className="max-w-2xl bg-white  shadow px-5 py-10 rounded-lg text-left">
             <h2 className=" text-left font-medium text-2xl">
-              {surveyDetails?.name}
+              Programación: {surveyDetails?.name}
             </h2>
             <div className="mt-10 flex gap-4 items-center place-content-center">
               <span className="w-44 text-start">Tipo de Encuesta: </span>
@@ -87,7 +87,6 @@ export function SurveysDetail(props: SurveysDetailProps) {
                     <th className="p-2">ID</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Sexo</th>
                     <th>Estado</th>
                   </tr>
                 </thead>
@@ -104,9 +103,6 @@ export function SurveysDetail(props: SurveysDetailProps) {
                       </td>
                       <td>{survey.person.name}</td>
                       <td>{survey.person.lastName}</td>
-                      <td className="capitalize">
-                        {survey.person.genre?.name}
-                      </td>
                       <td>
                         {parseInt(survey.state.id) == 2 ? (
                           <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>

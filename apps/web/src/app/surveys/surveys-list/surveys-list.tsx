@@ -12,6 +12,7 @@ import { GiCancel } from 'react-icons/gi';
 import State from '../../components/state/state';
 import Modal from '../../components/modal/modal';
 import { RiLoader4Fill } from 'react-icons/ri';
+import Chart from '../../components/chart/chart';
 
 /* eslint-disable-next-line */
 export interface SurveysListProps {}
@@ -75,7 +76,6 @@ export function SurveysList(props: SurveysListProps) {
       year: 'numeric',
     });
   };
-  console.log(surveys);
 
   useEffect(() => {
     if (!surveys) {
@@ -101,14 +101,14 @@ export function SurveysList(props: SurveysListProps) {
             />
             <span
               onClick={() => onSearchClick(searchData)}
-              className="rounded bg-[#57c5a0] hover:bg-[#81d1b6] p-2 cursor-pointer"
+              className="rounded bg-[#5a6268] hover:bg-[#5a6268] p-2 cursor-pointer"
             >
               <ImSearch size={20} color="white" />
             </span>
           </div>
           <Link to="/encuestas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#57c5a0] hover:bg-[#81d1b6]">
-              Programar encuesta
+            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+              Programar Encuesta
             </button>
           </Link>
         </div>
@@ -117,10 +117,10 @@ export function SurveysList(props: SurveysListProps) {
             <thead className="justify-between border-y border-gray-600">
               <tr className="text-gray-400">
                 <th className="p-2">ID</th>
-                <th>Nombre</th>
+                <th>Programación</th>
+                <th>Empresa</th>
                 <th>Sección</th>
                 <th>Tipo de Encuesta</th>
-                <th>Empresa</th>
                 <th>Fecha de Inicio</th>
                 <th>Fecha de Fin</th>
                 <th>Estado</th>
@@ -131,7 +131,7 @@ export function SurveysList(props: SurveysListProps) {
             <tbody>
               {surveys?.map((survey: SurveyEnterprise) => (
                 <tr className="even:bg-white odd:bg-gray-100" key={survey.id}>
-                  <td className="p-2 underline text-[#57c5a0]">
+                  <td className="p-2 underline text-blue-600">
                     <Link
                       className="p-2"
                       to={`/encuestas/detalle/${survey.id}`}
@@ -140,9 +140,9 @@ export function SurveysList(props: SurveysListProps) {
                     </Link>
                   </td>
                   <td>{survey.name}</td>
+                  <td>{survey.enterprise.name}</td>
                   <td>{survey.section}</td>
                   <td>{survey.survey.name}</td>
-                  <td>{survey.enterprise.name}</td>
                   <td>{formatDate(survey.startDate)}</td>
                   <td>{formatDate(survey.endDate)}</td>
                   <td className="truncate mx-auto">
@@ -172,7 +172,7 @@ export function SurveysList(props: SurveysListProps) {
                                 100
                               ).toFixed(0)
                             ) == 100
-                          ? 'bg-green-400'
+                          ? 'bg-green-600'
                           : 'bg-yellow-400'
                       } w-10 h-10 rounded-full m-auto text-white text-[12px] flex `}
                     >

@@ -1,19 +1,21 @@
 import { useForm } from 'react-hook-form';
 import './reports-view.scss';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { Enterprise } from '../../models/enterprise.model';
 import { AiOutlineDownSquare } from 'react-icons/ai';
+import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
 import { SurveyEnterprise } from '../../models/surveyEnterprise.model';
+import Select from 'react-select';
+import PdfDownload from '../pdf-download/pdf-download';
+import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface ReportsViewProps {}
 
 export function ReportsView(props: ReportsViewProps) {
-  const [entreprises, setEnterprises] = useRecoilState(enterpriseState);
+  const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
   const [surveys, setSurveys] = useState<Array<SurveyEnterprise>>([]);
   const [surveysData, setSurveysData] = useState<SurveyEnterprise>();
   const [searchText, setSearchText] = useState('');
@@ -35,10 +37,17 @@ export function ReportsView(props: ReportsViewProps) {
 
   const exportId = watch('surveyEnterprise_id');
 
-  const onEnterpriseChange = (id: string) => {
+  const onEnterpriseChange = (selectedOption: any) => {
+    setValue('enterprise_id', selectedOption?.value);
     axios
-      .get(`${environment.apiUrl}/surveyEnterprise/enterprise/${id}`)
+      .get(
+        `${environment.apiUrl}/surveyEnterprise/enterprise/${selectedOption.value}`
+      )
       .then((res) => setSurveys(res.data));
+  };
+
+  const onSurveyEnterpriseChange = (selectedOption: any) => {
+    setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
   const onExportarClick = (id: string) => {
@@ -51,17 +60,20 @@ export function ReportsView(props: ReportsViewProps) {
         { responseType: 'blob' }
       )
       .then((res) => {
-        const file = new Blob([res.data], { type: 'application/vnd.ms-excel' }); // Crea un Blob a partir de la respuesta
-        const fileUrl = URL.createObjectURL(file); // Crea un objeto URL a partir del blob
-        const link = document.createElement('a'); // Crea un enlace de descarga
-        link.href = fileUrl; // Establece el href del enlace como el objeto URL
-        link.download = 'survey-enterprise-persons.xlsx'; // Establece el nombre de archivo
-        document.body.appendChild(link); // Agrega el enlace al DOM
-        link.click(); // Hace clic en el enlace para iniciar la descarga
+        const file = new Blob([res.data], { type: 'application/vnd.ms-excel' });
+        const fileUrl = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = `${surveysData?.enterprise.name}_${surveysData?.id}_${surveysData?.name}_${surveysData?.survey.name}_${surveysData?.section}.xlsx`;
+        document.body.appendChild(link);
+        link.click();
       });
   };
 
   const onSubmit = (data: any) => {
+    console.log(surveys);
+    console.log(data);
+    console.log(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setSurveysData(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setIsDisabled(false);
   };
@@ -70,7 +82,13 @@ export function ReportsView(props: ReportsViewProps) {
     if (!entreprises) {
       const getEnterprises = () => {
         axios.get(`${environment.apiUrl}/enterprise/all`).then((res) => {
-          setEnterprises(res.data.sort((a: any, b: any) => a.id - b.id));
+          setEnterprises(
+            res.data
+              .sort((a: any, b: any) => a.id - b.id)
+              .map((a: any) => {
+                return { id: a.id, name: a.name };
+              })
+          );
         });
       };
       getEnterprises();
@@ -89,43 +107,58 @@ export function ReportsView(props: ReportsViewProps) {
             <div>
               <div className="flex gap-4 items-center ">
                 <span className="w-44 text-start">Empresa:</span>
-                <select
-                  {...register('enterprise_id', { required: true })}
-                  className={`w-[500px] bg-gray-200 p-2 rounded outline-none ${
-                    errors.enterprise_id && 'ring-1 ring-red-500'
-                  }`}
-                  defaultValue={'enterprise_id'}
-                  onChange={(e) => {
-                    onEnterpriseChange(e.target.value);
-                    setValue('enterprise_id', e.target.value, {
-                      shouldValidate: true,
-                    });
+                <Select
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      textAlign: 'left',
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      textAlign: 'left',
+                    }),
                   }}
-                >
-                  {entreprises?.map((enterprise: Enterprise) => (
-                    <option key={enterprise.id} value={enterprise.id}>
-                      {enterprise.name}
-                    </option>
-                  ))}
-                </select>
+                  className="w-[500px] bg-gray-200 rounded outline-none"
+                  id="enterprise_id"
+                  {...register('enterprise_id', { required: true })}
+                  options={entreprises?.map((enterprise: any) => ({
+                    value: enterprise.id,
+                    label: enterprise.name,
+                  }))}
+                  onChange={onEnterpriseChange}
+                />
               </div>
               <div className="flex gap-4 mt-5 items-center ">
                 <span className="w-44 text-start">Encuesta:</span>
-                <select
+                <Select
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      textAlign: 'left',
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      textAlign: 'left',
+                    }),
+                  }}
+                  className="w-[500px] bg-gray-200 rounded outline-none"
+                  id="surveyEnterprise_id"
                   {...register('surveyEnterprise_id', { required: true })}
-                  className={`w-[500px] bg-gray-200 p-2 rounded outline-none `}
-                >
-                  {surveys.map((survey: SurveyEnterprise) => (
-                    <option key={survey.id} value={survey.id}>
-                      {`${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`}
-                    </option>
-                  ))}
-                </select>
+                  options={surveys.map((survey: SurveyEnterprise) => ({
+                    value: survey.id,
+                    label: `${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`,
+                  }))}
+                  onChange={onSurveyEnterpriseChange}
+                />
               </div>
             </div>
             <div className="flex self-end gap-2 text-white">
               <button className="py-2 px-4 rounded bg-yellow-400 h-fit flex">
-                <AiOutlineDownSquare className="self-center mr-2" size={25} />
+                <HiDocumentSearch className="self-center mr-2" size={25} />
                 <span>Ver Estado</span>
               </button>
               <button
@@ -133,10 +166,10 @@ export function ReportsView(props: ReportsViewProps) {
                 onClick={() => onExportarClick(exportId)}
                 disabled={isDisabled}
                 className={`py-2 px-4 rounded h-fit flex ${
-                  isDisabled ? 'bg-gray-300' : 'bg-green-400'
+                  isDisabled ? 'bg-gray-300' : 'bg-green-600'
                 }`}
               >
-                <AiOutlineDownSquare className="self-center mr-2" size={25} />
+                <HiDocumentDownload className="self-center mr-2" size={25} />
                 <span>Exportar links</span>
               </button>
             </div>
@@ -194,8 +227,10 @@ export function ReportsView(props: ReportsViewProps) {
             <table className="w-full p-4">
               <thead className="justify-between border-y border-gray-600">
                 <tr className="text-gray-400">
+                  <th className="p-2">ID</th>
                   <th className="p-2">Nombre</th>
                   <th>Estado</th>
+                  <th>Reporte</th>
                 </tr>
               </thead>
               <tbody>
@@ -214,14 +249,25 @@ export function ReportsView(props: ReportsViewProps) {
                       className="even:bg-white odd:bg-gray-100"
                       key={survey.person.id}
                     >
-                      <td>
+                      <td className="w-20"> {survey.person.id}</td>
+                      <td className="w-96">
                         {survey.person.name} {survey.person.lastName}
                       </td>
-                      <td>
+                      <td className="w-20">
                         {parseInt(survey.state.id) == 2 ? (
                           <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
                         ) : (
-                          <div className="w-5 h-5 rounded-full bg-green-500 m-auto"></div>
+                          <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
+                        )}
+                      </td>
+                      {/* <td>
+                        <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
+                      </td> */}
+                      <td className="">
+                        {parseInt(survey.state.id) == 3 ? (
+                          <PdfDownload idPDF={survey.id} />
+                        ) : (
+                          ''
                         )}
                       </td>
                     </tr>

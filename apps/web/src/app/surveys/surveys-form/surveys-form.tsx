@@ -33,7 +33,6 @@ export function SurveysForm(props: SurveysFormProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const onFileChange = (event: any) => {
-    console.log(event.target.files);
     setSelectedFile(event.target.files[0]);
   };
   const getCustomDate = (months = 0) => {
@@ -61,7 +60,7 @@ export function SurveysForm(props: SurveysFormProps) {
       name: '',
       section: '',
       startDate: getCustomDate(),
-      endDate: getCustomDate(1),
+      endDate: getCustomDate(12),
       survey_id: 1,
       enterprise_id: 1,
       state_id: 1,
@@ -96,7 +95,6 @@ export function SurveysForm(props: SurveysFormProps) {
     if (props.formState == 1) {
       setIsLoaded(true);
       if (!selectedFile) {
-        console.log('No se ha seleccionado ningún archivo');
         return;
       }
       const formData = new FormData();
@@ -230,7 +228,7 @@ export function SurveysForm(props: SurveysFormProps) {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-4 items-center place-content-center">
-            <span className="w-44 text-start">Nombre de encuesta:</span>
+            <span className="w-44 text-start">Programación:</span>
             <input
               {...register('name', {
                 required: true,
@@ -243,6 +241,40 @@ export function SurveysForm(props: SurveysFormProps) {
               placeholder="Encuesta 1"
             />
           </div>
+          {props.formState == 1 ? (
+            <>
+              <div className="flex gap-4 items-center mt-5 place-content-center">
+                <span className="w-44 text-start">Empresa:</span>
+                <select
+                  {...register('enterprise_id', { required: true })}
+                  defaultValue={'enterprise_id'}
+                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
+                >
+                  {enterprises?.map((enterprise: Enterprise) => (
+                    <option key={enterprise.id} value={enterprise.id}>
+                      {enterprise.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-4 items-center mt-5 place-content-center">
+                <span className="w-44 text-start">Encuesta:</span>
+                <select
+                  {...register('survey_id', { required: true })}
+                  defaultValue={'survey_id'}
+                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
+                >
+                  {surveys?.map((survey: Enterprise) => (
+                    <option key={survey.id} value={survey.id}>
+                      {survey.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          ) : (
+            ''
+          )}
           <div className="flex gap-4 items-center mt-5  place-content-center">
             <span className="w-44 text-start">Sección:</span>
             <input
@@ -258,40 +290,6 @@ export function SurveysForm(props: SurveysFormProps) {
             />
           </div>
 
-          {props.formState == 1 ? (
-            <>
-              <div className="flex gap-4 items-center mt-5 place-content-center">
-                <span className="w-44 text-start">Encuesta:</span>
-                <select
-                  {...register('survey_id', { required: true })}
-                  defaultValue={'survey_id'}
-                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
-                >
-                  {surveys?.map((survey: Enterprise) => (
-                    <option key={survey.id} value={survey.id}>
-                      {survey.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex gap-4 items-center mt-5 place-content-center">
-                <span className="w-44 text-start">Empresa:</span>
-                <select
-                  {...register('enterprise_id', { required: true })}
-                  defaultValue={'enterprise_id'}
-                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
-                >
-                  {enterprises?.map((enterprise: Enterprise) => (
-                    <option key={enterprise.id} value={enterprise.id}>
-                      {enterprise.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          ) : (
-            ''
-          )}
           <div className="flex gap-4 items-center mt-5 place-content-center">
             <span className="w-44 text-start">Fecha de Inicio:</span>
             <input
