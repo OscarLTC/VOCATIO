@@ -318,13 +318,13 @@ export function PdfDownload(props: PdfDownloadProps) {
                         <Text style={{ fontWeight: 'bold' }}>1. Visual</Text>:
                         Estudiantes que aprenden a través de estímulos visuales.
                       </Text>
-                      <Text style={{ marginTop: '30px' }}>
+                      <Text style={{ marginTop: '10px' }}>
                         <Text style={{ fontWeight: 'bold' }}>2. Auditivo</Text>
                         {
                           ':   Estudiantes   que   aprenden   mejor  a  través de estímulos auditivos.'
                         }
                       </Text>
-                      <Text style={{ marginTop: '30px' }}>
+                      <Text style={{ marginTop: '10px' }}>
                         <Text style={{ fontWeight: 'bold' }}>
                           3. Kinestésico
                         </Text>

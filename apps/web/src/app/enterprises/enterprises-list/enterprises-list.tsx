@@ -53,11 +53,45 @@ export function EnterprisesList(props: EnterprisesListProps) {
       );
   };
 
+  const [sortAsc, setSortAsc] = useState<boolean>();
+
+  const sortById = (a: Enterprise, b: Enterprise) =>
+    parseInt(a.id) - parseInt(b.id);
+
+  const sortByName = (a: Enterprise, b: Enterprise) =>
+    a.name.localeCompare(b.name);
+
+  const sortByContactName = (a: Enterprise, b: Enterprise) =>
+    a.contactName.localeCompare(b.contactName);
+
+  const sortByContactPhone = (a: Enterprise, b: Enterprise) =>
+    a.phoneContact.localeCompare(b.phoneContact);
+
+  const sortByEmail = (a: Enterprise, b: Enterprise) =>
+    a.phoneContact.localeCompare(b.phoneContact);
+
+  const sortFunctions: any = {
+    1: sortById,
+    2: sortByName,
+    3: sortByContactName,
+    4: sortByContactPhone,
+    5: sortByEmail,
+  };
+
+  const sortByHeader = (id: number) => {
+    const sortFunction = sortFunctions[id];
+    if (sortFunction) {
+      setSortAsc(!sortAsc);
+      const sortedSurveys = [...enterprises].sort(sortFunction);
+      setEnterprises(sortAsc ? sortedSurveys : sortedSurveys.reverse());
+    }
+  };
+
   useEffect(() => {
     if (!enterprises) {
       getEnterprises();
     }
-  }, []);
+  }, [enterprises]);
 
   return (
     <div className="my-8">
@@ -89,13 +123,26 @@ export function EnterprisesList(props: EnterprisesListProps) {
         </div>
         <div className="mt-10">
           <table className="w-full p-4">
-            <thead className="justify-between border-y border-gray-600">
+            <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
-                <th className="p-2">ID</th>
-                <th>Empresa</th>
-                <th>Nombre de contacto</th>
-                <th>Celular</th>
-                <th>Correo</th>
+                <th
+                  className="p-2 cursor-pointer"
+                  onClick={() => sortByHeader(1)}
+                >
+                  ID
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(2)}>
+                  Empresa
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(3)}>
+                  Nombre de contacto
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(4)}>
+                  Celular
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(5)}>
+                  Correo
+                </th>
                 <th>Giro de negocio</th>
                 <th>Opciones</th>
               </tr>

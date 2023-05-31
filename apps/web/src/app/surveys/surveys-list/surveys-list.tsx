@@ -12,18 +12,20 @@ import { GiCancel } from 'react-icons/gi';
 import State from '../../components/state/state';
 import Modal from '../../components/modal/modal';
 import { RiLoader4Fill } from 'react-icons/ri';
-import Chart from '../../components/chart/chart';
+import { Survey } from '../../models/survey.model';
 
 /* eslint-disable-next-line */
 export interface SurveysListProps {}
 
 export function SurveysList(props: SurveysListProps) {
   const [surveys, setSurveys] = useRecoilState(surveysEnterpriseState);
+  const [surveyFiltered, setSurveyFiltered] = useState<any>([]);
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalFun, setModalFun] = useState<number>(0);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const [surveyState, setSurveyState] = useState(0);
 
   const onDeleteClick = async (id: number) => {
     setIsDeleted(true);
@@ -46,6 +48,7 @@ export function SurveysList(props: SurveysListProps) {
   };
 
   const onSearchClick = async (data: string) => {
+    setSurveyState(0);
     if (data !== '') {
       await axios
         .get(`${environment.apiUrl}/surveyEnterprise/search/${data}`)
@@ -67,6 +70,27 @@ export function SurveysList(props: SurveysListProps) {
     });
   };
 
+  const onStateClick = (id: number) => {
+    if (id == 0) {
+      setSurveyFiltered(surveys);
+    } else if (id == 1) {
+      setSurveyFiltered(
+        surveys.filter((item: any) => {
+          const surveyEnterprisePersons = item.survey_enterprise_persons.filter(
+            (person: any) => person.state.id === 3
+          );
+          return (
+            surveyEnterprisePersons.length > 0 &&
+            surveyEnterprisePersons.length <
+              item.survey_enterprise_persons.length
+          );
+        })
+      );
+    } else {
+      setSurveyFiltered(surveys.filter((a: any) => parseInt(a.state.id) == id));
+    }
+  };
+
   const formatDate = (date: any) => {
     const [year, month, day] = date.split('-');
     const dateObject = new Date(Number(year), Number(month) - 1, Number(day));
@@ -77,11 +101,50 @@ export function SurveysList(props: SurveysListProps) {
     });
   };
 
+  const [sortAsc, setSortAsc] = useState<boolean>();
+
+  const sortById = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    parseInt(a.id) - parseInt(b.id);
+
+  const sortByName = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    a.name.localeCompare(b.name);
+
+  const sortByEnterprise = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    a.enterprise.name.localeCompare(b.enterprise.name);
+
+  const sortBySection = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    a.section.localeCompare(b.section);
+
+  const sortByStartDate = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    a.startDate.localeCompare(b.startDate);
+
+  const sortByEndDate = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+    a.endDate.localeCompare(b.endDate);
+
+  const sortFunctions: any = {
+    1: sortById,
+    2: sortByName,
+    3: sortByEnterprise,
+    4: sortBySection,
+    5: sortByStartDate,
+    6: sortByEndDate,
+  };
+
+  const sortByHeader = (id: number) => {
+    const sortFunction = sortFunctions[id];
+    if (sortFunction) {
+      setSortAsc(!sortAsc);
+      const sortedSurveys = [...surveyFiltered].sort(sortFunction);
+      setSurveyFiltered(sortAsc ? sortedSurveys : sortedSurveys.reverse());
+    }
+  };
+
   useEffect(() => {
     if (!surveys) {
       getSurveysEnterprise();
     }
-  }, []);
+    onStateClick(0);
+  }, [surveys]);
   return (
     <div className="my-8">
       <h1 className="text-4xl px-4 text-left">
@@ -106,30 +169,135 @@ export function SurveysList(props: SurveysListProps) {
               <ImSearch size={20} color="white" />
             </span>
           </div>
+          <div className="mt-0 w-fit mx-auto text-center ">
+            <ul className="flex flex-wrap text-md font-medium text-center text-gray-500 border-b border-gray-200 ">
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(0);
+                  onStateClick(0);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 0
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Todos
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(1);
+                  onStateClick(1);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 1
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  En Proceso
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(2);
+                  onStateClick(2);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 2
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Activas
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(3);
+                  onStateClick(3);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 3
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Finalizadas
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(4);
+                  onStateClick(4);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 4
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Canceladas
+                </p>
+              </li>
+            </ul>
+          </div>
           <Link to="/encuestas/save">
             <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
               Programar Encuesta
             </button>
           </Link>
         </div>
-        <div className="mt-10">
+
+        <div className="mt-0">
           <table className="w-full p-4">
-            <thead className="justify-between border-y border-gray-600">
+            <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
-                <th className="p-2">ID</th>
-                <th>Programación</th>
-                <th>Empresa</th>
-                <th>Sección</th>
+                <th
+                  className="p-2 cursor-pointer"
+                  onClick={() => sortByHeader(1)}
+                >
+                  ID
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(2)}>
+                  Programación
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(3)}>
+                  Empresa
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(4)}>
+                  Sección
+                </th>
                 <th>Tipo de Encuesta</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(5)}>
+                  Fecha de Inicio
+                </th>
+                <th className="cursor-pointer" onClick={() => sortByHeader(6)}>
+                  Fecha de Fin
+                </th>
                 <th>Estado</th>
                 <th>Avance</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              {surveys?.map((survey: SurveyEnterprise) => (
+              {surveyFiltered?.map((survey: SurveyEnterprise) => (
                 <tr className="even:bg-white odd:bg-gray-100" key={survey.id}>
                   <td className="p-2 underline text-blue-600">
                     <Link

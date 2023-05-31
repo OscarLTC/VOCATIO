@@ -60,7 +60,7 @@ export function SurveysForm(props: SurveysFormProps) {
       name: '',
       section: '',
       startDate: getCustomDate(),
-      endDate: getCustomDate(12),
+      endDate: getCustomDate(1),
       survey_id: 1,
       enterprise_id: 1,
       state_id: 1,

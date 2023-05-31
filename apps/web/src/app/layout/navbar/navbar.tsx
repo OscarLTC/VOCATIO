@@ -104,7 +104,7 @@ export function Navbar(props: NavbarProps) {
         <div className="text-center pt-6  border-t border-black  flex  items-center justify-center">
           <button
             onClick={onLogoutClick}
-            className=" w-full bg-gradient-to-r from-white to-[#b7c1c1] text-black p-4  flex "
+            className=" w-full bg-gradient-to-r shadow m-1 text-black p-4  flex "
           >
             <RiLogoutBoxLine className="mr-3" size={24} />
             Cerrar Sesión
