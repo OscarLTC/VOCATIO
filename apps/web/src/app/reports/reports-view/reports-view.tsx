@@ -1,16 +1,15 @@
 import { useForm } from 'react-hook-form';
+import { useEffectOnce } from 'react-use';
 import './reports-view.scss';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { Enterprise } from '../../models/enterprise.model';
-import { AiOutlineDownSquare } from 'react-icons/ai';
 import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import Select from 'react-select';
-import PdfDownload from '../pdf-download/pdf-download';
-import { Link } from 'react-router-dom';
 import ReportsChart from '../reports-chart/reports-chart';
+import Enterprises from '../../enterprises/enterprises';
 
 /* eslint-disable-next-line */
 export interface ReportsViewProps {}
@@ -39,6 +38,7 @@ export function ReportsView(props: ReportsViewProps) {
   const exportId = watch('surveyEnterprise_id');
 
   const onEnterpriseChange = (selectedOption: any) => {
+    console.log('onEnterpriseChange');
     setValue('enterprise_id', selectedOption?.value);
     axios
       .get(
@@ -48,6 +48,7 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSurveyEnterpriseChange = (selectedOption: any) => {
+    console.log('onSurveyEnterpriseChange');
     setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
@@ -72,11 +73,12 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSubmit = (data: any) => {
+    console.log('onSubmit');
     setSurveysData(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setIsDisabled(false);
   };
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (!entreprises) {
       const getEnterprises = () => {
         axios.get(`${environment.apiUrl}/enterprise/all`).then((res) => {
@@ -91,7 +93,8 @@ export function ReportsView(props: ReportsViewProps) {
       };
       getEnterprises();
     }
-  }, []);
+    console.log(1);
+  });
 
   return (
     <div className="my-8">

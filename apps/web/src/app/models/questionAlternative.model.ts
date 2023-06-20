@@ -2,6 +2,6 @@ import { Alternative } from './alternative.model';
 
 export interface QuestionAlternative {
   id: number;
-  value: number;
+  value: string;
   alternative: Alternative;
 }

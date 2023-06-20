@@ -24,6 +24,8 @@ import PdfDocument from '../pdf-document/pdf-document';
 import { set } from 'react-hook-form';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { environment } from '../../../environments/environment';
+import { useBoolean, useEffectOnce, useInterval } from 'react-use';
+import { RiLoader2Fill } from 'react-icons/ri';
 
 Chart.register(
   CategoryScale,
@@ -51,13 +53,23 @@ export function ReportsChart(props: ReportsChartProps) {
   const [isDataChartReady, setIsDataChartReady] = useState(false);
   const [isPdfReady, setIsPdfReady] = useState(false);
 
-  const [imageBase64, setImageBase64] = useState<string>('');
-
   const chartRef = useRef(null);
 
-  useEffect(() => {
+  const [count, setCount] = useState(0);
+  const [delay, setDelay] = useState(1000);
+  const [isRunning, toggleIsRunning] = useBoolean(true);
+
+  useInterval(
+    () => {
+      setCount(count + 1);
+    },
+    isRunning ? delay : null
+  );
+
+  useEffectOnce(() => {
     getSurveyPersonData(props.pdfId).then((res) => {
       if (res) {
+        console.log('getSurveyPersonData - RC');
         setSurveyPersonData(res);
         if (res.survey_programming.survey.id === 6) {
           const counts = convertAnswersToCounts(res.answers);
@@ -72,15 +84,17 @@ export function ReportsChart(props: ReportsChartProps) {
         }
       }
     });
-  }, [props.pdfId]);
+  });
 
   const generate = () => {
-    if (pdfUrl) return;
+    console.log('generate - RC ', isPdfReady);
+    if (isPdfReady) return;
     const chart: any = chartRef.current;
 
     if (chart && surveyPersonData) {
       const imageBase64 = chart.toBase64Image();
-      setImageBase64(imageBase64);
+
+      setIsDataChartReady(false);
 
       getResult(maxIndexResult).then((surveyData) => {
         const pdfDoc = (
@@ -101,6 +115,7 @@ export function ReportsChart(props: ReportsChartProps) {
           const fileURL = URL.createObjectURL(res);
           setPdfUrl(fileURL);
           setIsPdfReady(true);
+          toggleIsRunning(false);
         });
       });
     }
@@ -109,7 +124,7 @@ export function ReportsChart(props: ReportsChartProps) {
   return (
     <>
       {isDataChartReady && (
-        <div className="absolute  w-[1000px]  invisible">
+        <div className="absolute pointer-events-none w-[1000px]  invisible">
           {props.surveyId == 6 && (
             <Doughnut
               ref={chartRef}
@@ -290,8 +305,11 @@ export function ReportsChart(props: ReportsChartProps) {
           {`${environment.surveyDomain}/reportes/pdf/${surveyPersonData?.id}`}
         </a>
       ) : (
-        'cargando...'
+        <div className="text-center flex justify-center animate-spin">
+          <RiLoader2Fill size={22} />
+        </div>
       )}
+      {/* <h1>{count}</h1> */}
     </>
   );
 }

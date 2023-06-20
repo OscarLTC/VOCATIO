@@ -27,7 +27,7 @@ export const getCategoriesValues = (
 
   for (const answer of answers) {
     const name = answer.question_category.category.name;
-    const value = answer.question_alternative.value;
+    const value = parseInt(answer.question_alternative.value);
 
     if (sumCategories[name]) {
       sumCategories[name] += value;
