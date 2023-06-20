@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
 import { Enterprise } from '../../models/enterprise.model';
@@ -30,10 +30,9 @@ export function SurveysForm(props: SurveysFormProps) {
   const setSurveysEnterprises = useSetRecoilState(surveysEnterpriseState);
   const setPeople = useSetRecoilState(peopleState);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [peopleIds, setPeopleIds] = useState<Array<number> | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const onFileChange = (event: any) => {
-    console.log(event.target.files);
     setSelectedFile(event.target.files[0]);
   };
   const getCustomDate = (months = 0) => {
@@ -90,79 +89,93 @@ export function SurveysForm(props: SurveysFormProps) {
   };
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    if (!selectedFile) {
-      console.log('No se ha seleccionado ningún archivo');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    try {
+    if (props.formState == 1) {
+      setIsLoaded(true);
+      if (!selectedFile) {
+        return;
+      }
       const formData = new FormData();
-      formData.append('excel_file', selectedFile);
-      formData.append('file_name', selectedFile);
+      formData.append('file', selectedFile);
+      try {
+        const formData = new FormData();
+        formData.append('excel_file', selectedFile);
+        formData.append('file_name', selectedFile);
 
-      await axios
-        .post(
-          `${environment.apiUrl}/person/import/${watchEterpriseId}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
-        .then((res) => {
-          send_data(
-            props.formState,
-            data,
-            res.data.map((p: Person) => p.id)
-          );
-          setPeople(null);
-          setSelectedFile(null);
-        })
-        .catch((err) => {
-          toast.remove();
-          toast.error('No se pudo programar la encuesta :c ');
-        });
-    } catch (error) {
-      console.error(error);
+        await axios
+          .post(
+            `${environment.apiUrl}/person/import/${watchEterpriseId}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          )
+          .then((res) => {
+            send_data(
+              props.formState,
+              data,
+              res.data.map((p: Person) => p.id)
+            );
+            setPeople(null);
+            setSelectedFile(null);
+          })
+          .catch((err) => {
+            toast.remove();
+            toast.error('No se pudo programar la encuesta');
+          });
+      } catch (error) {
+        setIsLoaded(false);
+
+        console.error(error);
+      }
+    } else {
+      send_data(props.formState, data);
     }
   };
 
   const send_data = async (
     value: number,
     surveyEnterprise: any,
-    surveyEnterprisePersonIds: any
+    surveyProgrammingPersonIds?: any
   ) => {
     if (value === 1) {
       toast.loading('Programando encuesta');
       await axios
-        .post(`${environment.apiUrl}/surveyEnterprise/save`, {
+        .post(`${environment.apiUrl}/surveyProgramming/save`, {
           ...surveyEnterprise,
-          surveyEnterprisePersonIds,
+          surveyProgrammingPersonIds: surveyProgrammingPersonIds,
         })
-        .then(() => {
+        .then((res) => {
           toast.remove();
           toast.success('Encuesta programada');
           reset();
+          setIsLoaded(false);
+          navigate('/encuestas');
         })
         .catch(() => {
+          setIsLoaded(false);
+
           toast.error('No se pudo programar la encuesta');
         });
     } else if (value === 2) {
       toast.loading('Actializando encuesta');
       await axios
-        .put(`${environment.apiUrl}/surveyEnterprise/${id}`, surveyEnterprise)
+        .put(`${environment.apiUrl}/surveyProgramming/${id}`, surveyEnterprise)
         .then(() => {
           reset();
           toast.remove();
+          setIsLoaded(false);
           toast.success('Datos actualizados');
+          navigate('/encuestas');
         })
         .catch(() => {
           toast.remove();
           toast.error('Error al actualizar');
+          setIsLoaded(false);
         });
     }
     setSurveysEnterprises(null);
@@ -177,7 +190,7 @@ export function SurveysForm(props: SurveysFormProps) {
     if (props.formState === 2) {
       const getSurveyEnterprise = async () => {
         await axios
-          .get(`${environment.apiUrl}/surveyEnterprise/${id}`)
+          .get(`${environment.apiUrl}/surveyProgramming/${id}`)
           .then((res) => {
             setValue('name', res.data.name);
             setValue('section', res.data.section);
@@ -215,7 +228,7 @@ export function SurveysForm(props: SurveysFormProps) {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-4 items-center place-content-center">
-            <span className="w-44 text-start">Nombre de encuesta:</span>
+            <span className="w-44 text-start">Programación:</span>
             <input
               {...register('name', {
                 required: true,
@@ -228,6 +241,40 @@ export function SurveysForm(props: SurveysFormProps) {
               placeholder="Encuesta 1"
             />
           </div>
+          {props.formState == 1 ? (
+            <>
+              <div className="flex gap-4 items-center mt-5 place-content-center">
+                <span className="w-44 text-start">Empresa:</span>
+                <select
+                  {...register('enterprise_id', { required: true })}
+                  defaultValue={'enterprise_id'}
+                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
+                >
+                  {enterprises?.map((enterprise: Enterprise) => (
+                    <option key={enterprise.id} value={enterprise.id}>
+                      {enterprise.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-4 items-center mt-5 place-content-center">
+                <span className="w-44 text-start">Encuesta:</span>
+                <select
+                  {...register('survey_id', { required: true })}
+                  defaultValue={'survey_id'}
+                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
+                >
+                  {surveys?.map((survey: Enterprise) => (
+                    <option key={survey.id} value={survey.id}>
+                      {survey.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          ) : (
+            ''
+          )}
           <div className="flex gap-4 items-center mt-5  place-content-center">
             <span className="w-44 text-start">Sección:</span>
             <input
@@ -243,40 +290,6 @@ export function SurveysForm(props: SurveysFormProps) {
             />
           </div>
 
-          {props.formState == 1 ? (
-            <>
-              <div className="flex gap-4 items-center mt-5 place-content-center">
-                <span className="w-44 text-start">Encuesta:</span>
-                <select
-                  {...register('survey_id', { required: true })}
-                  defaultValue={'survey_id'}
-                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
-                >
-                  {surveys?.map((survey: Enterprise) => (
-                    <option key={survey.id} value={survey.id}>
-                      {survey.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex gap-4 items-center mt-5 place-content-center">
-                <span className="w-44 text-start">Empresa:</span>
-                <select
-                  {...register('enterprise_id', { required: true })}
-                  defaultValue={'enterprise_id'}
-                  className="bg-gray-200 py-2 w-52 px-2 rounded outline-none"
-                >
-                  {enterprises?.map((enterprise: Enterprise) => (
-                    <option key={enterprise.id} value={enterprise.id}>
-                      {enterprise.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          ) : (
-            ''
-          )}
           <div className="flex gap-4 items-center mt-5 place-content-center">
             <span className="w-44 text-start">Fecha de Inicio:</span>
             <input
@@ -327,7 +340,7 @@ export function SurveysForm(props: SurveysFormProps) {
               <div className="flex flex-col justify-between space-y-4 mt-10">
                 <div className="flex justify-between">
                   <h2 className="text-lg font-medium text-left self-center">
-                    Seleccione el archivo:
+                    Plantilla:
                   </h2>
                   <button
                     onClick={onDownloadClick}
@@ -348,7 +361,7 @@ export function SurveysForm(props: SurveysFormProps) {
                     htmlFor="file-input"
                     className="block w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-300"
                   >
-                    {selectedFile ? selectedFile.name : 'Elegir archivo'}
+                    {selectedFile ? selectedFile.name : 'Seleccione el archivo'}
                   </label>
                 </div>
               </div>

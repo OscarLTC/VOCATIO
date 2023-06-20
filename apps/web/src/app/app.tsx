@@ -5,16 +5,19 @@ import { RecoilRoot } from 'recoil';
 import Enterprises from './enterprises/enterprises';
 import Surveys from './surveys/surveys';
 import Reports from './reports/reports';
+import SignIn from './auth/sign-in/sign-in';
+import SurveysPerson from './surveys/surveys-person/surveys-person';
 
 export function App() {
   return (
     <RecoilRoot>
       <Routes>
+        <Route path="/login" element={<SignIn />} />
         <Route
           path="/"
           element={
             <Layout>
-              <Alumnos />
+              <Surveys />
             </Layout>
           }
         />
@@ -50,6 +53,7 @@ export function App() {
             </Layout>
           }
         />
+        <Route path="/encuestas/person/:id" element={<SurveysPerson />} />
       </Routes>
     </RecoilRoot>
   );

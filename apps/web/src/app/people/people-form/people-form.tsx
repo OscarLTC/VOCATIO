@@ -36,7 +36,6 @@ export function PeopleForm(props: PeopleFormProps) {
       name: '',
       lastName: '',
       emailAddress: '',
-      genre_id: 1,
       docType_id: 1,
       docNumber: '',
       phoneNumber: '',
@@ -83,11 +82,9 @@ export function PeopleForm(props: PeopleFormProps) {
     if (props.formState === 2) {
       const getPerson = () => {
         axios.get(`${environment.apiUrl}/person/${id}`).then((res) => {
-          console.log(res.data);
           setValue('name', res.data.name);
           setValue('lastName', res.data.lastName);
           setValue('emailAddress', res.data.emailAddress);
-          setValue('genre_id', res.data.genre.id);
           setValue('docType_id', res.data.doc_type.id);
           setValue('docNumber', res.data.docNumber);
           setValue('phoneNumber', res.data.phoneNumber);
@@ -177,21 +174,7 @@ export function PeopleForm(props: PeopleFormProps) {
               placeholder="juan@gmail.com"
             />
           </div>
-          <div className="flex gap-4 items-center mt-5 place-content-center">
-            <span className="w-44 text-start">Sexo:</span>
-            <select
-              {...register('genre_id', { required: true })}
-              defaultValue={'genre_id'}
-              className="w-52 bg-gray-200 p-2 rounded outline-none capitalize
-              "
-            >
-              {genres?.map((genre: Genre) => (
-                <option key={genre.id} value={genre.id}>
-                  {genre.name}
-                </option>
-              ))}
-            </select>
-          </div>
+
           <div className="flex gap-4 items-center mt-5 place-content-center">
             <span className="w-44 text-start">Tipo de documento:</span>
             <select
