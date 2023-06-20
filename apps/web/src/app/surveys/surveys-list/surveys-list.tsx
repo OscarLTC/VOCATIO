@@ -6,13 +6,12 @@ import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { ImSearch } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { SurveyEnterprise } from '../../models/surveyEnterprise.model';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { GiCancel } from 'react-icons/gi';
 import State from '../../components/state/state';
 import Modal from '../../components/modal/modal';
 import { RiLoader4Fill } from 'react-icons/ri';
-import { Survey } from '../../models/survey.model';
 
 /* eslint-disable-next-line */
 export interface SurveysListProps {}
@@ -30,7 +29,7 @@ export function SurveysList(props: SurveysListProps) {
   const onDeleteClick = async (id: number) => {
     setIsDeleted(true);
     await axios
-      .delete(`${environment.apiUrl}/surveyEnterprise/${id}`)
+      .delete(`${environment.apiUrl}/surveyProgramming/${id}`)
       .then(() => {
         setIsDeleted(false);
         getSurveysEnterprise();
@@ -40,7 +39,7 @@ export function SurveysList(props: SurveysListProps) {
 
   const onCancelClick = async (id: number) => {
     await axios
-      .put(`${environment.apiUrl}/surveyEnterprise/${id}/cancel`)
+      .put(`${environment.apiUrl}/surveyProgramming/${id}/cancel`)
       .then(() => {
         getSurveysEnterprise();
         setIsModalOpen(false);
@@ -51,7 +50,7 @@ export function SurveysList(props: SurveysListProps) {
     setSurveyState(0);
     if (data !== '') {
       await axios
-        .get(`${environment.apiUrl}/surveyEnterprise/search/${data}`)
+        .get(`${environment.apiUrl}/surveyProgramming/search/${data}`)
         .then((res) => setSurveys(res.data.sort((a: any, b: any) => a - b)));
     } else {
       getSurveysEnterprise();
@@ -65,7 +64,7 @@ export function SurveysList(props: SurveysListProps) {
   };
 
   const getSurveysEnterprise = () => {
-    axios.get(`${environment.apiUrl}/surveyEnterprise/all`).then((res) => {
+    axios.get(`${environment.apiUrl}/surveyProgramming/all`).then((res) => {
       setSurveys(res.data.sort((a: any, b: any) => b.id - a.id));
     });
   };
@@ -76,13 +75,13 @@ export function SurveysList(props: SurveysListProps) {
     } else if (id == 1) {
       setSurveyFiltered(
         surveys.filter((item: any) => {
-          const surveyEnterprisePersons = item.survey_enterprise_persons.filter(
+          const surveyProgrammingPerson = item.survey_programming_person.filter(
             (person: any) => person.state.id === 3
           );
           return (
-            surveyEnterprisePersons.length > 0 &&
-            surveyEnterprisePersons.length <
-              item.survey_enterprise_persons.length
+            surveyProgrammingPerson.length > 0 &&
+            surveyProgrammingPerson.length <
+              item.survey_programming_person.length
           );
         })
       );
@@ -103,22 +102,21 @@ export function SurveysList(props: SurveysListProps) {
 
   const [sortAsc, setSortAsc] = useState<boolean>();
 
-  const sortById = (a: SurveyEnterprise, b: SurveyEnterprise) =>
-    parseInt(a.id) - parseInt(b.id);
+  const sortById = (a: SurveyProgramming, b: SurveyProgramming) => a.id - b.id;
 
-  const sortByName = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+  const sortByName = (a: SurveyProgramming, b: SurveyProgramming) =>
     a.name.localeCompare(b.name);
 
-  const sortByEnterprise = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+  const sortByEnterprise = (a: SurveyProgramming, b: SurveyProgramming) =>
     a.enterprise.name.localeCompare(b.enterprise.name);
 
-  const sortBySection = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+  const sortBySection = (a: SurveyProgramming, b: SurveyProgramming) =>
     a.section.localeCompare(b.section);
 
-  const sortByStartDate = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+  const sortByStartDate = (a: SurveyProgramming, b: SurveyProgramming) =>
     a.startDate.localeCompare(b.startDate);
 
-  const sortByEndDate = (a: SurveyEnterprise, b: SurveyEnterprise) =>
+  const sortByEndDate = (a: SurveyProgramming, b: SurveyProgramming) =>
     a.endDate.localeCompare(b.endDate);
 
   const sortFunctions: any = {
@@ -297,7 +295,7 @@ export function SurveysList(props: SurveysListProps) {
               </tr>
             </thead>
             <tbody>
-              {surveyFiltered?.map((survey: SurveyEnterprise) => (
+              {surveyFiltered?.map((survey: SurveyProgramming) => (
                 <tr className="even:bg-white odd:bg-gray-100" key={survey.id}>
                   <td className="p-2 underline text-blue-600">
                     <Link
@@ -315,7 +313,7 @@ export function SurveysList(props: SurveysListProps) {
                   <td>{formatDate(survey.endDate)}</td>
                   <td className="truncate mx-auto">
                     <div className="">
-                      <State stateId={parseInt(survey.state.id)} />
+                      <State stateId={survey.state.id} />
                     </div>
                   </td>
                   <td>
@@ -323,20 +321,20 @@ export function SurveysList(props: SurveysListProps) {
                       className={`${
                         parseInt(
                           (
-                            (survey?.survey_enterprise_persons.filter(
-                              (a) => parseInt(a.state.id) === 3
+                            (survey?.survey_programming_person.filter(
+                              (a) => a.state?.id === 3
                             ).length /
-                              survey.survey_enterprise_persons.length) *
+                              survey.survey_programming_person.length) *
                             100
                           ).toFixed(0)
                         ) == 0
                           ? 'bg-red-400'
                           : parseInt(
                               (
-                                (survey?.survey_enterprise_persons.filter(
-                                  (a) => parseInt(a.state.id) === 3
+                                (survey?.survey_programming_person.filter(
+                                  (a) => a.state?.id === 3
                                 ).length /
-                                  survey.survey_enterprise_persons.length) *
+                                  survey.survey_programming_person.length) *
                                 100
                               ).toFixed(0)
                             ) == 100
@@ -346,10 +344,10 @@ export function SurveysList(props: SurveysListProps) {
                     >
                       <span className="self-center m-auto">
                         {(
-                          (survey?.survey_enterprise_persons.filter(
-                            (a) => parseInt(a.state.id) === 3
+                          (survey?.survey_programming_person.filter(
+                            (a) => a.state?.id === 3
                           ).length /
-                            survey.survey_enterprise_persons.length) *
+                            survey.survey_programming_person.length) *
                           100
                         ).toFixed(0)}
                         %
@@ -368,14 +366,12 @@ export function SurveysList(props: SurveysListProps) {
                         </div>
                       </Link>
                       <button
-                        disabled={
-                          parseInt(survey.state.id) !== 4 ? false : true
-                        }
+                        disabled={survey.state.id !== 4 ? false : true}
                         title="desactivar encuesta"
                         onClick={() => {
                           setIsModalOpen(true);
                           setModalFun(1);
-                          setIdToDelete(parseInt(survey.id));
+                          setIdToDelete(survey.id);
                         }}
                         className="p-1 bg-slate-200 rounded text-slate-400 hover:text-[#252525]"
                       >
@@ -387,7 +383,7 @@ export function SurveysList(props: SurveysListProps) {
                         onClick={() => {
                           setIsModalOpen(true);
                           setModalFun(2);
-                          setIdToDelete(parseInt(survey.id));
+                          setIdToDelete(survey.id);
                         }}
                         className="p-1 bg-slate-200 rounded text-slate-400 hover:text-[#c55757]"
                       >

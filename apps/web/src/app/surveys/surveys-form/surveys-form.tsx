@@ -140,16 +140,16 @@ export function SurveysForm(props: SurveysFormProps) {
   const send_data = async (
     value: number,
     surveyEnterprise: any,
-    surveyEnterprisePersonIds?: any
+    surveyProgrammingPersonIds?: any
   ) => {
     if (value === 1) {
       toast.loading('Programando encuesta');
       await axios
-        .post(`${environment.apiUrl}/surveyEnterprise/save`, {
+        .post(`${environment.apiUrl}/surveyProgramming/save`, {
           ...surveyEnterprise,
-          surveyEnterprisePersonIds,
+          surveyProgrammingPersonIds: surveyProgrammingPersonIds,
         })
-        .then(() => {
+        .then((res) => {
           toast.remove();
           toast.success('Encuesta programada');
           reset();
@@ -164,7 +164,7 @@ export function SurveysForm(props: SurveysFormProps) {
     } else if (value === 2) {
       toast.loading('Actializando encuesta');
       await axios
-        .put(`${environment.apiUrl}/surveyEnterprise/${id}`, surveyEnterprise)
+        .put(`${environment.apiUrl}/surveyProgramming/${id}`, surveyEnterprise)
         .then(() => {
           reset();
           toast.remove();
@@ -190,7 +190,7 @@ export function SurveysForm(props: SurveysFormProps) {
     if (props.formState === 2) {
       const getSurveyEnterprise = async () => {
         await axios
-          .get(`${environment.apiUrl}/surveyEnterprise/${id}`)
+          .get(`${environment.apiUrl}/surveyProgramming/${id}`)
           .then((res) => {
             setValue('name', res.data.name);
             setValue('section', res.data.section);
@@ -340,7 +340,7 @@ export function SurveysForm(props: SurveysFormProps) {
               <div className="flex flex-col justify-between space-y-4 mt-10">
                 <div className="flex justify-between">
                   <h2 className="text-lg font-medium text-left self-center">
-                    Seleccione el archivo:
+                    Plantilla:
                   </h2>
                   <button
                     onClick={onDownloadClick}
@@ -361,7 +361,7 @@ export function SurveysForm(props: SurveysFormProps) {
                     htmlFor="file-input"
                     className="block w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-300"
                   >
-                    {selectedFile ? selectedFile.name : 'Elegir archivo'}
+                    {selectedFile ? selectedFile.name : 'Seleccione el archivo'}
                   </label>
                 </div>
               </div>

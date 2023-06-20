@@ -1,10 +1,10 @@
 import { Enterprise } from './enterprise.model';
 import { State } from './state.model';
 import { Survey } from './survey.model';
-import { SurveyEnterprisePersons } from './surveyEnterprisePersons.model';
+import { surveyProgrammingPerson } from './surveyProgrammingPerson.model';
 
-export interface SurveyEnterprise {
-  id: string;
+export interface SurveyProgramming {
+  id: number;
   name: string;
   section: string;
   startDate: string;
@@ -12,5 +12,6 @@ export interface SurveyEnterprise {
   survey: Survey;
   enterprise: Enterprise;
   state: State;
-  survey_enterprise_persons: Array<SurveyEnterprisePersons>;
+  state_id?: number;
+  survey_programming_person: Array<surveyProgrammingPerson>;
 }

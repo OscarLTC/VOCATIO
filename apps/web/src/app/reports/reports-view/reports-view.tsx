@@ -6,18 +6,19 @@ import { environment } from '../../../environments/environment';
 import { Enterprise } from '../../models/enterprise.model';
 import { AiOutlineDownSquare } from 'react-icons/ai';
 import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
-import { SurveyEnterprise } from '../../models/surveyEnterprise.model';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import Select from 'react-select';
 import PdfDownload from '../pdf-download/pdf-download';
 import { Link } from 'react-router-dom';
+import ReportsChart from '../reports-chart/reports-chart';
 
 /* eslint-disable-next-line */
 export interface ReportsViewProps {}
 
 export function ReportsView(props: ReportsViewProps) {
   const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
-  const [surveys, setSurveys] = useState<Array<SurveyEnterprise>>([]);
-  const [surveysData, setSurveysData] = useState<SurveyEnterprise>();
+  const [surveys, setSurveys] = useState<Array<SurveyProgramming>>([]);
+  const [surveysData, setSurveysData] = useState<SurveyProgramming>();
   const [searchText, setSearchText] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -41,7 +42,7 @@ export function ReportsView(props: ReportsViewProps) {
     setValue('enterprise_id', selectedOption?.value);
     axios
       .get(
-        `${environment.apiUrl}/surveyEnterprise/enterprise/${selectedOption.value}`
+        `${environment.apiUrl}/surveyProgramming/enterprise/${selectedOption.value}`
       )
       .then((res) => setSurveys(res.data));
   };
@@ -53,7 +54,7 @@ export function ReportsView(props: ReportsViewProps) {
   const onExportarClick = (id: string) => {
     axios
       .post(
-        `${environment.apiUrl}/surveyEnterprise/${id}/export`,
+        `${environment.apiUrl}/surveyProgramming/${id}/export`,
         {
           domain: environment.surveyDomain,
         },
@@ -71,9 +72,6 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSubmit = (data: any) => {
-    console.log(surveys);
-    console.log(data);
-    console.log(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setSurveysData(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setIsDisabled(false);
   };
@@ -148,7 +146,7 @@ export function ReportsView(props: ReportsViewProps) {
                   className="w-[500px] bg-gray-200 rounded outline-none"
                   id="surveyEnterprise_id"
                   {...register('surveyEnterprise_id', { required: true })}
-                  options={surveys.map((survey: SurveyEnterprise) => ({
+                  options={surveys.map((survey: SurveyProgramming) => ({
                     value: survey.id,
                     label: `${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`,
                   }))}
@@ -189,22 +187,22 @@ export function ReportsView(props: ReportsViewProps) {
                 <p className="uppercase">
                   Total:
                   <span className="ml-2 ">
-                    {surveysData.survey_enterprise_persons.length}
+                    {surveysData.survey_programming_person.length}
                   </span>
                 </p>
                 <div className="w-8 h-8 ml-8 bg-green-600 rounded-full"></div>
                 <span>
                   {
-                    surveysData?.survey_enterprise_persons.filter(
-                      (a) => parseInt(a.state.id) === 3
+                    surveysData?.survey_programming_person.filter(
+                      (a) => a.state.id === 3
                     ).length
                   }
                 </span>
                 <div className="w-8 h-8 ml-2 bg-red-600 rounded-full"></div>
                 <span>
                   {
-                    surveysData?.survey_enterprise_persons.filter(
-                      (a) => parseInt(a.state.id) === 2
+                    surveysData?.survey_programming_person.filter(
+                      (a) => a.state.id === 2
                     ).length
                   }
                 </span>
@@ -213,10 +211,10 @@ export function ReportsView(props: ReportsViewProps) {
                 <p className="uppercase">
                   <span className="ml-2">
                     {(
-                      (surveysData?.survey_enterprise_persons.filter(
-                        (a) => parseInt(a.state.id) === 3
+                      (surveysData?.survey_programming_person.filter(
+                        (a) => a.state.id === 3
                       ).length /
-                        surveysData.survey_enterprise_persons.length) *
+                        surveysData.survey_programming_person.length) *
                       100
                     ).toFixed(1)}
                     %
@@ -234,7 +232,7 @@ export function ReportsView(props: ReportsViewProps) {
                 </tr>
               </thead>
               <tbody>
-                {surveysData?.survey_enterprise_persons
+                {surveysData?.survey_programming_person
                   .filter((survey) => {
                     const searchTerms = searchText
                       .toLocaleLowerCase()
@@ -254,7 +252,7 @@ export function ReportsView(props: ReportsViewProps) {
                         {survey.person.name} {survey.person.lastName}
                       </td>
                       <td className="w-20">
-                        {parseInt(survey.state.id) == 2 ? (
+                        {survey.state.id == 2 ? (
                           <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
                         ) : (
                           <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
@@ -264,12 +262,17 @@ export function ReportsView(props: ReportsViewProps) {
                         <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
                       </td> */}
                       <td className="">
-                        {parseInt(survey.state.id) == 3 ? (
-                          <PdfDownload idPDF={survey.id} />
+                        {survey.state.id == 3 ? (
+                          <ReportsChart
+                            pdfId={survey.id}
+                            surveyId={surveysData.survey.id}
+                          />
                         ) : (
                           ''
                         )}
                       </td>
+                      {/* <td>{JSON.stringify(survey)}</td> */}
+                      {/* <button onClick={testClck}>click</button> */}
                     </tr>
                   ))}
               </tbody>

@@ -3,19 +3,19 @@ import './surveys-detail.scss';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { Link, useParams } from 'react-router-dom';
-import { SurveyEnterprise } from '../../models/surveyEnterprise.model';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
 
 /* eslint-disable-next-line */
 export interface SurveysDetailProps {}
 
 export function SurveysDetail(props: SurveysDetailProps) {
-  const [surveyDetails, setSurveyDetails] = useState<SurveyEnterprise>();
+  const [surveyDetails, setSurveyDetails] = useState<SurveyProgramming>();
 
   const { id } = useParams();
 
   useEffect(() => {
     axios
-      .get(`${environment.apiUrl}/surveyEnterprise/${id}`)
+      .get(`${environment.apiUrl}/surveyProgramming/${id}`)
       .then((res) => setSurveyDetails(res.data));
   }, []);
 
@@ -91,20 +91,20 @@ export function SurveysDetail(props: SurveysDetailProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {surveyDetails?.survey_enterprise_persons.map((survey) => (
+                  {surveyDetails?.survey_programming_person.map((survey) => (
                     <tr
                       className="even:bg-white odd:bg-gray-100"
-                      key={survey.person.id}
+                      key={survey.person?.id}
                     >
                       <td className="p-2">
                         <Link to={`/encuestas/person/${survey.id}`}>
-                          {survey.person.id}
+                          {survey.person?.id}
                         </Link>
                       </td>
-                      <td>{survey.person.name}</td>
-                      <td>{survey.person.lastName}</td>
+                      <td>{survey.person?.name}</td>
+                      <td>{survey.person?.lastName}</td>
                       <td>
-                        {parseInt(survey.state.id) == 2 ? (
+                        {survey.state?.id == 2 ? (
                           <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
                         ) : (
                           <div className="w-5 h-5 rounded-full bg-green-500 m-auto"></div>

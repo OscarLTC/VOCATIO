@@ -1,5 +1,5 @@
 export interface Survey {
-  id: string;
+  id: number;
   name: string;
   description: string;
   question: Array<any>;
