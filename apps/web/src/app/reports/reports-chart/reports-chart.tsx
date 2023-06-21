@@ -69,7 +69,6 @@ export function ReportsChart(props: ReportsChartProps) {
   useEffectOnce(() => {
     getSurveyPersonData(props.pdfId).then((res) => {
       if (res) {
-        console.log('getSurveyPersonData - RC');
         setSurveyPersonData(res);
         if (res.survey_programming.survey.id === 6) {
           const counts = convertAnswersToCounts(res.answers);
@@ -87,7 +86,6 @@ export function ReportsChart(props: ReportsChartProps) {
   });
 
   const generate = () => {
-    console.log('generate - RC ', isPdfReady);
     if (isPdfReady) return;
     const chart: any = chartRef.current;
 

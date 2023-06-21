@@ -207,7 +207,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 ))}
               </div>
             )}
-            {surveyId == 3 && (
+            {(surveyId == 3 || surveyId == 4) && (
               <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 mx-5 my-10 text-sm ">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (
