@@ -38,7 +38,6 @@ export function ReportsView(props: ReportsViewProps) {
   const exportId = watch('surveyEnterprise_id');
 
   const onEnterpriseChange = (selectedOption: any) => {
-    console.log('onEnterpriseChange');
     setValue('enterprise_id', selectedOption?.value);
     axios
       .get(
@@ -48,7 +47,6 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSurveyEnterpriseChange = (selectedOption: any) => {
-    console.log('onSurveyEnterpriseChange');
     setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
@@ -73,7 +71,6 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSubmit = (data: any) => {
-    console.log('onSubmit');
     setSurveysData(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setIsDisabled(false);
   };
@@ -93,7 +90,6 @@ export function ReportsView(props: ReportsViewProps) {
       };
       getEnterprises();
     }
-    console.log(1);
   });
 
   return (
