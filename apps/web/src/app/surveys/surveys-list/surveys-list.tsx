@@ -12,6 +12,7 @@ import { GiCancel } from 'react-icons/gi';
 import State from '../../components/state/state';
 import Modal from '../../components/modal/modal';
 import { RiLoader4Fill } from 'react-icons/ri';
+import { formatDate } from '../../utils/dateUtils';
 
 /* eslint-disable-next-line */
 export interface SurveysListProps {}
@@ -88,16 +89,6 @@ export function SurveysList(props: SurveysListProps) {
     } else {
       setSurveyFiltered(surveys.filter((a: any) => parseInt(a.state.id) == id));
     }
-  };
-
-  const formatDate = (date: any) => {
-    const [year, month, day] = date.split('-');
-    const dateObject = new Date(Number(year), Number(month) - 1, Number(day));
-    return dateObject.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
   };
 
   const [sortAsc, setSortAsc] = useState<boolean>();
