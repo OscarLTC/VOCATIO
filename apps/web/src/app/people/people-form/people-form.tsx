@@ -14,7 +14,6 @@ import { environment } from '../../../environments/environment';
 import { genreState } from '../../store/genre/genre.atom';
 import { Genre } from '../../models/genre.model';
 
-/* eslint-disable-next-line */
 export interface PeopleFormProps {
   formState: number;
 }
@@ -22,7 +21,6 @@ export interface PeopleFormProps {
 export function PeopleForm(props: PeopleFormProps) {
   const [docTypes, setDocTypes] = useRecoilState(doctypeState);
   const [entreprises, setEnterprises] = useRecoilState(enterpriseState);
-  const [genres, setGenres] = useRecoilState(genreState);
   const setPeople = useSetRecoilState(peopleState);
   const {
     register,
@@ -111,15 +109,6 @@ export function PeopleForm(props: PeopleFormProps) {
         });
       };
       getEnterprises();
-    }
-
-    if (!genres) {
-      const getGenres = () => {
-        axios.get(`${environment.apiUrl}/genre/all`).then((res) => {
-          setGenres(res.data);
-        });
-      };
-      getGenres();
     }
   }, []);
   return (
