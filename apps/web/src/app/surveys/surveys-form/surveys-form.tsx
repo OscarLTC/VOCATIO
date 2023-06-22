@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RiFileExcel2Fill } from 'react-icons/ri';
+import { BsFillPeopleFill } from 'react-icons/bs';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
 import { Enterprise } from '../../models/enterprise.model';
 import { stateState } from '../../store/state/state.atom';
@@ -17,6 +18,8 @@ import { State } from '../../models/state.model';
 import 'filepond/dist/filepond.min.css';
 import { Person } from '../../models/person.model';
 import { peopleState } from '../../store/people/people.atom';
+import Select from 'react-select';
+import { HiDocumentAdd } from 'react-icons/hi';
 
 /* eslint-disable-next-line */
 export interface SurveysFormProps {
@@ -28,13 +31,13 @@ export function SurveysForm(props: SurveysFormProps) {
   const [enterprises, setEnterprises] = useRecoilState(enterpriseState);
   const [states, setStates] = useRecoilState(stateState);
   const setSurveysEnterprises = useSetRecoilState(surveysEnterpriseState);
-  const setPeople = useSetRecoilState(peopleState);
+  const [people, setPeople] = useRecoilState(peopleState);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const onFileChange = (event: any) => {
-    setSelectedFile(event.target.files[0]);
-  };
+  const [toggleSurveyPersonResg, setToggleSurveyPersonResg] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+
   const getCustomDate = (months = 0) => {
     const currentDate = new Date();
 
@@ -46,6 +49,10 @@ export function SurveysForm(props: SurveysFormProps) {
     const formattedEndDate = `${yearEnd}-${monthEnd}-${dayEnd}`;
 
     return formattedEndDate;
+  };
+
+  const onSelectChange = (selectedOption: any) => {
+    setSelectedOptions(selectedOption);
   };
 
   const {
@@ -70,33 +77,24 @@ export function SurveysForm(props: SurveysFormProps) {
   const watchStartDate = watch('startDate');
   const watchEterpriseId = watch('enterprise_id');
 
-  const getSurveys = async () => {
+  const getPeople = async () => {
     await axios
-      .get(`${environment.apiUrl}/survey/all`)
-      .then((res) => setSurveys(res.data));
-  };
-
-  const getEnterprises = async () => {
-    await axios
-      .get(`${environment.apiUrl}/enterprise/all`)
-      .then((res) => setEnterprises(res.data));
-  };
-
-  const getStates = async () => {
-    await axios
-      .get(`${environment.apiUrl}/state/all`)
-      .then((res) => setStates(res.data));
+      .get(`${environment.apiUrl}/person/all`)
+      .then((res) => setPeople(res.data));
   };
 
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const onFileChange = (event: any) => {
+    setIsLoaded(true);
+    setSelectedFile(event.target.files[0]);
+  };
+
   const onSubmit = async (data: any) => {
-    if (props.formState == 1) {
-      setIsLoaded(true);
-      if (!selectedFile) {
-        return;
-      }
+    setIsLoaded(true);
+
+    if (toggleSurveyPersonResg == 0 && selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
       try {
@@ -115,11 +113,10 @@ export function SurveysForm(props: SurveysFormProps) {
             }
           )
           .then((res) => {
-            send_data(
-              props.formState,
-              data,
-              res.data.map((p: Person) => p.id)
-            );
+            const personIds = res.data.map((p: Person) => p.id);
+
+            send_data(props.formState, data, personIds);
+
             setPeople(null);
             setSelectedFile(null);
           })
@@ -129,18 +126,18 @@ export function SurveysForm(props: SurveysFormProps) {
           });
       } catch (error) {
         setIsLoaded(false);
-
-        console.error(error);
       }
     } else {
-      send_data(props.formState, data);
+      const personIds = selectedOptions.map((option: any) => option.value);
+
+      send_data(props.formState, data, personIds);
     }
   };
 
   const send_data = async (
     value: number,
     surveyEnterprise: any,
-    surveyProgrammingPersonIds?: any
+    surveyProgrammingPersonIds: number[]
   ) => {
     if (value === 1) {
       toast.loading('Programando encuesta');
@@ -149,7 +146,7 @@ export function SurveysForm(props: SurveysFormProps) {
           ...surveyEnterprise,
           surveyProgrammingPersonIds: surveyProgrammingPersonIds,
         })
-        .then((res) => {
+        .then(() => {
           toast.remove();
           toast.success('Encuesta programada');
           reset();
@@ -164,18 +161,19 @@ export function SurveysForm(props: SurveysFormProps) {
     } else if (value === 2) {
       toast.loading('Actializando encuesta');
       await axios
-        .put(`${environment.apiUrl}/surveyProgramming/${id}`, surveyEnterprise)
-        .then(() => {
+        .put(`${environment.apiUrl}/surveyProgramming/${id}`, {
+          ...surveyEnterprise,
+          surveyProgrammingPersonIds: surveyProgrammingPersonIds,
+        })
+        .then((res) => {
           reset();
           toast.remove();
-          setIsLoaded(false);
           toast.success('Datos actualizados');
           navigate('/encuestas');
         })
-        .catch(() => {
+        .catch((error) => {
           toast.remove();
           toast.error('Error al actualizar');
-          setIsLoaded(false);
         });
     }
     setSurveysEnterprises(null);
@@ -184,6 +182,24 @@ export function SurveysForm(props: SurveysFormProps) {
   const onDownloadClick = () => {
     const fileUrl = '/doc/importar-personas.xlsx';
     window.open(fileUrl, '_blank');
+  };
+
+  const getSurveys = async () => {
+    await axios
+      .get(`${environment.apiUrl}/survey/all`)
+      .then((res) => setSurveys(res.data));
+  };
+
+  const getEnterprises = async () => {
+    await axios
+      .get(`${environment.apiUrl}/enterprise/all`)
+      .then((res) => setEnterprises(res.data));
+  };
+
+  const getStates = async () => {
+    await axios
+      .get(`${environment.apiUrl}/state/all`)
+      .then((res) => setStates(res.data));
   };
 
   useEffect(() => {
@@ -213,18 +229,22 @@ export function SurveysForm(props: SurveysFormProps) {
     if (!states) {
       getStates();
     }
+
+    if (!people) {
+      getPeople();
+    }
   }, []);
 
   return (
     <div className="p-4">
-      <h1 className="text-4xl ">
+      <h1 className="text-3xl ">
         {props.formState === 1
           ? 'Crear Programación de Encuesta'
           : 'Actualizar Programación de Encuesta'}
       </h1>
       <div className="mt-10 flex justify-center gap-10">
         <form
-          className="max-w-xl bg-white  shadow px-10 py-10 rounded-lg"
+          className="max-w-xl bg-white text-sm shadow px-10 py-10 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-4 items-center place-content-center">
@@ -335,36 +355,85 @@ export function SurveysForm(props: SurveysFormProps) {
           ) : (
             ''
           )}
-          {props.formState == 1 ? (
-            <div className="">
-              <div className="flex flex-col justify-between space-y-4 mt-10">
-                <div className="flex justify-between">
-                  <h2 className="text-lg font-medium text-left self-center">
-                    Plantilla:
-                  </h2>
-                  <button
-                    onClick={onDownloadClick}
-                    className="flex text-white align-middle gap-10 w-fit p-3 bg-[#217346] rounded"
-                  >
-                    <RiFileExcel2Fill color="#fff" size={24} />
-                  </button>
+          {props.formState == 1 || props.formState == 2 ? (
+            <div className="mt-10 bg-zinc-300 p-2 rounded-lg">
+              <div className="flex m-y bg-slate-50 rounded-lg select-none">
+                <div
+                  className={` w-1/2 p-1 rounded-l-lg flex gap-1 text-center justify-center items-center ${
+                    toggleSurveyPersonResg === 0
+                      ? 'bg-[#222123] text-white'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    setToggleSurveyPersonResg(0);
+                    setSelectedOptions([]);
+                  }}
+                >
+                  <h3>Subir Excel</h3>
+                  <HiDocumentAdd size={20} />
                 </div>
-                <div className="text-center">
-                  <input
-                    type="file"
-                    accept=".xlsx, .xls"
-                    onChange={onFileChange}
-                    className="hidden"
-                    id="file-input"
-                  />
-                  <label
-                    htmlFor="file-input"
-                    className="block w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-300"
-                  >
-                    {selectedFile ? selectedFile.name : 'Seleccione el archivo'}
-                  </label>
+                <div
+                  className={`w-1/2 p-1 rounded-r-lg  flex gap-1 text-center justify-center items-center ${
+                    toggleSurveyPersonResg === 1
+                      ? 'bg-[#222123] text-white'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    setToggleSurveyPersonResg(1);
+                    setSelectedFile(null);
+                    setIsLoaded(false);
+                  }}
+                >
+                  <h3 className="text-center ">Seleccionar</h3>
+                  <BsFillPeopleFill />
                 </div>
               </div>
+              {toggleSurveyPersonResg === 0 ? (
+                <div className="flex flex-col justify-between space-y-4 mt-5">
+                  <div className="flex justify-between">
+                    <h2 className="text-[15px] font-medium text-left self-center">
+                      Plantilla:
+                    </h2>
+                    <button
+                      onClick={onDownloadClick}
+                      className="flex text-white align-middle gap-10 w-fit p-2 bg-[#217346] rounded"
+                    >
+                      <RiFileExcel2Fill color="#fff" size={20} />
+                    </button>
+                  </div>
+                  <div className="text-center">
+                    <input
+                      type="file"
+                      accept=".xlsx, .xls"
+                      onChange={onFileChange}
+                      className="hidden"
+                      id="file-input"
+                    />
+                    <label
+                      htmlFor="file-input"
+                      className="block w-full px-4 py-2 bg-gray-50 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-100"
+                    >
+                      {selectedFile
+                        ? selectedFile.name
+                        : 'Seleccione el archivo'}
+                    </label>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4">
+                  <Select
+                    isMulti
+                    name="colors"
+                    options={people?.map((person: Person) => ({
+                      value: person.id,
+                      label: `${person.name} ${person.lastName}`,
+                    }))}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={onSelectChange}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             ''
@@ -376,10 +445,11 @@ export function SurveysForm(props: SurveysFormProps) {
               </button>
             </Link>
             <button
-              disabled={props.formState == 1 ? !selectedFile : false}
               className={`rounded-lg py-1 px-4 text-white  ${
-                !selectedFile && props.formState == 1
-                  ? 'bg-[#bae7d8]'
+                props.formState == 1
+                  ? selectedOptions.length > 0 || isLoaded
+                    ? 'bg-[#57c5a0] hover:bg-[#518b7e]'
+                    : 'bg-[#bae7d8]'
                   : 'bg-[#57c5a0] hover:bg-[#518b7e]'
               } `}
             >
