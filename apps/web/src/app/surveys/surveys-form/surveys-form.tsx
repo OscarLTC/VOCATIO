@@ -20,6 +20,7 @@ import { Person } from '../../models/person.model';
 import { peopleState } from '../../store/people/people.atom';
 import Select from 'react-select';
 import { HiDocumentAdd } from 'react-icons/hi';
+import { getCustomDate } from '../../utils/dateUtils';
 
 /* eslint-disable-next-line */
 export interface SurveysFormProps {
@@ -35,21 +36,8 @@ export function SurveysForm(props: SurveysFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const [toggleSurveyPersonResg, setToggleSurveyPersonResg] = useState(0);
+  const [toggleSurveyPersonRegs, setToggleSurveyPersonRegs] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
-
-  const getCustomDate = (months = 0) => {
-    const currentDate = new Date();
-
-    currentDate.setMonth(currentDate.getMonth() + months);
-
-    const yearEnd = currentDate.getFullYear();
-    const monthEnd = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const dayEnd = String(currentDate.getDate()).padStart(2, '0');
-    const formattedEndDate = `${yearEnd}-${monthEnd}-${dayEnd}`;
-
-    return formattedEndDate;
-  };
 
   const onSelectChange = (selectedOption: any) => {
     setSelectedOptions(selectedOption);
@@ -94,7 +82,7 @@ export function SurveysForm(props: SurveysFormProps) {
   const onSubmit = async (data: any) => {
     setIsLoaded(true);
 
-    if (toggleSurveyPersonResg == 0 && selectedFile) {
+    if (toggleSurveyPersonRegs == 0 && selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
       try {
@@ -360,12 +348,12 @@ export function SurveysForm(props: SurveysFormProps) {
               <div className="flex m-y bg-slate-50 rounded-lg select-none">
                 <div
                   className={` w-1/2 p-1 rounded-l-lg flex gap-1 text-center justify-center items-center ${
-                    toggleSurveyPersonResg === 0
+                    toggleSurveyPersonRegs === 0
                       ? 'bg-[#222123] text-white'
                       : ''
                   }`}
                   onClick={() => {
-                    setToggleSurveyPersonResg(0);
+                    setToggleSurveyPersonRegs(0);
                     setSelectedOptions([]);
                   }}
                 >
@@ -374,12 +362,12 @@ export function SurveysForm(props: SurveysFormProps) {
                 </div>
                 <div
                   className={`w-1/2 p-1 rounded-r-lg  flex gap-1 text-center justify-center items-center ${
-                    toggleSurveyPersonResg === 1
+                    toggleSurveyPersonRegs === 1
                       ? 'bg-[#222123] text-white'
                       : ''
                   }`}
                   onClick={() => {
-                    setToggleSurveyPersonResg(1);
+                    setToggleSurveyPersonRegs(1);
                     setSelectedFile(null);
                     setIsLoaded(false);
                   }}
@@ -388,7 +376,7 @@ export function SurveysForm(props: SurveysFormProps) {
                   <BsFillPeopleFill />
                 </div>
               </div>
-              {toggleSurveyPersonResg === 0 ? (
+              {toggleSurveyPersonRegs === 0 ? (
                 <div className="flex flex-col justify-between space-y-4 mt-5">
                   <div className="flex justify-between">
                     <h2 className="text-[15px] font-medium text-left self-center">

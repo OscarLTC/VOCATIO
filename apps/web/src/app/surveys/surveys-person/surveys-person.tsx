@@ -5,13 +5,10 @@ import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { Controller, useForm } from 'react-hook-form';
-import { Alternative } from '../../models/alternative.model';
-import { Survey } from '../../models/survey.model';
 import { Question } from '../../models/question.model';
-import { Category } from '../../models/category.model';
 import { QuestionAlternative } from '../../models/questionAlternative.model';
-import { error } from 'console';
 import { QuestionCategory } from '../../models/questionCategory.model';
+import toast, { Toaster } from 'react-hot-toast';
 
 /* eslint-disable-next-line */
 export interface SurveysPersonProps {}
@@ -22,10 +19,9 @@ export function SurveysPerson(props: SurveysPersonProps) {
   >();
   const [surveyQuestions, setSurveyQuestions] = useState<any>([]);
   const [surveyQuestionsType1, setSurveyQuestionsType1] = useState<any>([]);
-  const [categories, setCategories] = useState<Array<any>>();
-  const [selectedAlternative, setSelectedAlternative] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<any>();
   const [surveyId, setSurveyId] = useState();
+
+  const [unansweredQuestions, setUnansweredQuestions] = useState<number[]>([]);
 
   const { id } = useParams();
 
@@ -38,6 +34,45 @@ export function SurveysPerson(props: SurveysPersonProps) {
     formState: { errors },
   } = useForm();
 
+  const onSendSurveyClick = () => {
+    let unansweredQuestionsArray: number[] = [];
+    if (surveyId == 1) {
+      surveyQuestionsType1?.map((item: any, index: number) => {
+        item.questions.map((question: any) => {
+          const questionCategory = question.questionCategory;
+          const isQuestionAnswered = watch(`${questionCategory}`);
+          if (!isQuestionAnswered) {
+            unansweredQuestionsArray.push(index + 1);
+          }
+        });
+      });
+    } else {
+      surveyQuestions?.question?.map((question: Question, index: number) => {
+        const questionCategory = question.question_category[0]?.id;
+        const isQuestionAnswered = watch(`${questionCategory}`);
+        if (!isQuestionAnswered) {
+          unansweredQuestionsArray.push(index + 1);
+        }
+      });
+    }
+
+    if (unansweredQuestionsArray.length > 0) {
+      unansweredQuestionsArray = [...new Set(unansweredQuestionsArray)];
+      toast.error(
+        `Responde las preguntas: ${
+          unansweredQuestionsArray.length > 10
+            ? `${unansweredQuestionsArray.slice(0, 10).toString()}, ...`
+            : unansweredQuestionsArray.toString()
+        }`
+      );
+      setUnansweredQuestions(unansweredQuestionsArray);
+      // console.log('Preguntas sin contestar:', unansweredQuestionsArray);
+    } else {
+      setUnansweredQuestions([]);
+      console.log('Todas las preguntas han sido contestadas.');
+    }
+  };
+
   const onSubmit = async (data: any) => {
     axios
       .post(`${environment.apiUrl}/answers/save`, {
@@ -48,20 +83,13 @@ export function SurveysPerson(props: SurveysPersonProps) {
         }),
       })
       .then(() => window.location.reload());
-    // console.log({
-    //   id: surveyPerson?.id,
-    //   answers: Object.entries(data).map(([key, value]: any) => {
-    //     const [group] = key.split('_');
-    //     return [parseInt(group), parseInt(value)];
-    //   }),
-    // });
-  };
-
-  const handleOptionChange = (questionId: any, optionId: any) => {
-    setSelectedOptions((prevOptions: any) => ({
-      ...prevOptions,
-      [questionId]: optionId,
-    }));
+    console.log({
+      id: surveyPerson?.id,
+      answers: Object.entries(data).map(([key, value]: any) => {
+        const [group] = key.split('_');
+        return [parseInt(group), parseInt(value)];
+      }),
+    });
   };
 
   useEffect(() => {
@@ -170,6 +198,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                             errors[question.questionCategory] &&
                             'border-red-500'
                           }`}
+                          key={question.id}
                         >
                           <h3 className="text-xs">{question.description}</h3>
                           <div className="w-full flex justify-between mt-4">
@@ -274,7 +303,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                         name={`${question.question_category[0]?.id}`}
                         control={control}
                         defaultValue=""
-                        rules={{ required: false }}
+                        rules={{ required: true }}
                         render={({ field, formState, fieldState }) => (
                           <div
                             className={`border-t-2 border-green-100  ${
@@ -314,16 +343,25 @@ export function SurveysPerson(props: SurveysPersonProps) {
             )}
             <div className="text-center mt-10">
               <button
+                onClick={onSendSurveyClick}
                 className="p-4 bg-green-400 text-white rounded mx-auto"
                 type="submit"
               >
-                Enviar encuesta
+                {`Enviar respuestas  ${
+                  unansweredQuestions.length > 0
+                    ? `| Faltan(${unansweredQuestions.length})`
+                    : ''
+                }`}
               </button>
             </div>
           </form>
+          <Toaster position="bottom-right" />
         </div>
       ) : (
-        <div>Ya se completó la encuesta</div>
+        <div className="flex flex-col">
+          <span>Ya se completó la encuesta, gracias por participar.</span>
+          <span>Cierre la ventana</span>
+        </div>
       )}
     </div>
   );
