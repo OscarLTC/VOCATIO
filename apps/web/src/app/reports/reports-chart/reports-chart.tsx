@@ -15,6 +15,7 @@ import {
 import { Image, pdf } from '@react-pdf/renderer';
 import {
   convertAnswersToCounts,
+  getGroupsValues,
   getCategoriesValues,
   getMaxIndex,
   getResult,
@@ -26,6 +27,8 @@ import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.mo
 import { environment } from '../../../environments/environment';
 import { useBoolean, useEffectOnce, useInterval } from 'react-use';
 import { RiLoader2Fill } from 'react-icons/ri';
+import { Question } from '../../models/question.model';
+import { Answer } from '../../models/answer.model';
 
 Chart.register(
   CategoryScale,
@@ -70,15 +73,23 @@ export function ReportsChart(props: ReportsChartProps) {
     getSurveyPersonData(props.pdfId).then((res) => {
       if (res) {
         setSurveyPersonData(res);
-        if (res.survey_programming.survey.id === 6) {
-          const counts = convertAnswersToCounts(res.answers);
-          const resultMaxIndex = getMaxIndex(counts) + 1;
-          setStylesResult(counts);
-          setMaxIndexResult(resultMaxIndex);
+        if (res.survey_programming.survey.id === 1) {
+          const skillsCount: any = getGroupsValues(res.answers, 3);
+          setSkillsResult(skillsCount);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 3) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
           setSkillsResult(skillsCount);
+          setIsDataChartReady(true);
+        } else if (res.survey_programming.survey.id === 4) {
+          const skillsCount: any = getCategoriesValues(res.answers, 3);
+          setSkillsResult(skillsCount);
+          setIsDataChartReady(true);
+        } else if (res.survey_programming.survey.id === 6) {
+          const counts = convertAnswersToCounts(res.answers);
+          const resultMaxIndex = getMaxIndex(counts) + 1;
+          setStylesResult(counts);
+          setMaxIndexResult(resultMaxIndex);
           setIsDataChartReady(true);
         }
       }
@@ -122,86 +133,89 @@ export function ReportsChart(props: ReportsChartProps) {
   return (
     <>
       {isDataChartReady && (
-        <div className="absolute pointer-events-none w-[1000px]  invisible">
-          {props.surveyId == 6 && (
-            <Doughnut
+        <div className="absolute pointer-events-none w-[1000px] invisible">
+          {props.surveyId == 1 && (
+            <Bar
               ref={chartRef}
-              width={100}
-              data={{
-                labels: ['Visual', 'Auditivo', 'Kinestésico'],
-                datasets: [
-                  {
-                    data: [
-                      stylesResult && stylesResult.visual !== 0
-                        ? (
-                            (stylesResult.visual /
-                              (Object.values(stylesResult) as number[]).reduce(
-                                (total, value) => total + value,
-                                0
-                              )) *
-                            100
-                          ).toFixed(0)
-                        : '',
-                      stylesResult && stylesResult.auditivo !== 0
-                        ? (
-                            (stylesResult.auditivo /
-                              (Object.values(stylesResult) as number[]).reduce(
-                                (total, value) => total + value,
-                                0
-                              )) *
-                            100
-                          ).toFixed(0)
-                        : '',
-                      stylesResult && stylesResult.kinestesico !== 0
-                        ? (
-                            (stylesResult.kinestesico /
-                              (Object.values(stylesResult) as number[]).reduce(
-                                (total, value) => total + value,
-                                0
-                              )) *
-                            100
-                          ).toFixed(0)
-                        : '',
-                    ],
-                    backgroundColor: [
-                      1 == maxIndexResult ? '#23ad8c' : '#fff',
-                      2 == maxIndexResult ? '#23ad8c' : '#fff',
-                      3 == maxIndexResult ? '#23ad8c' : '#fff',
-                    ],
-                    borderColor: ['#006699', '#006699', '#006699'],
-                    borderWidth: 3,
-                  },
-                ],
-              }}
+              width={60}
+              height={'30px'}
               options={{
                 animation: {
                   delay: 0,
                   duration: 0,
                   onComplete: generate,
                 },
-                datasets: {
-                  doughnut: {
-                    label: 'Doughnut',
+                indexAxis: 'y' as const,
+                scales: {
+                  x: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
                   },
                 },
+                elements: {
+                  bar: {
+                    borderWidth: 3,
+                    borderRadius: {
+                      bottomRight: 10,
+                      topRight: 10,
+                    },
+                  },
+                },
+                responsive: true,
                 plugins: {
                   datalabels: {
                     display: true,
                     color: '#000',
                     font: {
-                      size: 50,
+                      size: 30,
                     },
                   },
                   legend: {
+                    position: 'top' as const,
                     labels: {
                       font: {
-                        size: 35,
+                        size: 30,
                       },
                     },
-                    position: 'top',
-                    display: false,
                   },
                 },
+              }}
+              data={{
+                labels: [
+                  skillsResult && skillsResult[0][0],
+                  skillsResult && skillsResult[1][0],
+                  skillsResult && skillsResult[2][0],
+                ],
+                datasets: [
+                  {
+                    label: 'Interes Principal',
+                    data: [
+                      skillsResult && skillsResult[0][1],
+                      skillsResult && skillsResult[1][1],
+                      skillsResult && skillsResult[2][1],
+                    ],
+                    borderColor: '#006699',
+                    borderWidth: 3,
+                    backgroundColor: ['#23ad8c', 'white', 'white'],
+                  },
+                ],
               }}
             />
           )}
@@ -287,6 +301,173 @@ export function ReportsChart(props: ReportsChartProps) {
                     backgroundColor: ['#23ad8c', 'white', 'white'],
                   },
                 ],
+              }}
+            />
+          )}
+          {props.surveyId == 4 && (
+            <Bar
+              ref={chartRef}
+              width={60}
+              height={'30px'}
+              options={{
+                animation: {
+                  delay: 0,
+                  duration: 0,
+                  onComplete: generate,
+                },
+                indexAxis: 'y' as const,
+                scales: {
+                  x: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                },
+                elements: {
+                  bar: {
+                    borderWidth: 3,
+                    borderRadius: {
+                      bottomRight: 10,
+                      topRight: 10,
+                    },
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: '#000',
+                    font: {
+                      size: 30,
+                    },
+                  },
+                  legend: {
+                    position: 'top' as const,
+                    labels: {
+                      font: {
+                        size: 30,
+                      },
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: [
+                  skillsResult && skillsResult[0][0],
+                  skillsResult && skillsResult[1][0],
+                  skillsResult && skillsResult[2][0],
+                ],
+                datasets: [
+                  {
+                    label: 'Inteligencia Principal',
+                    data: [
+                      skillsResult && skillsResult[0][1],
+                      skillsResult && skillsResult[1][1],
+                      skillsResult && skillsResult[2][1],
+                    ],
+                    borderColor: '#006699',
+                    borderWidth: 3,
+                    backgroundColor: ['#23ad8c', 'white', 'white'],
+                  },
+                ],
+              }}
+            />
+          )}
+          {props.surveyId == 6 && (
+            <Doughnut
+              ref={chartRef}
+              width={100}
+              data={{
+                labels: ['Visual', 'Auditivo', 'Kinestésico'],
+                datasets: [
+                  {
+                    data: [
+                      stylesResult && stylesResult.visual !== 0
+                        ? (
+                            (stylesResult.visual /
+                              (Object.values(stylesResult) as number[]).reduce(
+                                (total, value) => total + value,
+                                0
+                              )) *
+                            100
+                          ).toFixed(0)
+                        : '',
+                      stylesResult && stylesResult.auditivo !== 0
+                        ? (
+                            (stylesResult.auditivo /
+                              (Object.values(stylesResult) as number[]).reduce(
+                                (total, value) => total + value,
+                                0
+                              )) *
+                            100
+                          ).toFixed(0)
+                        : '',
+                      stylesResult && stylesResult.kinestesico !== 0
+                        ? (
+                            (stylesResult.kinestesico /
+                              (Object.values(stylesResult) as number[]).reduce(
+                                (total, value) => total + value,
+                                0
+                              )) *
+                            100
+                          ).toFixed(0)
+                        : '',
+                    ],
+                    backgroundColor: [
+                      1 == maxIndexResult ? '#23ad8c' : '#fff',
+                      2 == maxIndexResult ? '#23ad8c' : '#fff',
+                      3 == maxIndexResult ? '#23ad8c' : '#fff',
+                    ],
+                    borderColor: ['#006699', '#006699', '#006699'],
+                    borderWidth: 3,
+                  },
+                ],
+              }}
+              options={{
+                animation: {
+                  delay: 0,
+                  duration: 0,
+                  onComplete: generate,
+                },
+                datasets: {
+                  doughnut: {
+                    label: 'Doughnut',
+                  },
+                },
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: '#000',
+                    font: {
+                      size: 50,
+                    },
+                  },
+                  legend: {
+                    labels: {
+                      font: {
+                        size: 35,
+                      },
+                    },
+                    position: 'top',
+                    display: false,
+                  },
+                },
               }}
             />
           )}
