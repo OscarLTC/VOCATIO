@@ -77,9 +77,16 @@ export function SurveysDetail(props: SurveysDetailProps) {
             </div>
           </div>
           <div className="max-w-4xl w-full text-center bg-white  shadow px-5 py-10 rounded-lg ">
-            <h2 className=" text-left font-medium text-2xl">
-              Listado de Personas:
-            </h2>
+            <div className="flex justify-between">
+              <h2 className=" text-left font-medium text-2xl">
+                Listado de Personas:
+              </h2>
+              <Link to={`/encuestas/${surveyDetails?.id}`}>
+                <span className="p-2 text-sm bg-gray-600 rounded text-white">
+                  Agregar personas
+                </span>
+              </Link>
+            </div>
             <div className="overflow-y-auto  h-96">
               <table className="w-full mt-10 p-4">
                 <thead className="justify-between border-y border-gray-600">

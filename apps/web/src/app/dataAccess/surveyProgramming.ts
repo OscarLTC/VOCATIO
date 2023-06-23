@@ -4,6 +4,7 @@ import { surveyProgrammingPerson } from '../models/surveyProgrammingPerson.model
 import { Answer } from '../models/answer.model';
 import { Result } from '../models/result.model';
 import { ResultType } from '../models/resultType.model';
+import { Category } from '../models/category.model';
 
 export const getSurveyPersonData = async (
   id: number
@@ -17,30 +18,6 @@ export const getSurveyPersonData = async (
     console.error('Error fetching survey person data:', error);
     return undefined;
   }
-};
-
-export const getCategoriesValues = (
-  answers: Array<Answer>,
-  topN: number
-): Array<[string, number]> => {
-  const sumCategories: any = {};
-
-  for (const answer of answers) {
-    const name = answer.question_category.category.name;
-    const value = parseInt(answer.question_alternative.value);
-
-    if (sumCategories[name]) {
-      sumCategories[name] += value;
-    } else {
-      sumCategories[name] = value;
-    }
-  }
-
-  const sortedCategories = Object.entries(sumCategories)
-    .sort((a: any, b: any) => b[1] - a[1])
-    .slice(0, topN) as Array<[string, number]>;
-
-  return sortedCategories;
 };
 
 const countValues: { [key: string]: number } = {
@@ -71,3 +48,71 @@ export const getMaxIndex = (counts: any) => {
 
   return values.indexOf(Math.max(...values));
 };
+
+export const getCategoriesValues = (
+  answers: Array<Answer>,
+  topN: number
+): Array<[string, number]> => {
+  const sumCategories: any = {};
+
+  for (const answer of answers) {
+    const name = answer.question_category.category.name;
+    const value = parseInt(answer.question_alternative.value);
+
+    if (sumCategories[name]) {
+      sumCategories[name] += value;
+    } else {
+      sumCategories[name] = value;
+    }
+  }
+
+  const sortedCategories = Object.entries(sumCategories)
+    .sort((a: any, b: any) => b[1] - a[1])
+    .slice(0, topN) as Array<[string, number]>;
+
+  return sortedCategories;
+};
+
+export function getGroupsValues(answers: Array<Answer>, topN: number) {
+  const categoriesForGroup: any = {};
+
+  for (const answer of answers) {
+    const categoryName = answer.question_category.category.name;
+    const categoryValue = parseInt(answer.question_alternative.value);
+    const groupName = answer.question_category.category.group.name;
+
+    if (categoriesForGroup[groupName]) {
+      if (categoriesForGroup[groupName].categories[categoryName]) {
+        categoriesForGroup[groupName].categories[categoryName].value +=
+          categoryValue;
+      } else {
+        categoriesForGroup[groupName].categories[categoryName] = {
+          name: categoryName,
+          value: categoryValue,
+        };
+      }
+
+      categoriesForGroup[groupName].total += categoryValue;
+    } else {
+      categoriesForGroup[groupName] = {
+        group: groupName,
+        categories: {
+          [categoryName]: {
+            name: categoryName,
+            value: categoryValue,
+          },
+        },
+        total: categoryValue,
+      };
+    }
+  }
+
+  const sortedCategories = Object.entries(categoriesForGroup)
+    .sort((a: any, b: any) => b[1].total - a[1].total)
+    .slice(0, topN)
+    .map(([category, data]: [string, any]) => [category, data.total]) as Array<
+    [string, number]
+  >;
+
+  return sortedCategories;
+}
