@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import './surveys-person.scss';
 import axios from 'axios';
@@ -9,6 +9,8 @@ import { Question } from '../../models/question.model';
 import { QuestionAlternative } from '../../models/questionAlternative.model';
 import { QuestionCategory } from '../../models/questionCategory.model';
 import toast, { Toaster } from 'react-hot-toast';
+import { AiOutlineArrowDown } from 'react-icons/ai';
+import { BsArrowDownShort } from 'react-icons/bs';
 
 /* eslint-disable-next-line */
 export interface SurveysPersonProps {}
@@ -23,6 +25,8 @@ export function SurveysPerson(props: SurveysPersonProps) {
 
   const [unansweredQuestions, setUnansweredQuestions] = useState<number[]>([]);
 
+  const submitButtonRef = useRef(null);
+
   const { id } = useParams();
 
   const {
@@ -33,6 +37,14 @@ export function SurveysPerson(props: SurveysPersonProps) {
     watch,
     formState: { errors },
   } = useForm();
+
+  const scrollToLastSection = () => {
+    if (submitButtonRef.current) {
+      (submitButtonRef.current as HTMLDivElement).scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const onSendSurveyClick = () => {
     let unansweredQuestionsArray: number[] = [];
@@ -83,13 +95,13 @@ export function SurveysPerson(props: SurveysPersonProps) {
         }),
       })
       .then(() => window.location.reload());
-    console.log({
-      id: surveyPerson?.id,
-      answers: Object.entries(data).map(([key, value]: any) => {
-        const [group] = key.split('_');
-        return [parseInt(group), parseInt(value)];
-      }),
-    });
+    // console.log({
+    //   id: surveyPerson?.id,
+    //   answers: Object.entries(data).map(([key, value]: any) => {
+    //     const [group] = key.split('_');
+    //     return [parseInt(group), parseInt(value)];
+    //   }),
+    // });
   };
 
   useEffect(() => {
@@ -181,7 +193,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
             />
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {surveyId == 1 && (
+            {surveyId === 1 && (
               <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mx-10">
                 {surveyQuestionsType1?.map((item: any, index: number) => (
                   <div
@@ -236,7 +248,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 ))}
               </div>
             )}
-            {(surveyId == 3 || surveyId == 4) && (
+            {(surveyId === 2 || surveyId === 3 || surveyId === 4) && (
               <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 mx-5 my-10 text-sm ">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (
@@ -288,7 +300,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 )}
               </div>
             )}
-            {surveyId == 6 && (
+            {surveyId === 6 && (
               <div className="grid grid-cols-2 gap-10 mx-5 my-5">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (
@@ -343,6 +355,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
             )}
             <div className="text-center mt-10">
               <button
+                ref={submitButtonRef}
                 onClick={onSendSurveyClick}
                 className="p-4 bg-green-400 text-white rounded mx-auto"
                 type="submit"
@@ -355,6 +368,13 @@ export function SurveysPerson(props: SurveysPersonProps) {
               </button>
             </div>
           </form>
+          <button
+            type="button"
+            onClick={scrollToLastSection}
+            className="w-12 h-12 rounded-full bg-gray-500 fixed bottom-10 right-10 flex justify-center items-center hover:animate-bounce"
+          >
+            <BsArrowDownShort size={35} color="white" />
+          </button>
           <Toaster position="bottom-right" />
         </div>
       ) : (

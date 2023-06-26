@@ -429,7 +429,8 @@ export function PdfDocument(props: PdfDocumentProps) {
               </View>
             </>
           )}
-          {(props.surveyId === 3 ||
+          {(props.surveyId === 2 ||
+            props.surveyId === 3 ||
             props.surveyId === 4 ||
             props.surveyId === 1) && (
             <Image
