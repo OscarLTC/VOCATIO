@@ -20,7 +20,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
     surveyProgrammingPerson | undefined
   >();
   const [surveyQuestions, setSurveyQuestions] = useState<any>([]);
-  const [surveyQuestionsType1, setSurveyQuestionsType1] = useState<any>([]);
+  const [surveyQuestionsType, setSurveyQuestionsType] = useState<any>([]);
   const [surveyId, setSurveyId] = useState();
 
   const [unansweredQuestions, setUnansweredQuestions] = useState<number[]>([]);
@@ -49,7 +49,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
   const onSendSurveyClick = () => {
     let unansweredQuestionsArray: number[] = [];
     if (surveyId == 1) {
-      surveyQuestionsType1?.map((item: any, index: number) => {
+      surveyQuestionsType?.map((item: any, index: number) => {
         item.questions.map((question: any) => {
           const questionCategory = question.questionCategory;
           const isQuestionAnswered = watch(`${questionCategory}`);
@@ -147,7 +147,22 @@ export function SurveysPerson(props: SurveysPersonProps) {
                   category: questions[0].category,
                   questions: questions.flatMap((item: any) => item.question),
                 }));
-                setSurveyQuestionsType1(categoryQuestions);
+                console.log(categoryQuestions);
+                setSurveyQuestionsType(categoryQuestions);
+              } else if (res.data.id == 5) {
+                const questionTypeFive = res.data.question.map(
+                  (question: Question) => ({
+                    question: question.description,
+                    categories: question.question_category.map(
+                      (questionCategory: QuestionCategory) => ({
+                        id: questionCategory.id,
+                        name: questionCategory.category.name,
+                        alternatives: question.question_alternative,
+                      })
+                    ),
+                  })
+                );
+                setSurveyQuestions(questionTypeFive);
               } else {
                 setSurveyQuestions(res.data);
               }
@@ -195,7 +210,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
           <form onSubmit={handleSubmit(onSubmit)}>
             {surveyId === 1 && (
               <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mx-10">
-                {surveyQuestionsType1?.map((item: any, index: number) => (
+                {surveyQuestionsType?.map((item: any, index: number) => (
                   <div
                     key={item.category.id}
                     className=" rounded-lg p-4  justify-center w-fit mx-auto bg-white"
@@ -298,6 +313,58 @@ export function SurveysPerson(props: SurveysPersonProps) {
                     </div>
                   )
                 )}
+              </div>
+            )}
+            {surveyId === 5 && (
+              <div className="mx-10">
+                {surveyQuestions?.map((item: any, index: number) => (
+                  <div key={index} className=" rounded-lg p-4 ">
+                    <h2 className="text-center mx-auto text-xl w-[600px] font-bold my-5">
+                      {`${item.question}...`}
+                    </h2>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-10 mx-auto bg-white p-4">
+                      {item.categories.map((category: any, index: number) => (
+                        <div
+                          className={`border rounded  p-2 ${
+                            errors[category.id] && 'border-red-500'
+                          }`}
+                          key={category.id}
+                        >
+                          <h3 className="text-lg text-center">
+                            {`${index + 1}. ${category.name}`}
+                          </h3>
+                          <div className="flex justify-between mt-4">
+                            {category.alternatives.map((alternative: any) => (
+                              <label
+                                className={`m-1 w-10 h-10 rounded-full ${
+                                  watch(`${category.id}`) == alternative.id
+                                    ? 'border-2 border-[#003552]'
+                                    : ''
+                                }`}
+                                key={alternative.id}
+                              >
+                                <input
+                                  className="absolute hidden"
+                                  type="radio"
+                                  title={alternative.description}
+                                  value={alternative.id}
+                                  {...register(`${category.id}`, {
+                                    required: true,
+                                  })}
+                                />
+                                <img
+                                  src={`/src/assets/img/${alternative.alternative.id}.png`}
+                                  alt=""
+                                  title={alternative.alternative.description}
+                                />
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
             {surveyId === 6 && (
