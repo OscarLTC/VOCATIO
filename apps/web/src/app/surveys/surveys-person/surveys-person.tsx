@@ -95,13 +95,13 @@ export function SurveysPerson(props: SurveysPersonProps) {
         }),
       })
       .then(() => window.location.reload());
-    console.log({
-      id: surveyPerson?.id,
-      answers: Object.entries(data).map(([key, value]: any) => {
-        const [group] = key.split('_');
-        return [parseInt(group), parseInt(value)];
-      }),
-    });
+    // console.log({
+    //   id: surveyPerson?.id,
+    //   answers: Object.entries(data).map(([key, value]: any) => {
+    //     const [group] = key.split('_');
+    //     return [parseInt(group), parseInt(value)];
+    //   }),
+    // });
   };
 
   useEffect(() => {
@@ -193,7 +193,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
             />
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {surveyId == 1 && (
+            {surveyId === 1 && (
               <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mx-10">
                 {surveyQuestionsType1?.map((item: any, index: number) => (
                   <div
@@ -248,7 +248,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 ))}
               </div>
             )}
-            {(surveyId == 3 || surveyId == 4) && (
+            {(surveyId === 2 || surveyId === 3 || surveyId === 4) && (
               <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 mx-5 my-10 text-sm ">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (
@@ -300,7 +300,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 )}
               </div>
             )}
-            {surveyId == 6 && (
+            {surveyId === 6 && (
               <div className="grid grid-cols-2 gap-10 mx-5 my-5">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (

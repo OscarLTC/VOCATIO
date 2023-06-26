@@ -77,6 +77,10 @@ export function ReportsChart(props: ReportsChartProps) {
           const skillsCount: any = getGroupsValues(res.answers, 3);
           setSkillsResult(skillsCount);
           setIsDataChartReady(true);
+        } else if (res.survey_programming.survey.id === 2) {
+          const skillsCount: any = getCategoriesValues(res.answers, 3);
+          setSkillsResult(skillsCount);
+          setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 3) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
           setSkillsResult(skillsCount);
@@ -206,6 +210,91 @@ export function ReportsChart(props: ReportsChartProps) {
                 datasets: [
                   {
                     label: 'Interes Principal',
+                    data: [
+                      skillsResult && skillsResult[0][1],
+                      skillsResult && skillsResult[1][1],
+                      skillsResult && skillsResult[2][1],
+                    ],
+                    borderColor: '#006699',
+                    borderWidth: 3,
+                    backgroundColor: ['#23ad8c', 'white', 'white'],
+                  },
+                ],
+              }}
+            />
+          )}
+          {props.surveyId == 2 && (
+            <Bar
+              ref={chartRef}
+              width={60}
+              height={'30px'}
+              options={{
+                animation: {
+                  delay: 0,
+                  duration: 0,
+                  onComplete: generate,
+                },
+                indexAxis: 'y' as const,
+                scales: {
+                  x: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                },
+                elements: {
+                  bar: {
+                    borderWidth: 3,
+                    borderRadius: {
+                      bottomRight: 10,
+                      topRight: 10,
+                    },
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: '#000',
+                    font: {
+                      size: 30,
+                    },
+                  },
+                  legend: {
+                    position: 'top' as const,
+                    labels: {
+                      font: {
+                        size: 30,
+                      },
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: [
+                  skillsResult && skillsResult[0][0],
+                  skillsResult && skillsResult[1][0],
+                  skillsResult && skillsResult[2][0],
+                ],
+                datasets: [
+                  {
+                    label: 'Arquetipo Principal',
                     data: [
                       skillsResult && skillsResult[0][1],
                       skillsResult && skillsResult[1][1],
