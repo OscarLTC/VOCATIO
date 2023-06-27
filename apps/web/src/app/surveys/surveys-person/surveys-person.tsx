@@ -420,6 +420,58 @@ export function SurveysPerson(props: SurveysPersonProps) {
                 )}
               </div>
             )}
+            {surveyId === 7 && (
+              <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 mx-5 my-10 text-sm ">
+                {surveyQuestions?.question?.map(
+                  (question: Question, index: number) => (
+                    <div
+                      key={question.id}
+                      className={` rounded-lg p-5  justify-center w-fit mx-auto bg-white ${
+                        errors[question.question_category[0]?.id] &&
+                        'border-red-500 border'
+                      } `}
+                    >
+                      <h2 className="font-bold text-center mt-5 text-md">
+                        {`${index + 1}. ${question.description}`}
+                      </h2>
+                      <div className="w-full flex justify-around mt-4">
+                        {question.question_alternative.map(
+                          (alternative, index) => (
+                            <label
+                              className={`m-2 w-20 h-20 rounded-full ${
+                                watch(`${question.question_category[0].id}`) ==
+                                alternative.id
+                                  ? 'border-2 border-[#003552]'
+                                  : ''
+                              }`}
+                              key={alternative.alternative.id}
+                            >
+                              <input
+                                className="hidden"
+                                type="radio"
+                                title={alternative.alternative.description}
+                                value={alternative.id}
+                                {...register(
+                                  `${question.question_category[0]?.id}`,
+                                  {
+                                    required: true,
+                                  }
+                                )}
+                              />
+                              <img
+                                src={`/src/assets/img/${alternative.alternative.id}.png`}
+                                alt=""
+                                title={alternative.alternative.description}
+                              />
+                            </label>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
             <div className="text-center mt-10">
               <button
                 ref={submitButtonRef}
