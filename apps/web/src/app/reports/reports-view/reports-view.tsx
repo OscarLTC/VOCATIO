@@ -17,7 +17,7 @@ export interface ReportsViewProps {}
 export function ReportsView(props: ReportsViewProps) {
   const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
   const [surveys, setSurveys] = useState<Array<SurveyProgramming>>([]);
-  const [surveysData, setSurveysData] = useState<SurveyProgramming>();
+  const [surveysData, setSurveysData] = useState<SurveyProgramming | null>();
   const [searchText, setSearchText] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -47,6 +47,7 @@ export function ReportsView(props: ReportsViewProps) {
   };
 
   const onSurveyEnterpriseChange = (selectedOption: any) => {
+    setSurveysData(null);
     setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
@@ -270,8 +271,6 @@ export function ReportsView(props: ReportsViewProps) {
                           ''
                         )}
                       </td>
-                      {/* <td>{JSON.stringify(survey)}</td> */}
-                      {/* <button onClick={testClck}>click</button> */}
                     </tr>
                   ))}
               </tbody>
