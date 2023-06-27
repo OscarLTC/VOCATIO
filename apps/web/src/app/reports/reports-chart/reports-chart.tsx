@@ -51,7 +51,7 @@ export function ReportsChart(props: ReportsChartProps) {
   const [maxIndexResult, setMaxIndexResult] = useState<number>(0);
   const [surveyPersonData, setSurveyPersonData] =
     useState<surveyProgrammingPerson>();
-  const [skillsResult, setSkillsResult] = useState();
+  const [skillsResult, setSkillsResult] = useState(null);
   const [pdfUrl, setPdfUrl] = useState<string>('');
   const [isDataChartReady, setIsDataChartReady] = useState(false);
   const [isPdfReady, setIsPdfReady] = useState(false);
@@ -71,6 +71,7 @@ export function ReportsChart(props: ReportsChartProps) {
 
   useEffectOnce(() => {
     getSurveyPersonData(props.pdfId).then((res) => {
+      setIsDataChartReady(false);
       if (res) {
         setSurveyPersonData(res);
         if (res.survey_programming.survey.id === 1) {
@@ -89,11 +90,19 @@ export function ReportsChart(props: ReportsChartProps) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
           setSkillsResult(skillsCount);
           setIsDataChartReady(true);
+        } else if (res.survey_programming.survey.id === 5) {
+          const skillsCount: any = getCategoriesValues(res.answers, 3);
+          setSkillsResult(skillsCount);
+          setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 6) {
           const counts = convertAnswersToCounts(res.answers);
           const resultMaxIndex = getMaxIndex(counts) + 1;
           setStylesResult(counts);
           setMaxIndexResult(resultMaxIndex);
+          setIsDataChartReady(true);
+        } else {
+          const skillsCount: any = getCategoriesValues(res.answers, 3);
+          setSkillsResult(skillsCount);
           setIsDataChartReady(true);
         }
       }
@@ -478,6 +487,91 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
+          {props.surveyId == 5 && (
+            <Bar
+              ref={chartRef}
+              width={60}
+              height={'30px'}
+              options={{
+                animation: {
+                  delay: 0,
+                  duration: 0,
+                  onComplete: generate,
+                },
+                indexAxis: 'y' as const,
+                scales: {
+                  x: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                },
+                elements: {
+                  bar: {
+                    borderWidth: 3,
+                    borderRadius: {
+                      bottomRight: 10,
+                      topRight: 10,
+                    },
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: '#000',
+                    font: {
+                      size: 30,
+                    },
+                  },
+                  legend: {
+                    position: 'top' as const,
+                    labels: {
+                      font: {
+                        size: 30,
+                      },
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: [
+                  skillsResult && skillsResult[0][0],
+                  skillsResult && skillsResult[1][0],
+                  skillsResult && skillsResult[2][0],
+                ],
+                datasets: [
+                  {
+                    label: 'Inteligencia Principal',
+                    data: [
+                      skillsResult && skillsResult[0][1],
+                      skillsResult && skillsResult[1][1],
+                      skillsResult && skillsResult[2][1],
+                    ],
+                    borderColor: '#006699',
+                    borderWidth: 3,
+                    backgroundColor: ['#23ad8c', 'white', 'white'],
+                  },
+                ],
+              }}
+            />
+          )}
           {props.surveyId == 6 && (
             <Doughnut
               ref={chartRef}
@@ -557,6 +651,91 @@ export function ReportsChart(props: ReportsChartProps) {
                     display: false,
                   },
                 },
+              }}
+            />
+          )}
+          {props.surveyId == 7 && (
+            <Bar
+              ref={chartRef}
+              width={60}
+              height={'30px'}
+              options={{
+                animation: {
+                  delay: 0,
+                  duration: 0,
+                  onComplete: generate,
+                },
+                indexAxis: 'y' as const,
+                scales: {
+                  x: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                    grid: {
+                      display: false,
+                    },
+                  },
+                },
+                elements: {
+                  bar: {
+                    borderWidth: 3,
+                    borderRadius: {
+                      bottomRight: 10,
+                      topRight: 10,
+                    },
+                  },
+                },
+                responsive: true,
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: '#000',
+                    font: {
+                      size: 30,
+                    },
+                  },
+                  legend: {
+                    position: 'top' as const,
+                    labels: {
+                      font: {
+                        size: 30,
+                      },
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: [
+                  skillsResult && skillsResult[0][0],
+                  skillsResult && skillsResult[1][0],
+                  skillsResult && skillsResult[2][0],
+                ],
+                datasets: [
+                  {
+                    label: 'Inteligencia Principal',
+                    data: [
+                      skillsResult && skillsResult[0][1],
+                      skillsResult && skillsResult[1][1],
+                      skillsResult && skillsResult[2][1],
+                    ],
+                    borderColor: '#006699',
+                    borderWidth: 3,
+                    backgroundColor: ['#23ad8c', 'white', 'white'],
+                  },
+                ],
               }}
             />
           )}
