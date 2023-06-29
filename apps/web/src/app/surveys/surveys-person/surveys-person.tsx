@@ -179,24 +179,24 @@ export function SurveysPerson(props: SurveysPersonProps) {
       surveyPerson.survey_programming.state_id == 2 &&
       surveyPerson.state?.id == 2 ? (
         <div>
-          <div className="p-4 flex text-lg justify-between">
+          <div className="p-4  flex max-sm:flex-col-reverse text-2xl sm:text-xl place-items-center sm:justify-between">
             <div>
-              <div className="flex">
+              <div className="sm:flex max-sm:mt-10">
                 <h2>Tipo de Encuesta:</h2>
-                <span className="ml-5 font-medium">
+                <span className="sm:ml-5 font-medium">
                   {surveyPerson?.survey_programming.survey?.name}
                 </span>
               </div>
-              <div className="flex mt-5">
+              <div className="sm:flex mt-5">
                 <h2>Encuesta Dirigida a:</h2>
-                <span className="ml-5 font-medium">
+                <span className="sm:ml-5 font-medium">
                   {surveyPerson?.person.name} {surveyPerson?.person.lastName}
                 </span>
               </div>
 
-              <div className="flex mt-5">
+              <div className="sm:flex mt-5">
                 <h2>Empresa - sección:</h2>
-                <span className="ml-5 font-medium">
+                <span className="sm:ml-5 font-medium">
                   {`${surveyPerson?.survey_programming.enterprise?.name} - ${surveyPerson?.survey_programming.section}`}
                 </span>
               </div>
@@ -218,7 +218,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
                     <h2 className="text-center font-bold my-5">
                       {`${index + 1}. ${item.category.name}`}
                     </h2>
-                    <div className="grid grid-cols-2 gap-10">
+                    <div className="grid sm:grid-cols-2 gap-10">
                       {item.questions.map((question: any) => (
                         <div
                           className={`border rounded p-2 ${
@@ -319,7 +319,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
               <div className="mx-10">
                 {surveyQuestions?.map((item: any, index: number) => (
                   <div key={index} className=" rounded-lg p-4 ">
-                    <h2 className="text-center mx-auto text-xl w-[600px] font-bold my-5">
+                    <h2 className="text-center mx-auto text-xl md:w-[600px] font-bold my-5">
                       {`${item.question}...`}
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-10 mx-auto bg-white p-4">
@@ -368,7 +368,7 @@ export function SurveysPerson(props: SurveysPersonProps) {
               </div>
             )}
             {surveyId === 6 && (
-              <div className="grid grid-cols-2 gap-10 mx-5 my-5">
+              <div className="grid sm:grid-cols-2 sm:gap-10 mx-5 my-5">
                 {surveyQuestions?.question?.map(
                   (question: Question, index: number) => (
                     <div

@@ -44,7 +44,7 @@ export function SignIn(props: SignInProps) {
   };
 
   return (
-    <div className="bg-[url('/src/assets/img/motivo_3.png')] bg-contain  h-[100vh] w-[100vw] flex">
+    <div className="bg-[url('/src/assets/img/motivo_3.png')] bg-contain h-[100vh] w-[100vw] flex">
       <form
         className="rounded text-center h-fit self-center mx-auto bg-white p-5 "
         onSubmit={handleSubmit(onSubmit)}
@@ -55,13 +55,13 @@ export function SignIn(props: SignInProps) {
           src="/src/assets/img/logo_principal_color.png"
           alt=""
         />
-        <div className="flex   gap-4 items-center  pt-4  place-content-center">
-          <span className="w-44 text-start ">Nombre de Usuario:</span>
+        <div className="sm:flex sm:gap-4 items-center  pt-4  place-content-center">
+          <span className="sm:w-44 text-start  w-full">Nombre de Usuario:</span>
           <input
             {...register('username', {
               required: true,
             })}
-            className={`w-52 bg-gray-200 p-2 rounded outline-none ${
+            className={`sm:w-52  w-full bg-gray-200 p-2 rounded outline-none ${
               errors.username && 'outline-red-400 outline-1'
             }`}
             type="text"
@@ -69,14 +69,14 @@ export function SignIn(props: SignInProps) {
             onChange={onInputChage}
           />
         </div>
-        <div className="flex gap-4 items-center  place-content-center">
-          <span className="w-44 text-start">Contraseña:</span>
+        <div className="sm:flex mt-5 gap-4 items-center  place-content-center">
+          <span className="sm:w-44 w-full text-start">Contraseña:</span>
           <div className="flex mt-3 items-center  place-content-end ">
             <input
               {...register('password', {
                 required: true,
               })}
-              className={`w-52 bg-gray-200  p-2 rounded outline-none ${
+              className={`sm:w-52  w-full bg-gray-200  p-2 rounded outline-none ${
                 errors.password && 'outline-red-400 outline-1'
               }`}
               type={!showPassword ? 'password' : 'text'}
