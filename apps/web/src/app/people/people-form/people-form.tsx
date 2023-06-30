@@ -11,8 +11,6 @@ import { DocType } from '../../models/docType.model';
 import { Enterprise } from '../../models/enterprise.model';
 import { peopleState } from '../../store/people/people.atom';
 import { environment } from '../../../environments/environment';
-import { genreState } from '../../store/genre/genre.atom';
-import { Genre } from '../../models/genre.model';
 
 export interface PeopleFormProps {
   formState: number;
@@ -112,17 +110,17 @@ export function PeopleForm(props: PeopleFormProps) {
     }
   }, []);
   return (
-    <div className="p-8">
+    <div className="sm:p-8 p-2">
       <h1 className="text-4xl ">
         {props.formState === 1 ? 'Crear persona' : 'Actualizar persona'}
       </h1>
       <div className="mt-10">
         <form
-          className="max-w-xl bg-white mx-auto shadow px-5 py-10 rounded-lg"
+          className="max-w-xl bg-white mx-auto max-sm:text-sm shadow px-5 py-10 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex gap-4 items-center place-content-center">
-            <span className="w-44 text-start">Nombres:</span>
+          <div className="flex gap-4 items-center  place-content-center">
+            <span className="w-44 text-start ">Nombres:</span>
             <input
               {...register('name', {
                 required: true,
@@ -165,7 +163,7 @@ export function PeopleForm(props: PeopleFormProps) {
           </div>
 
           <div className="flex gap-4 items-center mt-5 place-content-center">
-            <span className="w-44 text-start">Tipo de documento:</span>
+            <span className="w-44 text-start ">Tipo de documento:</span>
             <select
               {...register('docType_id', { required: true })}
               defaultValue={'docType'}

@@ -94,15 +94,17 @@ export function EnterprisesList(props: EnterprisesListProps) {
   }, [enterprises]);
 
   return (
-    <div className="my-8">
+    <div className="sm:my-8 bg-[aliceblue]">
       <h1 className="text-4xl px-4 text-left">Lista de Empresas</h1>
       <div className="p-4 mt-5">
-        <div className="flex justify-between ">
+        <div className="sm:flex justify-between ">
           <div className="my-auto flex gap-3">
-            <span className="text-lg self-center">Buscar empresa: </span>
+            <span className="text-lg self-center text-left w-full">
+              Buscar empresa:{' '}
+            </span>
             <input
               type="text"
-              className="bg-white  rounded px-2 outline-none"
+              className="bg-white max-sm:w-[150px] rounded px-2 outline-none"
               onChange={(e) => {
                 setSearchData(e.target.value);
               }}
@@ -115,36 +117,48 @@ export function EnterprisesList(props: EnterprisesListProps) {
               <ImSearch size={20} color="white" />
             </span>
           </div>
-          <Link to="/empresas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+          <Link to="/empresas/save" className="flex">
+            <button className="py-2 px-5 max-sm:mt-5 w-full rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
               Crear Empresa
             </button>
           </Link>
         </div>
-        <div className="mt-10">
+        <div className="mt-10 overflow-y-auto h-[30rem]">
           <table className="w-full p-4">
             <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
                 <th
-                  className="p-2 cursor-pointer"
+                  className="p-2 cursor-pointer whitespace-nowrap p-2"
                   onClick={() => sortByHeader(1)}
                 >
                   ID
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(2)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(2)}
+                >
                   Empresa
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(3)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(3)}
+                >
                   Nombre de contacto
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(4)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(4)}
+                >
                   Celular
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(5)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(5)}
+                >
                   Correo
                 </th>
-                <th>Giro de negocio</th>
-                <th>Opciones</th>
+                <th className="whitespace-nowrap p-2">Giro de negocio</th>
+                <th className="whitespace-nowrap p-2">Opciones</th>
               </tr>
             </thead>
             <tbody>

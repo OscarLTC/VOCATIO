@@ -101,7 +101,7 @@ export function EnterprisesForm(props: EnterprisesFormProps) {
       </h1>
       <div className="mt-24">
         <form
-          className="max-w-xl bg-white mx-auto shadow px-5 py-10 rounded-lg"
+          className="max-w-xl bg-white mx-auto max-sm:text-sm shadow px-5 py-10 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex gap-4 items-center place-content-center">

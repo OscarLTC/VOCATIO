@@ -254,7 +254,7 @@ export function SurveysList(props: SurveysListProps) {
           </Link>
         </div>
 
-        <div className="mt-0">
+        <div className="mt-0 overflow-y-auto h-[30rem]">
           <table className="w-full p-4">
             <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
