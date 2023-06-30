@@ -1,5 +1,5 @@
 import './people-list.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Person } from '../../models/person.model';
@@ -9,8 +9,6 @@ import { useRecoilState } from 'recoil';
 import { peopleState } from '../../store/people/people.atom';
 import Modal from '../../components/modal/modal';
 import { environment } from '../../../environments/environment';
-import Chart from '../../components/chart/chart';
-import { Doughnut, Pie } from 'react-chartjs-2';
 
 /* eslint-disable-next-line */
 export interface PeopleListProps {}
@@ -95,15 +93,17 @@ export function PeopleList(props: PeopleListProps) {
   }, [people]);
 
   return (
-    <div className="py-8 bg-[aliceblue]">
+    <div className="sm:py-8 bg-[aliceblue]">
       <h1 className="text-4xl px-4 text-left">Lista de Personas</h1>
       <div className="p-4 mt-5">
-        <div className="flex justify-between ">
+        <div className="sm:flex justify-between ">
           <div className="my-auto flex gap-3">
-            <span className="text-lg self-center">Buscar persona: </span>
+            <span className="text-md sm:text-lg w-full self-center text-left">
+              Buscar persona:
+            </span>
             <input
               type="text"
-              className="bg-white  rounded px-2 outline-none"
+              className="bg-white max-sm:w-[150px] rounded px-2 outline-none"
               onChange={(e) => {
                 setSearchData(e.target.value);
               }}
@@ -116,8 +116,8 @@ export function PeopleList(props: PeopleListProps) {
               <ImSearch size={20} color="white" />
             </span>
           </div>
-          <Link to="/personas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+          <Link to="/personas/save" className="flex">
+            <button className="py-2 px-5 max-sm:mt-5 w-full rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
               Crear Persona
             </button>
           </Link>
@@ -127,30 +127,48 @@ export function PeopleList(props: PeopleListProps) {
             <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
                 <th
-                  className="p-2 cursor-pointer"
+                  className=" cursor-pointer whitespace-nowrap p-2"
                   onClick={() => sortByHeader(1)}
                 >
                   ID
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(2)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(2)}
+                >
                   Nombres
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(3)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(3)}
+                >
                   Apellidos
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(4)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(4)}
+                >
                   Nro. Documento
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(5)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(5)}
+                >
                   Celular
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(6)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(6)}
+                >
                   Correo
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(7)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(7)}
+                >
                   Empresa
                 </th>
-                <th>Opciones</th>
+                <th className="whitespace-nowrap p-2">Opciones</th>
               </tr>
             </thead>
             <tbody>
