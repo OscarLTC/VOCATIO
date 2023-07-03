@@ -242,17 +242,17 @@ export function SurveysForm(props: SurveysFormProps) {
         </h1>
         <div className="mt-10 flex justify-center gap-10">
           <form
-            className="max-w-xl bg-white text-sm shadow px-10 py-10 rounded-lg"
+            className="max-w-xl bg-white text-sm shadow px-5 py-5 lg:px-10 lg:py-10 rounded-lg"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Programación:</span>
+              <span className="w-24 sm:w-44  text-start">Programación:</span>
               <input
                 {...register('name', {
                   required: true,
                   pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/,
                 })}
-                className={`w-64 bg-gray-200 p-2 rounded outline-none ${
+                className={`sm:w-64 w-56 bg-gray-200 p-2 rounded outline-none ${
                   errors.name && 'outline-red-400 outline-1'
                 }`}
                 type="text"
@@ -262,11 +262,11 @@ export function SurveysForm(props: SurveysFormProps) {
             {props.formState == 1 ? (
               <>
                 <div className="flex gap-4 items-center mt-5 place-content-center">
-                  <span className="w-44 text-start">Empresa:</span>
+                  <span className="w-24 sm:w-44 text-start">Empresa:</span>
                   <select
                     {...register('enterprise_id', { required: true })}
                     defaultValue={'enterprise_id'}
-                    className="bg-gray-200 py-2 w-64 px-2 rounded outline-none"
+                    className="bg-gray-200 py-2 sm:w-64 w-56 px-2 rounded outline-none"
                   >
                     {enterprises?.map((enterprise: Enterprise) => (
                       <option key={enterprise.id} value={enterprise.id}>
@@ -276,7 +276,7 @@ export function SurveysForm(props: SurveysFormProps) {
                   </select>
                 </div>
                 <div className="flex gap-4 items-center mt-5 place-content-center">
-                  <span className="w-44 text-start">Encuesta:</span>
+                  <span className="w-24 sm:w-44 text-start">Encuesta:</span>
                   <Select
                     required
                     isMulti
@@ -296,7 +296,7 @@ export function SurveysForm(props: SurveysFormProps) {
                       value: person.id,
                       label: `${person.name}`,
                     }))}
-                    className="basic-multi-select bg-gray-200 w-64 rounded outline-none"
+                    className="basic-multi-select bg-gray-200 sm:w-64 w-56 rounded outline-none"
                     classNamePrefix="select"
                     onChange={onSelectSurveyChange}
                   />
@@ -306,13 +306,13 @@ export function SurveysForm(props: SurveysFormProps) {
               ''
             )}
             <div className="flex gap-4 items-center mt-5  place-content-center">
-              <span className="w-44 text-start">Sección:</span>
+              <span className="w-24 sm:w-44 text-start">Sección:</span>
               <input
                 {...register('section', {
                   required: true,
                   pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/,
                 })}
-                className={`w-64 bg-gray-200 p-2 rounded outline-none ${
+                className={`sm:w-64 w-56 bg-gray-200 p-2 rounded outline-none ${
                   errors.name && 'outline-red-400 outline-1'
                 }`}
                 type="text"
@@ -321,12 +321,12 @@ export function SurveysForm(props: SurveysFormProps) {
             </div>
 
             <div className="flex gap-4 items-center mt-5 place-content-center">
-              <span className="w-44 text-start">Fecha de Inicio:</span>
+              <span className="w-24 sm:w-44 text-start">Fecha de Inicio:</span>
               <input
                 {...register('startDate', {
                   required: true,
                 })}
-                className={`w-64 bg-gray-200 p-2 rounded outline-none ${
+                className={`sm:w-64 w-56 bg-gray-200 p-2 rounded outline-none ${
                   errors.startDate && 'outline-red-400 outline-1'
                 }`}
                 type="date"
@@ -334,12 +334,12 @@ export function SurveysForm(props: SurveysFormProps) {
               />
             </div>
             <div className="flex gap-4 items-center mt-5 place-content-center">
-              <span className="w-44 text-start">Fecha de Fin:</span>
+              <span className="w-24 sm:w-44 text-start">Fecha de Fin:</span>
               <input
                 {...register('endDate', {
                   required: true,
                 })}
-                className={`w-64 bg-gray-200 p-2 rounded outline-none ${
+                className={`sm:w-64 w-56 bg-gray-200 p-2 rounded outline-none ${
                   errors.endDate && 'outline-red-400 outline-1'
                 }`}
                 type="date"
