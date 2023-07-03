@@ -51,7 +51,9 @@ export function Navbar(props: NavbarProps) {
                     ? 'flex items-center justify-start w-full p-4 my-2 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
                     : 'flex items-center justify-start w-full p-4 my-2 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
                 }
-                onClick={() => setSelected('personas')}
+                onClick={() => {
+                  setSelected('personas');
+                }}
               >
                 <span className="text-left">
                   <IoPeopleSharp size={24} />
@@ -127,10 +129,16 @@ export function Navbar(props: NavbarProps) {
           className={
             !isMenuHidden
               ? 'fixed left-0 select-none top-0 w-[60%] h-full border-r border-gray-600 bg-white ease-in-out duration-500'
-              : 'fixed left-[-100%] select-none'
+              : 'fixed left-[-100%] top-0  h-full   select-none ease-out duration-1000'
           }
         >
-          <Link to="/" onClick={() => setSelected('encuestas')}>
+          <Link
+            to="/"
+            onClick={() => {
+              setSelected('encuestas');
+              setIsMenuHidden(true);
+            }}
+          >
             <img
               className="w-20 mx-auto my-10"
               src="/src/assets/img/image.png"
@@ -145,7 +153,10 @@ export function Navbar(props: NavbarProps) {
                     ? 'flex items-center justify-start w-full p-4 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
                     : 'flex items-center justify-start w-full p-4 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
                 }
-                onClick={() => setSelected('personas')}
+                onClick={() => {
+                  setSelected('personas');
+                  setIsMenuHidden(true);
+                }}
               >
                 <span className="text-left">
                   <IoPeopleSharp size={24} />
@@ -161,7 +172,10 @@ export function Navbar(props: NavbarProps) {
                     ? 'flex items-center justify-start w-full p-4 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
                     : 'flex items-center justify-start w-full p-4 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
                 }
-                onClick={() => setSelected('empresas')}
+                onClick={() => {
+                  setSelected('empresas');
+                  setIsMenuHidden(true);
+                }}
               >
                 <span className="text-left">
                   <HiBuildingOffice2 size={24} />
@@ -177,7 +191,10 @@ export function Navbar(props: NavbarProps) {
                     ? 'flex items-center justify-start w-full p-4  font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
                     : 'flex items-center justify-start w-full p-4  font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
                 }
-                onClick={() => setSelected('encuestas')}
+                onClick={() => {
+                  setSelected('encuestas');
+                  setIsMenuHidden(true);
+                }}
               >
                 <span className="text-left">
                   <MdPendingActions size={24} />
@@ -195,7 +212,10 @@ export function Navbar(props: NavbarProps) {
                     ? 'flex items-center justify-start w-full p-4 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
                     : 'flex items-center justify-start w-full p-4 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
                 }
-                onClick={() => setSelected('reportes')}
+                onClick={() => {
+                  setSelected('reportes');
+                  setIsMenuHidden(true);
+                }}
               >
                 <span className="text-left">
                   <HiOutlineClipboardDocumentList size={24} />

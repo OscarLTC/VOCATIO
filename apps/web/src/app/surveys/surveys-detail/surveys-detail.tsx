@@ -20,56 +20,60 @@ export function SurveysDetail(props: SurveysDetailProps) {
   }, []);
 
   return (
-    <div className="p-8">
-      <h1 className="text-4xl">
+    <div className="sm:p-8">
+      <h1 className="sm:text-4xl text-2xl font-medium">
         Detalle de la Encuesta - ID {surveyDetails ? surveyDetails?.id : 0}
       </h1>
       <div className="p-8">
-        <div className="mt-10 flex justify-center gap-10">
+        <div className="mt-10 flex justify-center gap-10 max-md:flex-col ">
           <div className="max-w-2xl bg-white  shadow px-5 py-10 rounded-lg text-left">
             <h2 className=" text-left font-medium text-2xl">
               Programación: {surveyDetails?.name}
             </h2>
             <div className="mt-10 flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Tipo de Encuesta: </span>
+              <span className="w-36 sm:w-44 text-start">Tipo de Encuesta:</span>
               <input
-                className="w-52 bg-gray-200 p-2 rounded outline-none"
+                className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="text"
                 readOnly
                 defaultValue={surveyDetails?.survey.name}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Empresa Solicitante: </span>
+              <span className="w-36 sm:w-44 text-start">
+                Empresa Solicitante:
+              </span>
               <input
-                className="w-52 bg-gray-200 p-2 rounded outline-none"
+                className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="text"
                 readOnly
                 defaultValue={surveyDetails?.enterprise.name}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Seccion: </span>
+              <span className="w-36 sm:w-44 text-start">Seccion: </span>
               <input
-                className="w-52 bg-gray-200 p-2 rounded outline-none"
+                className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="text"
                 readOnly
                 defaultValue={surveyDetails?.section}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Fecha de Inicio: </span>
+              <span className="w-36 sm:w-44 text-start">Fecha de Inicio: </span>
               <input
-                className="w-52 bg-gray-200 p-2 rounded outline-none"
+                className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="date"
                 readOnly
                 defaultValue={surveyDetails?.startDate}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
-              <span className="w-44 text-start">Empresa Solicitante: </span>
+              <span className="w-36 sm:w-44 text-start">
+                Empresa Solicitante:
+              </span>
               <input
-                className="w-52 bg-gray-200 p-2 rounded outline-none"
+                className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="date"
                 readOnly
                 defaultValue={surveyDetails?.endDate}
@@ -77,12 +81,12 @@ export function SurveysDetail(props: SurveysDetailProps) {
             </div>
           </div>
           <div className="max-w-4xl w-full text-center bg-white  shadow px-5 py-10 rounded-lg ">
-            <div className="flex justify-between">
+            <div className="lg:flex justify-between">
               <h2 className=" text-left font-medium text-2xl">
                 Listado de Personas:
               </h2>
-              <Link to={`/encuestas/${surveyDetails?.id}`}>
-                <span className="p-2 text-sm bg-gray-600 rounded text-white">
+              <Link to={`/encuestas/${surveyDetails?.id}`} className="flex">
+                <span className="p-2 text-sm bg-gray-600 rounded text-white max-lg:mt-4 w-full">
                   Agregar personas
                 </span>
               </Link>

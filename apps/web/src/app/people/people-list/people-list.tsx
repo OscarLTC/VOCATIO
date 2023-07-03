@@ -179,8 +179,8 @@ export function PeopleList(props: PeopleListProps) {
                       {person.id}
                     </Link>
                   </td>
-                  <td>{person.name}</td>
-                  <td>{person.lastName}</td>
+                  <td className="whitespace-nowrap p-2">{person.name}</td>
+                  <td className="whitespace-nowrap p-2">{person.lastName}</td>
                   <td>{person.docNumber}</td>
                   <td>{person.phoneNumber}</td>
                   <td>{person.emailAddress}</td>

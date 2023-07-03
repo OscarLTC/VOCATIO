@@ -135,17 +135,19 @@ export function SurveysList(props: SurveysListProps) {
     onStateClick(0);
   }, [surveys]);
   return (
-    <div className="my-8">
+    <div className="sm:py-8 bg-[aliceblue]">
       <h1 className="text-4xl px-4 text-left">
         Lista de Encuestas Programadas
       </h1>
       <div className="p-4 mt-5">
-        <div className="flex justify-between ">
-          <div className="my-auto flex gap-3">
-            <span className="text-lg self-center">Buscar encuesta: </span>
+        <div className="xl:flex justify-between ">
+          <div className="my-auto flex gap-3 mb-4">
+            <span className="text-md sm:text-lg w-full self-center text-left">
+              Buscar encuesta:
+            </span>
             <input
               type="text"
-              className="bg-white  rounded px-2 outline-none"
+              className="bg-white max-sm:w-[150px] rounded px-2 outline-none"
               onChange={(e) => {
                 setSearchData(e.target.value);
               }}
@@ -158,7 +160,7 @@ export function SurveysList(props: SurveysListProps) {
               <ImSearch size={20} color="white" />
             </span>
           </div>
-          <div className="mt-0 w-fit mx-auto text-center ">
+          <div className="mt-0 w-fit mx-auto text-center xl:block hidden">
             <ul className="flex flex-wrap text-md font-medium text-center text-gray-500 border-b border-gray-200 ">
               <li
                 className="cursor-pointer"
@@ -247,11 +249,100 @@ export function SurveysList(props: SurveysListProps) {
               </li>
             </ul>
           </div>
-          <Link to="/encuestas/save">
-            <button className="py-2 px-5 rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
+          <Link to="/encuestas/save" className="">
+            <button className="py-2 px-5 max-sm:mt-5 w-full rounded-lg text-white bg-[#5a6268] hover:bg-[#5a6268]">
               Programar Encuesta
             </button>
           </Link>
+          <div className="mt-4 w-fit text-sm mx-auto text-center block xl:hidden">
+            <ul className="flex flex-wrap place-content-center text-md font-medium text-center text-gray-500 border-b border-gray-200 ">
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(0);
+                  onStateClick(0);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 0
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Todos
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(1);
+                  onStateClick(1);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 1
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  En Proceso
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(2);
+                  onStateClick(2);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 2
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Activas
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(3);
+                  onStateClick(3);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 3
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Finalizadas
+                </p>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  setSurveyState(4);
+                  onStateClick(4);
+                }}
+              >
+                <p
+                  className={`inline-block p-4 rounded-t-lg ${
+                    surveyState == 4
+                      ? 'text-gray-800 bg-white  active '
+                      : 'hover:text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Canceladas
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="mt-0 overflow-y-auto h-[30rem]">
@@ -259,25 +350,40 @@ export function SurveysList(props: SurveysListProps) {
             <thead className="justify-between border-y border-gray-600 select-none">
               <tr className="text-gray-400">
                 <th
-                  className="p-2 cursor-pointer"
+                  className="p-2 cursor-pointer whitespace-nowrap"
                   onClick={() => sortByHeader(1)}
                 >
                   ID
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(2)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(2)}
+                >
                   Programación
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(3)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(3)}
+                >
                   Empresa
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(4)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(4)}
+                >
                   Sección
                 </th>
-                <th>Tipo de Encuesta</th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(5)}>
+                <th className="whitespace-nowrap p-2">Tipo de Encuesta</th>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(5)}
+                >
                   Fecha de Inicio
                 </th>
-                <th className="cursor-pointer" onClick={() => sortByHeader(6)}>
+                <th
+                  className="cursor-pointer whitespace-nowrap p-2"
+                  onClick={() => sortByHeader(6)}
+                >
                   Fecha de Fin
                 </th>
                 <th>Estado</th>
@@ -296,10 +402,12 @@ export function SurveysList(props: SurveysListProps) {
                       {survey.id}
                     </Link>
                   </td>
-                  <td>{survey.name}</td>
+                  <td className="whitespace-nowrap p-2">{survey.name}</td>
                   <td>{survey.enterprise.name}</td>
                   <td>{survey.section}</td>
-                  <td>{survey.survey.name}</td>
+                  <td className="whitespace-nowrap p-2">
+                    {survey.survey.name}
+                  </td>
                   <td>{formatDate(survey.startDate)}</td>
                   <td>{formatDate(survey.endDate)}</td>
                   <td className="truncate mx-auto">

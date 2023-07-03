@@ -94,17 +94,17 @@ export function ReportsView(props: ReportsViewProps) {
   });
 
   return (
-    <div className="my-8">
-      <h1 className="text-4xl px-4 text-left ">Reportes</h1>
-      <div className="p-4 mt-5">
+    <div className="sm:my-8 bg-[aliceblue]">
+      <h1 className="sm:text-4xl text-2xl px-4 text-left ">Reportes</h1>
+      <div className="p-4 mt-5 text-sm">
         <form
           className="w-fit bg-white  shadow px-4 py-4 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex gap-4 ">
+          <div className="md:flex gap-4 ">
             <div>
-              <div className="flex gap-4 items-center ">
-                <span className="w-44 text-start">Empresa:</span>
+              <div className="sm:flex gap-1 items-center text-left">
+                <span className="w-24 text-start">Empresa:</span>
                 <Select
                   styles={{
                     control: (baseStyles, state) => ({
@@ -118,7 +118,7 @@ export function ReportsView(props: ReportsViewProps) {
                       textAlign: 'left',
                     }),
                   }}
-                  className="w-[500px] bg-gray-200 rounded outline-none"
+                  className="w-full sm:w-[300px] bg-gray-200 rounded outline-none max-sm:mt-4"
                   id="enterprise_id"
                   {...register('enterprise_id', { required: true })}
                   options={entreprises?.map((enterprise: any) => ({
@@ -128,8 +128,8 @@ export function ReportsView(props: ReportsViewProps) {
                   onChange={onEnterpriseChange}
                 />
               </div>
-              <div className="flex gap-4 mt-5 items-center ">
-                <span className="w-44 text-start">Encuesta:</span>
+              <div className="sm:flex gap-1 mt-5 items-center  text-left">
+                <span className="w-24 text-start">Encuesta:</span>
                 <Select
                   styles={{
                     control: (baseStyles, state) => ({
@@ -143,7 +143,7 @@ export function ReportsView(props: ReportsViewProps) {
                       textAlign: 'left',
                     }),
                   }}
-                  className="w-[500px] bg-gray-200 rounded outline-none"
+                  className="w-full sm:w-[300px] bg-gray-200 rounded outline-none max-sm:mt-4"
                   id="surveyEnterprise_id"
                   {...register('surveyEnterprise_id', { required: true })}
                   options={surveys.map((survey: SurveyProgramming) => ({
@@ -154,7 +154,7 @@ export function ReportsView(props: ReportsViewProps) {
                 />
               </div>
             </div>
-            <div className="flex self-end gap-2 text-white">
+            <div className="flex self-end gap-2 mt-4 md:mt-0 text-white">
               <button className="py-2 px-4 rounded bg-yellow-400 h-fit flex">
                 <HiDocumentSearch className="self-center mr-2" size={25} />
                 <span>Ver Estado</span>
@@ -175,7 +175,7 @@ export function ReportsView(props: ReportsViewProps) {
         </form>
         {surveysData && (
           <div className="mt-10 ">
-            <div className="text-left flex">
+            <div className="text-left sm:flex">
               <input
                 type="text"
                 placeholder="Nombre / Apellido"
@@ -183,98 +183,102 @@ export function ReportsView(props: ReportsViewProps) {
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
-              <div className="flex items-center ml-10 font-bold gap-2 h-fit bg-neutral-200 p-2 rounded self-center">
-                <p className="uppercase">
-                  Total:
-                  <span className="ml-2 ">
-                    {surveysData.survey_programming_person.length}
-                  </span>
-                </p>
-                <div className="w-8 h-8 ml-8 bg-green-600 rounded-full"></div>
-                <span>
-                  {
-                    surveysData?.survey_programming_person.filter(
-                      (a) => a.state.id === 3
-                    ).length
-                  }
-                </span>
-                <div className="w-8 h-8 ml-2 bg-red-600 rounded-full"></div>
-                <span>
-                  {
-                    surveysData?.survey_programming_person.filter(
-                      (a) => a.state.id === 2
-                    ).length
-                  }
-                </span>
-              </div>
-              <div className="flex items-center ml-2  font-bold gap-2 h-fit bg-neutral-200 p-2 rounded self-center">
-                <p className="uppercase">
-                  <span className="ml-2">
-                    {(
-                      (surveysData?.survey_programming_person.filter(
+              <div className="sm:flex">
+                <div className="flex items-center sm:ml-10 max-sm:mt-2 w-fit font-bold gap-2 h-fit bg-neutral-200 p-2 rounded self-center">
+                  <p className="uppercase">
+                    Total:
+                    <span className="ml-2 ">
+                      {surveysData.survey_programming_person.length}
+                    </span>
+                  </p>
+                  <div className="w-8 h-8 ml-8 bg-green-600 rounded-full"></div>
+                  <span>
+                    {
+                      surveysData?.survey_programming_person.filter(
                         (a) => a.state.id === 3
-                      ).length /
-                        surveysData.survey_programming_person.length) *
-                      100
-                    ).toFixed(1)}
-                    %
+                      ).length
+                    }
                   </span>
-                </p>
+                  <div className="w-8 h-8 ml-2 bg-red-600 rounded-full"></div>
+                  <span>
+                    {
+                      surveysData?.survey_programming_person.filter(
+                        (a) => a.state.id === 2
+                      ).length
+                    }
+                  </span>
+                </div>
+                <div className="flex items-center sm:ml-2 max-sm:mt-2 w-fit font-bold gap-2 h-fit bg-neutral-200 p-2 rounded self-center">
+                  <p className="uppercase">
+                    <span className="ml-2">
+                      {(
+                        (surveysData?.survey_programming_person.filter(
+                          (a) => a.state.id === 3
+                        ).length /
+                          surveysData.survey_programming_person.length) *
+                        100
+                      ).toFixed(1)}
+                      %
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
-            <table className="w-full p-4">
-              <thead className="justify-between border-y border-gray-600">
-                <tr className="text-gray-400">
-                  <th className="p-2">ID</th>
-                  <th className="p-2">Nombre</th>
-                  <th>Estado</th>
-                  <th>Reporte</th>
-                </tr>
-              </thead>
-              <tbody>
-                {surveysData?.survey_programming_person
-                  .filter((survey) => {
-                    const searchTerms = searchText
-                      .toLocaleLowerCase()
-                      .split(' ');
-                    const fullName = `${survey.person.name} ${survey.person.lastName}`;
-                    return searchTerms.every((term) =>
-                      fullName.toLocaleLowerCase().includes(term)
-                    );
-                  })
-                  .map((survey) => (
-                    <tr
-                      className="even:bg-white odd:bg-gray-100"
-                      key={survey.person.id}
-                    >
-                      <td className="w-20"> {survey.person.id}</td>
-                      <td className="w-96">
-                        {survey.person.name} {survey.person.lastName}
-                      </td>
-                      <td className="w-20">
-                        {survey.state.id == 2 ? (
-                          <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
-                        ) : (
-                          <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
-                        )}
-                      </td>
-                      {/* <td>
+            <div className="mt-3 overflow-y-auto h-[30rem]">
+              <table className="w-full p-4">
+                <thead className="justify-between border-y border-gray-600">
+                  <tr className="text-gray-400">
+                    <th className="p-2">ID</th>
+                    <th className="p-2">Nombre</th>
+                    <th>Estado</th>
+                    <th>Reporte</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {surveysData?.survey_programming_person
+                    .filter((survey) => {
+                      const searchTerms = searchText
+                        .toLocaleLowerCase()
+                        .split(' ');
+                      const fullName = `${survey.person.name} ${survey.person.lastName}`;
+                      return searchTerms.every((term) =>
+                        fullName.toLocaleLowerCase().includes(term)
+                      );
+                    })
+                    .map((survey) => (
+                      <tr
+                        className="even:bg-white odd:bg-gray-100"
+                        key={survey.person.id}
+                      >
+                        <td className="w-20"> {survey.person.id}</td>
+                        <td className="md:w-96 whitespace-nowrap p-2">
+                          {survey.person.name} {survey.person.lastName}
+                        </td>
+                        <td className="w-20">
+                          {survey.state.id == 2 ? (
+                            <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
+                          ) : (
+                            <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
+                          )}
+                        </td>
+                        {/* <td>
                         <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
                       </td> */}
-                      <td className="">
-                        {survey.state.id == 3 ? (
-                          <ReportsChart
-                            pdfId={survey.id}
-                            surveyId={surveysData.survey.id}
-                          />
-                        ) : (
-                          ''
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                        <td className="">
+                          {survey.state.id == 3 ? (
+                            <ReportsChart
+                              pdfId={survey.id}
+                              surveyId={surveysData.survey.id}
+                            />
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
