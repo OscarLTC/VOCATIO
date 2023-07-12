@@ -7,6 +7,7 @@ import Surveys from './surveys/surveys';
 import Reports from './reports/reports';
 import SignIn from './auth/sign-in/sign-in';
 import SurveysPerson from './surveys/surveys-person/surveys-person';
+import Dashboard from './dashboard/dashboard';
 
 export function App() {
   return (
@@ -18,6 +19,14 @@ export function App() {
           element={
             <Layout>
               <Surveys />
+            </Layout>
+          }
+        />
+        <Route
+          path="/dashboard/*"
+          element={
+            <Layout>
+              <Dashboard />
             </Layout>
           }
         />

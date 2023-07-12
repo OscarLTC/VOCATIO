@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import './navbar.scss';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   HiBuildingOffice2,
   HiOutlineClipboardDocumentList,
 } from 'react-icons/hi2';
-import { RiLogoutBoxLine, RiSurveyFill } from 'react-icons/ri';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 import { IoPeopleSharp } from 'react-icons/io5';
-import { MdPendingActions } from 'react-icons/md';
-import path from 'path';
+// import { BiSolidDashboard } from 'react-icons/bi';
+import { MdPendingActions, MdDashboard } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../store/user/user.atom';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
@@ -44,6 +44,22 @@ export function Navbar(props: NavbarProps) {
           </div>
           <nav className="mt-6">
             <div>
+              <Link
+                to="/dashboard"
+                className={
+                  selcted === 'dashboard'
+                    ? 'flex items-center justify-start w-full p-4 my-2 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
+                    : 'flex items-center justify-start w-full p-4 my-2 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
+                }
+                onClick={() => {
+                  setSelected('dashboard');
+                }}
+              >
+                <span className="text-left">
+                  <MdDashboard size={24} />
+                </span>
+                <span className="mx-4 text-xs font-normal">Dashboard</span>
+              </Link>
               <Link
                 to="/personas"
                 className={
