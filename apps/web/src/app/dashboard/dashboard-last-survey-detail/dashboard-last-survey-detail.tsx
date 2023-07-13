@@ -21,7 +21,7 @@ export function DashboardLastSurveyDetail(
 
   return (
     <div className="basis-1/4 bg-[#ffffff] rounded-lg shadow flex flex-col justify-center p-2">
-      <h2 className="text-left font-bold">Detalle de la ultima encuesta</h2>
+      <h2 className="text-left font-bold">Detalle de la última encuesta</h2>
       <div className="h-full justify-center flex">
         <div className="self-center w-full p-1">
           {lastSurveyData ? (

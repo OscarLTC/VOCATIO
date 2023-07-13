@@ -33,7 +33,7 @@ export function SurveysList(props: SurveysListProps) {
       .delete(`${environment.apiUrl}/surveyProgramming/${id}`)
       .then(() => {
         setIsDeleted(false);
-        getSurveysEnterprise();
+        getSurveysProgramming();
         setIsModalOpen(false);
       });
   };
@@ -42,7 +42,7 @@ export function SurveysList(props: SurveysListProps) {
     await axios
       .put(`${environment.apiUrl}/surveyProgramming/${id}/cancel`)
       .then(() => {
-        getSurveysEnterprise();
+        getSurveysProgramming();
         setIsModalOpen(false);
       });
   };
@@ -54,7 +54,7 @@ export function SurveysList(props: SurveysListProps) {
         .get(`${environment.apiUrl}/surveyProgramming/search/${data}`)
         .then((res) => setSurveys(res.data.sort((a: any, b: any) => a - b)));
     } else {
-      getSurveysEnterprise();
+      getSurveysProgramming();
     }
   };
 
@@ -64,7 +64,7 @@ export function SurveysList(props: SurveysListProps) {
     }
   };
 
-  const getSurveysEnterprise = () => {
+  const getSurveysProgramming = () => {
     axios.get(`${environment.apiUrl}/surveyProgramming/all`).then((res) => {
       setSurveys(res.data.sort((a: any, b: any) => b.id - a.id));
     });
@@ -130,7 +130,7 @@ export function SurveysList(props: SurveysListProps) {
 
   useEffect(() => {
     if (!surveys) {
-      getSurveysEnterprise();
+      getSurveysProgramming();
     }
     onStateClick(0);
   }, [surveys]);
