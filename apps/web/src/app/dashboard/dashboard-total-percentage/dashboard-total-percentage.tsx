@@ -14,7 +14,6 @@ export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
     answered: number;
   }>();
 
-  const [totalPercentage, setTotalPercentage] = useState(0);
   const [arrayNumbers, setArrayNumbers] = useState<any>([]);
 
   useEffect(() => {
@@ -24,19 +23,15 @@ export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
         setTotalSurveysData(res.data);
 
         const percentage = (res.data.answered * 100) / res.data.total;
-        setTotalPercentage(percentage);
 
         const updatedArrayNumbers = [];
 
         for (let i = 0; i < percentage; i++) {
           updatedArrayNumbers.push(i);
         }
-        console.log(updatedArrayNumbers);
         setArrayNumbers(updatedArrayNumbers);
       });
   }, []);
-
-  console.log(arrayNumbers);
 
   return (
     <div className="basis-2/4 bg-[#ffffff] rounded-lg shadow flex flex-col p-2">
@@ -80,7 +75,7 @@ export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
           </div>
         </div>
       ) : (
-        <div className=" justify-center flex flex-col p-2 m-10 bg-slate-200 animate-pulse h-full"></div>
+        <div className=" justify-center flex flex-col p-2 m-10 rounded bg-slate-200 animate-pulse h-full"></div>
       )}
     </div>
   );
