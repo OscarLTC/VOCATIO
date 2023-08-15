@@ -1,5 +1,5 @@
 import { Bar, Doughnut } from 'react-chartjs-2';
-import { useEffect, useState, useRef, forwardRef } from 'react';
+import { useState, useRef } from 'react';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './reports-chart.scss';
 import { ResultType } from '../../models/resultType.model';
@@ -12,7 +12,7 @@ import {
   LinearScale,
   Title,
 } from 'chart.js';
-import { Image, pdf } from '@react-pdf/renderer';
+import { pdf } from '@react-pdf/renderer';
 import {
   convertAnswersToCounts,
   getGroupsValues,
@@ -22,13 +22,10 @@ import {
   getSurveyPersonData,
 } from '../../dataAccess/surveyProgramming';
 import PdfDocument from '../pdf-document/pdf-document';
-import { set } from 'react-hook-form';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { environment } from '../../../environments/environment';
 import { useBoolean, useEffectOnce, useInterval } from 'react-use';
 import { RiLoader2Fill } from 'react-icons/ri';
-import { Question } from '../../models/question.model';
-import { Answer } from '../../models/answer.model';
 
 Chart.register(
   CategoryScale,

@@ -14,8 +14,7 @@ export function DashboardLastTenSurveys(props: DashboardLastTenSurveysProps) {
 
   const getSurveysProgramming = () => {
     axios.get(`${environment.apiUrl}/surveyProgramming/all`).then((res) => {
-      setSurveys(res.data.slice(0, 10).sort((a: any, b: any) => b.id - a.id));
-      console.log(res.data.slice(0, 10));
+      setSurveys(res.data.sort((a: any, b: any) => b.id - a.id));
     });
   };
 
@@ -48,8 +47,11 @@ export function DashboardLastTenSurveys(props: DashboardLastTenSurveysProps) {
       </div>
       {surveys ? (
         <div className="mt-4 overflow-y-auto snap-y snap-mandatory">
-          {surveys.map((survey: SurveyProgramming) => (
-            <div className="flex  justify-between my-1 mr-2 snap-always snap-start">
+          {surveys.slice(0, 10).map((survey: SurveyProgramming) => (
+            <div
+              key={survey.id}
+              className="flex  justify-between my-1 mr-2 snap-always snap-start"
+            >
               <h1
                 className="text-sm w-fit h-fit p-1 rounded bg-slate-200"
                 key={survey.id}

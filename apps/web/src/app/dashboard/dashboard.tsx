@@ -6,6 +6,8 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import DashboardTotalPercentage from './dashboard-total-percentage/dashboard-total-percentage';
 import DashboardLastTenSurveys from './dashboard-last-ten-surveys/dashboard-last-ten-surveys';
+import DashboardSurveyNumber from './dashboard-survey-number/dashboard-survey-number';
+import DashboardFiveEnterprises from './dashboard-five-enterprises/dashboard-five-enterprises';
 
 /* eslint-disable-next-line */
 export interface DashboardProps {}
@@ -17,11 +19,11 @@ export function Dashboard(props: DashboardProps) {
         <div className="w-full  h-3/5  flex gap-3">
           <DashboardLastSurveyDetail />
           <DashboardTotalPercentage />
-          <div className="basis-1/4 bg-[#ffffff] rounded-lg shadow">3</div>
+          <DashboardSurveyNumber />
         </div>
         <div className="w-full flex h-2/5  gap-3">
           <DashboardLastTenSurveys />
-          <div className="basis-1/2 bg-[#ffffff] rounded-lg shadow">5</div>
+          <DashboardFiveEnterprises />
         </div>
       </div>
     </div>
