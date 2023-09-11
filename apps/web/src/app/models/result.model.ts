@@ -13,3 +13,17 @@ export interface ResultTypeSix extends Result {
 export interface ResultTypeFour extends Result {
   recommnendations: string;
 }
+
+export interface ResultTypeTwo extends Result {
+  category_id: number;
+  characteristics: string[];
+  archetype: string;
+  concept: string;
+  definition: string;
+  group_archetype: {
+    color: string;
+    hero: string;
+    id: number;
+  };
+  image_archetype: string[];
+}

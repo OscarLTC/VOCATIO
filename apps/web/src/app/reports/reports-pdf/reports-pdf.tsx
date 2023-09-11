@@ -252,7 +252,7 @@ export function ReportsPdf(props: ReportsPdfProps) {
 
   return (
     <>
-      {surveyPerson && imageURL && (
+      {surveyPerson && (
         <PDFViewer className="h-[100vh]">
           <PdfDocument
             answers={surveyPerson.answers}

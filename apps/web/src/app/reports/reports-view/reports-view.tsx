@@ -10,6 +10,7 @@ import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import Select from 'react-select';
 import ReportsChart from '../reports-chart/reports-chart';
 import Enterprises from '../../enterprises/enterprises';
+import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface ReportsViewProps {}
@@ -262,8 +263,8 @@ export function ReportsView(props: ReportsViewProps) {
                           )}
                         </td>
                         {/* <td>
-                        <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
-                      </td> */}
+                          <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
+                        </td> */}
                         <td className="">
                           {survey.state.id == 3 ? (
                             <ReportsChart
