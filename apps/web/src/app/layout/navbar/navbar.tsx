@@ -163,6 +163,25 @@ export function Navbar(props: NavbarProps) {
           <ul className="uppercase">
             <li className="border-b border-gray-300">
               <Link
+                to="/dashboard"
+                className={
+                  selcted === 'dashboard'
+                    ? 'flex items-center justify-start w-full p-4 font-thin text-[#5a6268] uppercase transition-colors duration-200 border-r-4 border-[#5a6268] bg-gradient-to-r from-white to-[#b7c1c1]'
+                    : 'flex items-center justify-start w-full p-4 font-thin text-[#194058] uppercase transition-colors duration-200 hover:text-[#5a6268]'
+                }
+                onClick={() => {
+                  setSelected('dashboard');
+                  setIsMenuHidden(true);
+                }}
+              >
+                <span className="text-left">
+                  <MdDashboard size={24} />
+                </span>
+                <span className="mx-4 text-xs font-normal">Dashboard</span>
+              </Link>
+            </li>
+            <li className="border-b border-gray-300">
+              <Link
                 to="/personas"
                 className={
                   selcted === 'personas'

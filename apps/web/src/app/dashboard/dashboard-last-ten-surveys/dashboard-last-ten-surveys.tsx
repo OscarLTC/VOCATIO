@@ -26,9 +26,9 @@ export function DashboardLastTenSurveys(props: DashboardLastTenSurveysProps) {
 
   return (
     <div className="basis-2/4 bg-[#ffffff] w-full rounded-lg shadow flex flex-col p-2">
-      <div className="flex justify-between">
+      <div className="flex max-lg:flex-col justify-between">
         <h2 className="text-left font-bold">Últimas 10 encuestas</h2>
-        <div className="flex gap-7 items-center">
+        <div className="flex lg:gap-7 gap-2 max-lg:mt-3 items-center">
           <div className="flex items-center gap-2">
             <div className="h-5 w-5 bg-green-500 rounded-full"></div>
             <span className="text-sm font-medium text-gray-400">Completa</span>

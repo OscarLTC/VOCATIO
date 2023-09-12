@@ -61,13 +61,13 @@ export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
               }}
             </ChangingProgressProvider>
           </div>
-          <div className="flex justify-around">
-            <div className="flex gap-2 items-center">
+          <div className="flex justify-around max-lg:gap-10">
+            <div className="flex max-lg:flex-col gap-2 items-center">
               <div className="h-5 w-5 bg-[#044b97] rounded"></div>
               <span>Encuestas completadas: </span>
               <span className="text-2xl font-bold text-[#044b97]">{`${totalSurveysData?.answered}`}</span>
             </div>
-            <div className="flex gap-2 items-center ">
+            <div className="flex max-lg:flex-col gap-2 items-center ">
               <div className="h-5 w-5 bg-[#cbe4fe] rounded"></div>
               <span>Encuestas totales: </span>
               <span className="text-2xl font-bold text-[#cbe4fe]">{`${totalSurveysData?.total}`}</span>
