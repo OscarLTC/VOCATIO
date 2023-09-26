@@ -1,4 +1,4 @@
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut, Radar, PolarArea } from 'react-chartjs-2';
 import { useState, useRef } from 'react';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './reports-chart.scss';
@@ -8,8 +8,12 @@ import {
   BarElement,
   CategoryScale,
   Chart,
+  Filler,
   Legend,
+  LineElement,
   LinearScale,
+  PointElement,
+  RadialLinearScale,
   Title,
 } from 'chart.js';
 import { pdf } from '@react-pdf/renderer';
@@ -20,22 +24,28 @@ import {
   getMaxIndex,
   getResult,
   getSurveyPersonData,
+  getIdsValues,
+  getResultArchetype,
 } from '../../dataAccess/surveyProgramming';
 import PdfDocument from '../pdf-document/pdf-document';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { environment } from '../../../environments/environment';
 import { useBoolean, useEffectOnce, useInterval } from 'react-use';
 import { RiLoader2Fill } from 'react-icons/ri';
+import { ResultTypeTwo } from '../../models/result.model';
 
 Chart.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
   ArcElement,
+  RadialLinearScale,
+  PointElement,
   Legend,
   ChartDataLabels,
-  Title,
-  Legend
+  Filler,
+  Title
 );
 
 export interface ReportsChartProps {
@@ -46,12 +56,15 @@ export interface ReportsChartProps {
 export function ReportsChart(props: ReportsChartProps) {
   const [stylesResult, setStylesResult] = useState<ResultType>();
   const [maxIndexResult, setMaxIndexResult] = useState<number>(0);
+  const [maxArchetypoResult, setMaxArchetypoResult] = useState<number[]>();
   const [surveyPersonData, setSurveyPersonData] =
     useState<surveyProgrammingPerson>();
-  const [skillsResult, setSkillsResult] = useState(null);
+  const [skillsResult, setSkillsResult] = useState<any>(null);
   const [pdfUrl, setPdfUrl] = useState<string>('');
   const [isDataChartReady, setIsDataChartReady] = useState(false);
   const [isPdfReady, setIsPdfReady] = useState(false);
+  const [resultArchetype, setResultArchetype] = useState();
+  const [dataArchetype, setDataArchetype] = useState<number[]>();
 
   const chartRef = useRef(null);
 
@@ -76,8 +89,36 @@ export function ReportsChart(props: ReportsChartProps) {
           setSkillsResult(skillsCount);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 2) {
-          const skillsCount: any = getCategoriesValues(res.answers, 3);
-          setSkillsResult(skillsCount);
+          const skillsCount = getIdsValues(res.answers, 3, true);
+          const resultsIndex = skillsCount.map(
+            (skill) => skill[0] as unknown as number
+          );
+          setDataArchetype(
+            getIdsValues(res.answers, 12, false).map((arr) => arr[1])
+          );
+
+          getResultArchetype(resultsIndex).then((res) => {
+            const categoryIndexMap: any = {};
+            resultsIndex.map((categoryId, index) => {
+              categoryIndexMap[categoryId] = index;
+            });
+            const sortedData = res.data
+              .map((item: any) => {
+                const characteristicsArray = item.characteristics.split('.'); // Cambio aquí
+                return {
+                  ...item,
+                  characteristics: characteristicsArray
+                    .map((str: any) => str.trim())
+                    .slice(0, 4),
+                };
+              })
+              .sort((a: ResultTypeTwo, b: ResultTypeTwo) => {
+                const indexA = categoryIndexMap[a.category_id];
+                const indexB = categoryIndexMap[b.category_id];
+                return indexA - indexB;
+              });
+            setResultArchetype(sortedData);
+          });
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 3) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
@@ -108,11 +149,12 @@ export function ReportsChart(props: ReportsChartProps) {
 
   const generate = () => {
     if (isPdfReady) return;
+
     const chart: any = chartRef.current;
 
     if (chart && surveyPersonData) {
+      const surveyId = surveyPersonData.survey_programming.survey.id;
       const imageBase64 = chart.toBase64Image();
-
       setIsDataChartReady(false);
 
       getResult(maxIndexResult).then((surveyData) => {
@@ -123,9 +165,11 @@ export function ReportsChart(props: ReportsChartProps) {
             person={surveyPersonData.person}
             surveyProgramming={surveyPersonData.survey_programming}
             imageURL={imageBase64}
-            resultForSurvey={surveyData.data}
-            surveyId={surveyPersonData.survey_programming.survey.id}
-            maxIndexSurvey={maxIndexResult}
+            resultForSurvey={surveyId === 6 ? surveyData.data : resultArchetype}
+            surveyId={surveyId}
+            maxIndexSurvey={
+              surveyId === 6 ? maxIndexResult : maxArchetypoResult
+            }
           />
         );
 
@@ -229,88 +273,83 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 2 && (
-            <Bar
+          {props.surveyId == 2 && dataArchetype && (
+            <Radar
               ref={chartRef}
               width={60}
-              height={'30px'}
+              data={{
+                labels: [
+                  'Control',
+                  'Innovacion',
+                  'Servicio',
+                  'Conocimiento',
+                  'Libertad',
+                  'Seguridad',
+                  'Intimidad',
+                  'Pertenencia',
+                  'Diversion',
+                  'Poder',
+                  'Liberacion y cambio',
+                  'Maestria',
+                ],
+                datasets: [
+                  {
+                    data: [
+                      dataArchetype[0],
+                      dataArchetype[1],
+                      dataArchetype[2],
+                      dataArchetype[9],
+                      dataArchetype[10],
+                      dataArchetype[11],
+                      dataArchetype[3],
+                      dataArchetype[4],
+                      dataArchetype[5],
+                      dataArchetype[8],
+                      dataArchetype[7],
+                      dataArchetype[6],
+                    ],
+                    backgroundColor: 'rgba(1, 53, 82, 0.2)',
+                    borderColor: 'rgba(1, 53, 82, 1)',
+                    borderWidth: 1,
+                  },
+                ],
+              }}
               options={{
                 animation: {
                   delay: 0,
                   duration: 0,
                   onComplete: generate,
                 },
-                indexAxis: 'y' as const,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  datalabels: {
+                    color: 'black',
+                    font: {
+                      size: 18,
+                      weight: 'bold',
+                    },
+                  },
+                },
                 scales: {
-                  x: {
+                  r: {
+                    grid: {
+                      circular: true,
+                    },
                     beginAtZero: true,
                     ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
                       display: false,
                     },
-                  },
-                  y: {
-                    ticks: {
+                    pointLabels: {
+                      color: 'black',
                       font: {
-                        size: 20,
+                        size: 15,
                       },
                     },
-                    grid: {
-                      display: false,
-                    },
+                    startAngle: -30,
                   },
                 },
-                elements: {
-                  bar: {
-                    borderWidth: 3,
-                    borderRadius: {
-                      bottomRight: 10,
-                      topRight: 10,
-                    },
-                  },
-                },
-                responsive: true,
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: '#000',
-                    font: {
-                      size: 30,
-                    },
-                  },
-                  legend: {
-                    position: 'top' as const,
-                    labels: {
-                      font: {
-                        size: 30,
-                      },
-                    },
-                  },
-                },
-              }}
-              data={{
-                labels: [
-                  skillsResult && skillsResult[0][0],
-                  skillsResult && skillsResult[1][0],
-                  skillsResult && skillsResult[2][0],
-                ],
-                datasets: [
-                  {
-                    label: 'Arquetipo Principal',
-                    data: [
-                      skillsResult && skillsResult[0][1],
-                      skillsResult && skillsResult[1][1],
-                      skillsResult && skillsResult[2][1],
-                    ],
-                    borderColor: '#006699',
-                    borderWidth: 3,
-                    backgroundColor: ['#23ad8c', 'white', 'white'],
-                  },
-                ],
               }}
             />
           )}

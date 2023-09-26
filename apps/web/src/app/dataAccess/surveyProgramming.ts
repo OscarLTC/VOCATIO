@@ -73,6 +73,39 @@ export const getCategoriesValues = (
   return sortedCategories;
 };
 
+export const getIdsValues = (
+  answers: Array<Answer>,
+  topN: number,
+  sorted: boolean
+): Array<[string, number]> => {
+  const sumCategories: any = {};
+
+  for (const answer of answers) {
+    const id = answer.question_category.category.id;
+    const value = parseInt(answer.question_alternative.value);
+
+    if (sumCategories[id]) {
+      sumCategories[id] += value;
+    } else {
+      sumCategories[id] = value;
+    }
+  }
+
+  const sortedCategories = sorted
+    ? (Object.entries(sumCategories)
+        .sort((a: any, b: any) => b[1] - a[1])
+        .slice(0, topN) as Array<[string, number]>)
+    : (Object.entries(sumCategories).slice(0, topN) as Array<[string, number]>);
+
+  return sortedCategories;
+};
+
+export const getResultArchetype = (ids: number[]) => {
+  return axios.get(
+    `${environment.apiUrl}/resultArchetype/${ids[0]}/${ids[1]}/${ids[2]}`
+  );
+};
+
 export function getGroupsValues(answers: Array<Answer>, topN: number) {
   const categoriesForGroup: any = {};
 

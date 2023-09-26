@@ -22,3 +22,15 @@ export const formatDate = (date: any) => {
     });
   }
 };
+
+export const formatDateText = (date: string) => {
+  if (date) {
+    const [year, month, day] = date.split('-');
+    const dateObject = new Date(Number(year), Number(month) - 1, Number(day));
+    return dateObject.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+};
