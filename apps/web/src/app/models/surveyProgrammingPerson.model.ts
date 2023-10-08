@@ -10,6 +10,7 @@ export interface surveyProgrammingPerson {
   person: Person;
   state: State;
   endDate: string;
+  pdfBlob: string;
   state_id?: number;
   answers: Array<Answer>;
 }

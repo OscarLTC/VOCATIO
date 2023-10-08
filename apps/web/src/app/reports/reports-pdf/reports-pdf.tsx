@@ -1,22 +1,12 @@
 import './reports-pdf.scss';
 import { useEffect, useState, useRef } from 'react';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Font,
-  Image,
-  Link,
-  PDFViewer,
-} from '@react-pdf/renderer';
+import { StyleSheet, Font, PDFViewer } from '@react-pdf/renderer';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { useParams } from 'react-router-dom';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
-import { Bar, Doughnut, Pie } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import {
   ArcElement,
   BarElement,
@@ -26,8 +16,6 @@ import {
   LinearScale,
   Title,
 } from 'chart.js';
-import { Answer } from '../../models/answer.model';
-import { Result } from '../../models/result.model';
 import { ResultType } from '../../models/resultType.model';
 import PdfDocument from '../pdf-document/pdf-document';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './surveys-person.scss';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
@@ -9,8 +9,9 @@ import { Question } from '../../models/question.model';
 import { QuestionAlternative } from '../../models/questionAlternative.model';
 import { QuestionCategory } from '../../models/questionCategory.model';
 import toast, { Toaster } from 'react-hot-toast';
-import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsArrowDownShort } from 'react-icons/bs';
+import { useSetRecoilState } from 'recoil';
+import { surveyPersonState } from '../../store/people/surveyPerson';
 
 /* eslint-disable-next-line */
 export interface SurveysPersonProps {}
@@ -22,10 +23,12 @@ export function SurveysPerson(props: SurveysPersonProps) {
   const [surveyQuestions, setSurveyQuestions] = useState<any>([]);
   const [surveyQuestionsType, setSurveyQuestionsType] = useState<any>([]);
   const [surveyId, setSurveyId] = useState();
+  const setSurveyPersonState = useSetRecoilState(surveyPersonState);
 
   const [unansweredQuestions, setUnansweredQuestions] = useState<number[]>([]);
 
   const submitButtonRef = useRef(null);
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -94,7 +97,13 @@ export function SurveysPerson(props: SurveysPersonProps) {
           return [parseInt(group), parseInt(value)];
         }),
       })
-      .then(() => window.location.reload());
+      .then(() => {
+        setSurveyPersonState({
+          idPdf: id as unknown as number,
+          surveyId: surveyId as unknown as number,
+        });
+        navigate('/encuestas/register/');
+      });
     // console.log({
     //   id: surveyPerson?.id,
     //   answers: Object.entries(data).map(([key, value]: any) => {

@@ -881,9 +881,9 @@ export function PdfDocumentArquetipos(props: PdfDocumentArquetiposProps) {
             <Text
               style={{ color: '#013552', fontWeight: 'bold', fontSize: 30 }}
             >
-              {`${props.resultForSurvey[0].archetype} `}
+              {`${props.resultForSurvey[0]?.archetype} `}
               <Text style={{ fontWeight: 'normal' }}>
-                ({props.resultForSurvey[0].concept})
+                ({props.resultForSurvey[0]?.concept})
               </Text>
             </Text>
           </View>
@@ -901,10 +901,10 @@ export function PdfDocumentArquetipos(props: PdfDocumentArquetiposProps) {
                   width: 200,
                   marginLeft: 20,
                   marginTop: `${
-                    props.resultForSurvey[0].category_id == 132 ? 25 : 0
+                    props.resultForSurvey[0]?.category_id == 132 ? 25 : 0
                   }`,
                 }}
-                src={`/src/assets/img/${props.resultForSurvey[0].image_archetype[0]}`}
+                src={`/src/assets/img/${props.resultForSurvey[0]?.image_archetype[0]}`}
               />
               <View
                 style={{

@@ -77,6 +77,26 @@ export function ReportsView(props: ReportsViewProps) {
     setIsDisabled(false);
   };
 
+  const b64toBlob = (b64Data: any, contentType = '', sliceSize = 512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  };
+
   useEffectOnce(() => {
     if (!entreprises) {
       const getEnterprises = () => {
@@ -267,10 +287,15 @@ export function ReportsView(props: ReportsViewProps) {
                         </td> */}
                         <td className="">
                           {survey.state.id == 3 ? (
-                            <ReportsChart
-                              pdfId={survey.id}
-                              surveyId={surveysData.survey.id}
-                            />
+                            <a
+                              className="text-blue-600 text-sm"
+                              href={survey?.pdfBlob}
+                              target="_blank"
+                              download={`${surveysData?.name}-${survey?.person.name}_${survey?.person.lastName}-${surveysData?.survey.name}.pdf`}
+                              rel="noreferrer"
+                            >
+                              {`${environment.surveyDomain}/reportes/pdf/${survey?.id}`}
+                            </a>
                           ) : (
                             ''
                           )}
