@@ -1,13 +1,15 @@
 import { Route, Routes } from 'react-router';
 import Layout from './layout/layout';
 import Alumnos from './people/people';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import Enterprises from './enterprises/enterprises';
 import Surveys from './surveys/surveys';
 import Reports from './reports/reports';
 import SignIn from './auth/sign-in/sign-in';
 import SurveysPerson from './surveys/surveys-person/surveys-person';
 import Dashboard from './dashboard/dashboard';
+import ReportsChart from './reports/reports-chart/reports-chart';
+import { surveyPersonState } from './store/people/surveyPerson';
 
 export function App() {
   return (
@@ -63,6 +65,7 @@ export function App() {
           }
         />
         <Route path="/encuestas/person/:id" element={<SurveysPerson />} />
+        <Route path="/encuestas/register/" element={<ReportsChart />} />
       </Routes>
     </RecoilRoot>
   );

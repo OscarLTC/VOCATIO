@@ -11,6 +11,7 @@ import {
 import PdfDocumentEstilosDeAprendizaje from './pdf-document-estilos-de-aprendizaje/pdf-document-estilos-de-aprendizaje';
 import PdfDocumentArquetipos from './pdf-document-arquetipos/pdf-document-arquetipos';
 import { useState } from 'react';
+import PdfDocumentGeneral from './pdf-document-general/pdf-document-general';
 
 export interface PdfDocumentProps {
   imageURL: string;
@@ -102,8 +103,22 @@ Font.register({
 export function PdfDocument(props: PdfDocumentProps) {
   return (
     <>
-      {props.surveyId === 6 && (
-        <PdfDocumentEstilosDeAprendizaje
+      {JSON.stringify(props)}
+      {props.surveyId === 2 && (
+        <PdfDocumentArquetipos
+          person={props.person}
+          surveyProgramming={props.surveyProgramming}
+          imageURL={props.imageURL}
+          resultForSurvey={props.resultForSurvey as ResultTypeTwo[]}
+          maxIndexSurvey={props.maxIndexSurvey as number[]}
+        />
+      )}
+      {(props.surveyId === 1 ||
+        props.surveyId === 3 ||
+        props.surveyId === 4 ||
+        props.surveyId === 5 ||
+        props.surveyId === 7) && (
+        <PdfDocumentGeneral
           answers={props.answers}
           endDate={props.endDate}
           imageURL={props.imageURL}
@@ -113,13 +128,15 @@ export function PdfDocument(props: PdfDocumentProps) {
           maxIndexSurvey={props.maxIndexSurvey as number}
         />
       )}
-      {props.surveyId === 2 && (
-        <PdfDocumentArquetipos
-          person={props.person}
-          surveyProgramming={props.surveyProgramming}
+      {props.surveyId === 6 && (
+        <PdfDocumentEstilosDeAprendizaje
+          answers={props.answers}
+          endDate={props.endDate}
           imageURL={props.imageURL}
-          resultForSurvey={props.resultForSurvey as ResultTypeTwo[]}
-          maxIndexSurvey={props.maxIndexSurvey as number[]}
+          person={props.person}
+          resultForSurvey={props.resultForSurvey as ResultTypeSix}
+          surveyProgramming={props.surveyProgramming}
+          maxIndexSurvey={props.maxIndexSurvey as number}
         />
       )}
     </>

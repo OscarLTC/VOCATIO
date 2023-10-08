@@ -33,6 +33,9 @@ import { environment } from '../../../environments/environment';
 import { useBoolean, useEffectOnce, useInterval } from 'react-use';
 import { RiLoader2Fill } from 'react-icons/ri';
 import { ResultTypeTwo } from '../../models/result.model';
+import { useRecoilValue } from 'recoil';
+import { surveyPersonState } from '../../store/people/surveyPerson';
+import axios from 'axios';
 
 Chart.register(
   CategoryScale,
@@ -49,8 +52,8 @@ Chart.register(
 );
 
 export interface ReportsChartProps {
-  pdfId: number;
-  surveyId: number;
+  pdfId?: number;
+  surveyId?: number;
 }
 
 export function ReportsChart(props: ReportsChartProps) {
@@ -65,6 +68,7 @@ export function ReportsChart(props: ReportsChartProps) {
   const [isPdfReady, setIsPdfReady] = useState(false);
   const [resultArchetype, setResultArchetype] = useState();
   const [dataArchetype, setDataArchetype] = useState<number[]>();
+  const surveyPerson = useRecoilValue(surveyPersonState);
 
   const chartRef = useRef(null);
 
@@ -80,7 +84,7 @@ export function ReportsChart(props: ReportsChartProps) {
   );
 
   useEffectOnce(() => {
-    getSurveyPersonData(props.pdfId).then((res) => {
+    getSurveyPersonData(surveyPerson.idPdf).then((res) => {
       setIsDataChartReady(false);
       if (res) {
         setSurveyPersonData(res);
@@ -104,7 +108,7 @@ export function ReportsChart(props: ReportsChartProps) {
             });
             const sortedData = res.data
               .map((item: any) => {
-                const characteristicsArray = item.characteristics.split('.'); // Cambio aquí
+                const characteristicsArray = item.characteristics.split('.');
                 return {
                   ...item,
                   characteristics: characteristicsArray
@@ -173,22 +177,35 @@ export function ReportsChart(props: ReportsChartProps) {
           />
         );
 
+        const blobToBase64 = (blob: any) => {
+          return new Promise((resolve, _) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+        };
         const pdfBlob = pdf(pdfDoc).toBlob();
-        pdfBlob.then((res) => {
-          const fileURL = URL.createObjectURL(res);
-          setPdfUrl(fileURL);
-          setIsPdfReady(true);
-          toggleIsRunning(false);
+        pdfBlob.then(async (res) => {
+          const base64 = await blobToBase64(res);
+          axios
+            .put(
+              `${environment.apiUrl}/surveyProgrammingPerson/pdf/${surveyPerson.idPdf}`,
+              base64
+            )
+            .then((res) => {
+              setIsPdfReady(true);
+              toggleIsRunning(false);
+            });
         });
       });
     }
   };
 
   return (
-    <>
+    <div className="h-[100vh] w-full bg-[aliceblue] flex">
       {isDataChartReady && (
         <div className="absolute pointer-events-none w-[1000px] invisible">
-          {props.surveyId == 1 && (
+          {surveyPerson.surveyId == 1 && (
             <Bar
               ref={chartRef}
               width={60}
@@ -273,7 +290,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 2 && dataArchetype && (
+          {surveyPerson.surveyId == 2 && dataArchetype && (
             <Radar
               ref={chartRef}
               width={60}
@@ -353,7 +370,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 3 && (
+          {surveyPerson.surveyId == 3 && (
             <Bar
               ref={chartRef}
               width={60}
@@ -438,7 +455,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 4 && (
+          {surveyPerson.surveyId == 4 && (
             <Bar
               ref={chartRef}
               width={60}
@@ -523,7 +540,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 5 && (
+          {surveyPerson.surveyId == 5 && (
             <Bar
               ref={chartRef}
               width={60}
@@ -608,7 +625,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 6 && (
+          {surveyPerson.surveyId == 6 && (
             <Doughnut
               ref={chartRef}
               width={100}
@@ -690,7 +707,7 @@ export function ReportsChart(props: ReportsChartProps) {
               }}
             />
           )}
-          {props.surveyId == 7 && (
+          {surveyPerson.surveyId == 7 && (
             <Bar
               ref={chartRef}
               width={60}
@@ -778,22 +795,19 @@ export function ReportsChart(props: ReportsChartProps) {
         </div>
       )}
       {isPdfReady ? (
-        <a
-          className="text-blue-600 text-sm"
-          href={pdfUrl}
-          target="_blank"
-          download={`${surveyPersonData?.survey_programming.name}-${surveyPersonData?.person.name}_${surveyPersonData?.person.lastName}-${surveyPersonData?.survey_programming.survey.name}`}
-          rel="noreferrer"
-        >
-          {`${environment.surveyDomain}/reportes/pdf/${surveyPersonData?.id}`}
-        </a>
+        <div className="text-center flex mx-auto gap-3 rounded self-center select-none p-4 bg-white w-fit h-fit">
+          <h4 className="self-center font-bold">
+            Se ha completado correctamente la encuesta <br /> Puede cerrar esta
+            página
+          </h4>
+        </div>
       ) : (
-        <div className="text-center flex justify-center animate-spin">
-          <RiLoader2Fill size={22} />
+        <div className="text-center flex mx-auto gap-3 rounded self-center select-none p-4 bg-white w-fit h-fit">
+          <h4 className="self-center font-bold">Guardando respuestas</h4>
+          <RiLoader2Fill className="animate-spin " size={30} />
         </div>
       )}
-      {/* <h1>{count}</h1> */}
-    </>
+    </div>
   );
 }
 
