@@ -503,7 +503,6 @@ export function SurveysPerson(props: SurveysPersonProps) {
           >
             <BsArrowDownShort size={35} color="white" />
           </button>
-          <Toaster position="bottom-right" />
         </div>
       ) : (
         <div className="flex flex-col">

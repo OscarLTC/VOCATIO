@@ -188,7 +188,7 @@ export function ReportsChart(props: ReportsChartProps) {
         pdfBlob.then(async (res) => {
           const base64 = await blobToBase64(res);
           axios
-            .put(
+            .post(
               `${environment.apiUrl}/surveyProgrammingPerson/pdf/${surveyPerson.idPdf}`,
               base64
             )

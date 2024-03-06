@@ -39,6 +39,8 @@ export function ReportsView(props: ReportsViewProps) {
   const exportId = watch('surveyEnterprise_id');
 
   const onEnterpriseChange = (selectedOption: any) => {
+    setIsDisabled(true);
+    setSurveysData(null);
     setValue('enterprise_id', selectedOption?.value);
     axios
       .get(
@@ -49,6 +51,7 @@ export function ReportsView(props: ReportsViewProps) {
 
   const onSurveyEnterpriseChange = (selectedOption: any) => {
     setSurveysData(null);
+    setIsDisabled(true);
     setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
@@ -75,26 +78,6 @@ export function ReportsView(props: ReportsViewProps) {
   const onSubmit = (data: any) => {
     setSurveysData(surveys.find((a) => a.id == data.surveyEnterprise_id));
     setIsDisabled(false);
-  };
-
-  const b64toBlob = (b64Data: any, contentType = '', sliceSize = 512) => {
-    const byteCharacters = atob(b64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
   };
 
   useEffectOnce(() => {
@@ -167,10 +150,12 @@ export function ReportsView(props: ReportsViewProps) {
                   className="w-full sm:w-[300px] bg-gray-200 rounded outline-none max-sm:mt-4"
                   id="surveyEnterprise_id"
                   {...register('surveyEnterprise_id', { required: true })}
-                  options={surveys.map((survey: SurveyProgramming) => ({
-                    value: survey.id,
-                    label: `${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`,
-                  }))}
+                  options={surveys
+                    .sort((a, b) => b.id - a.id)
+                    .map((survey: SurveyProgramming) => ({
+                      value: survey.id,
+                      label: `${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`,
+                    }))}
                   onChange={onSurveyEnterpriseChange}
                 />
               </div>

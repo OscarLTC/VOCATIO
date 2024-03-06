@@ -10,6 +10,7 @@ import SurveysPerson from './surveys/surveys-person/surveys-person';
 import Dashboard from './dashboard/dashboard';
 import ReportsChart from './reports/reports-chart/reports-chart';
 import { surveyPersonState } from './store/people/surveyPerson';
+import { Toaster } from 'react-hot-toast';
 
 export function App() {
   return (
@@ -67,6 +68,8 @@ export function App() {
         <Route path="/encuestas/person/:id" element={<SurveysPerson />} />
         <Route path="/encuestas/register/" element={<ReportsChart />} />
       </Routes>
+
+      <Toaster position="bottom-right" />
     </RecoilRoot>
   );
 }

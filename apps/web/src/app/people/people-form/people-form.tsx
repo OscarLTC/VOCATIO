@@ -3,7 +3,7 @@ import './people-form.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { doctypeState } from '../../store/doctype/doctype.atom';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -233,7 +233,6 @@ export function PeopleForm(props: PeopleFormProps) {
           </div>
         </form>
       </div>
-      <Toaster position="bottom-right" />
     </div>
   );
 }

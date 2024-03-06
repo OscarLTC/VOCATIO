@@ -468,7 +468,6 @@ export function SurveysForm(props: SurveysFormProps) {
             </div>
           </form>
         </div>
-        <Toaster position="bottom-right" />
       </div>
     )
   );

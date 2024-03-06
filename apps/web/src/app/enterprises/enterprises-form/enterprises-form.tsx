@@ -4,7 +4,7 @@ import { bussinesLineState } from '../../store/bussinesline/bussinesline.atom';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { useEffect } from 'react';
@@ -188,7 +188,6 @@ export function EnterprisesForm(props: EnterprisesFormProps) {
           </div>
         </form>
       </div>
-      <Toaster position="bottom-right" />
     </div>
   );
 }
