@@ -1,4 +1,3 @@
-import './pdf-document.scss';
 import { Font } from '@react-pdf/renderer';
 import { Person } from '../../models/person.model';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
@@ -9,11 +8,10 @@ import {
   ResultTypeTwo,
 } from '../../models/result.model';
 import PdfDocumentEstilosDeAprendizaje from './pdf-document-estilos-de-aprendizaje/pdf-document-estilos-de-aprendizaje';
-import PdfDocumentArquetipos from './pdf-document-arquetipos/pdf-document-arquetipos';
-import { useState } from 'react';
-import PdfDocumentGeneral from './pdf-document-general/pdf-document-general';
+import { PdfDocumentArquetipos } from './pdf-document-arquetipos/pdf-document-arquetipos';
+import { PdfDocumentGeneral } from './pdf-document-general/pdf-document-general';
 
-export interface PdfDocumentProps {
+interface PdfDocumentProps {
   imageURL: string;
   surveyId: number;
   person: Person;
@@ -100,7 +98,7 @@ Font.register({
   ],
 });
 
-export function PdfDocument(props: PdfDocumentProps) {
+export const PdfDocument = (props: PdfDocumentProps) => {
   return (
     <>
       {JSON.stringify(props)}
@@ -141,6 +139,6 @@ export function PdfDocument(props: PdfDocumentProps) {
       )}
     </>
   );
-}
+};
 
 export default PdfDocument;

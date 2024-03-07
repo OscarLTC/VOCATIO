@@ -1,12 +1,3 @@
-import './reports-pdf.scss';
-import { useEffect, useState, useRef } from 'react';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { StyleSheet, Font, PDFViewer } from '@react-pdf/renderer';
-import axios from 'axios';
-import { environment } from '../../../environments/environment';
-import { useParams } from 'react-router-dom';
-import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
-import { Bar, Doughnut } from 'react-chartjs-2';
 import {
   ArcElement,
   BarElement,
@@ -16,8 +7,16 @@ import {
   LinearScale,
   Title,
 } from 'chart.js';
+import { useEffect, useState, useRef } from 'react';
+import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
+import { environment } from '../../../environments/environment';
 import { ResultType } from '../../models/resultType.model';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import PdfDocument from '../pdf-document/pdf-document';
+import { Font, PDFViewer } from '@react-pdf/renderer';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 Chart.register(
   CategoryScale,
@@ -68,81 +67,11 @@ Font.register({
   ],
 });
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'column',
-    padding: 6,
-    paddingHorizontal: 10,
-    fontFamily: 'Montserrat',
-  },
-  pageHeader: {
-    fontSize: 9,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  headerLeft: {
-    fontWeight: 'bold',
-  },
-  headerRight: {
-    fontWeight: 'normal',
-  },
-  content: {
-    paddingHorizontal: '20px',
-  },
-
-  image: {
-    width: '60px',
-    marginTop: '40px',
-    marginLeft: 'auto',
-  },
-
-  hero: {
-    width: '100%',
-  },
-
-  title: {
-    color: '#006699',
-    fontWeight: 'bold',
-  },
-
-  subtitle: {
-    marginTop: '20px',
-    color: '#006699',
-    fontWeight: 'bold',
-    fontSize: '15px',
-  },
-
-  subhero: {
-    width: '330px',
-    marginTop: '5px',
-    fontSize: '11px',
-    backgroundColor: '#006699',
-    color: 'white',
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  maindata: {
-    marginTop: '20px',
-    fontWeight: 'bold',
-    fontSize: '14px',
-  },
-  surveydata: {
-    marginTop: '5px',
-    fontSize: '12px',
-  },
-  chart: {
-    width: '100%',
-    height: '100%',
-  },
-});
-
-/* eslint-disable-next-line */
-export interface ReportsPdfProps {
+interface ReportsPdfProps {
   idPDF?: string;
 }
 
-export function ReportsPdf(props: ReportsPdfProps) {
+export const ReportsPdf = (props: ReportsPdfProps) => {
   const [surveyPerson, setSurveyPerson] = useState<surveyProgrammingPerson>();
   const [stylesResult, setStylesResult] = useState<ResultType>();
   const [resultData, setResultData] = useState<any>();
@@ -419,6 +348,4 @@ export function ReportsPdf(props: ReportsPdfProps) {
       )}
     </>
   );
-}
-
-export default ReportsPdf;
+};

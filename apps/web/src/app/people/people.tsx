@@ -1,16 +1,12 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import './people.scss';
 import { useEffect } from 'react';
 
-import PeopleList from './people-list/people-list';
-import PeopleForm from './people-form/people-form';
+import { PeopleList } from './people-list/people-list';
+import { PeopleForm } from './people-form/people-form';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/user/user.atom';
 
-/* eslint-disable-next-line */
-export interface AlumnosProps {}
-
-export function Alumnos(props: AlumnosProps) {
+export const People = () => {
   const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
@@ -30,6 +26,4 @@ export function Alumnos(props: AlumnosProps) {
       </Routes>
     )
   );
-}
-
-export default Alumnos;
+};

@@ -1,20 +1,16 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { environment } from '../../../environments/environment';
 import { peopleState } from '../../store/people/people.atom';
 import { Enterprise } from '../../models/enterprise.model';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import Modal from '../../components/modal/modal';
+import { Modal } from '../../components/modal/modal';
 import { useEffect, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import './enterprises-list.scss';
 import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface EnterprisesListProps {}
-
-export function EnterprisesList(props: EnterprisesListProps) {
+export const EnterprisesList = () => {
   const [enterprises, setEnterprises] = useRecoilState(enterpriseState);
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
@@ -212,6 +208,4 @@ export function EnterprisesList(props: EnterprisesListProps) {
       />
     </div>
   );
-}
-
-export default EnterprisesList;
+};

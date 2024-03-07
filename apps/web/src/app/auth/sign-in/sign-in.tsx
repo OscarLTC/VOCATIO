@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-
-import './sign-in.scss';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
@@ -9,10 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { userState } from '../../store/user/user.atom';
 import { useNavigate } from 'react-router-dom';
 
-/* eslint-disable-next-line */
-export interface SignInProps {}
-
-export function SignIn(props: SignInProps) {
+export const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -105,6 +100,4 @@ export function SignIn(props: SignInProps) {
       </form>
     </div>
   );
-}
-
-export default SignIn;
+};

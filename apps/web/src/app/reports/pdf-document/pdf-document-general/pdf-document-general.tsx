@@ -10,19 +10,7 @@ import { Answer } from '../../../models/answer.model';
 import { Person } from '../../../models/person.model';
 import { ResultTypeSix } from '../../../models/result.model';
 import { SurveyProgramming } from '../../../models/surveyProgramming.model';
-import './pdf-document-general.scss';
 import { formatDate, getCustomDate } from '../../../utils/dateUtils';
-
-/* eslint-disable-next-line */
-export interface PdfDocumentGeneralProps {
-  imageURL: string;
-  person: Person;
-  surveyProgramming: SurveyProgramming;
-  answers: Answer[];
-  endDate: string;
-  maxIndexSurvey?: number;
-  resultForSurvey: ResultTypeSix;
-}
 
 const styles = StyleSheet.create({
   page: {
@@ -93,7 +81,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export function PdfDocumentGeneral(props: PdfDocumentGeneralProps) {
+interface PdfDocumentGeneralProps {
+  imageURL: string;
+  person: Person;
+  surveyProgramming: SurveyProgramming;
+  answers: Answer[];
+  endDate: string;
+  maxIndexSurvey?: number;
+  resultForSurvey: ResultTypeSix;
+}
+
+export const PdfDocumentGeneral = (props: PdfDocumentGeneralProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -183,6 +181,4 @@ export function PdfDocumentGeneral(props: PdfDocumentGeneralProps) {
       </Page>
     </Document>
   );
-}
-
-export default PdfDocumentGeneral;
+};

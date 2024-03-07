@@ -1,10 +1,6 @@
-import './layout.scss';
-import Navbar from './navbar/navbar';
+import { Navbar } from './navbar/navbar';
 
-/* eslint-disable-next-line */
-export interface LayoutProps {}
-
-export function Layout({ children }: any) {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="lg:flex items-start justify-between bg-[aliceblue]">
       <Navbar />
@@ -13,6 +9,4 @@ export function Layout({ children }: any) {
       </div>
     </div>
   );
-}
-
-export default Layout;
+};

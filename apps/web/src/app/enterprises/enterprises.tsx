@@ -1,16 +1,11 @@
+import { EnterprisesList } from './enterprises-list/enterprises-list';
+import { EnterprisesForm } from './enterprises-form/enterprises-form';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { userState } from '../store/user/user.atom';
+import { useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 
-import './enterprises.scss';
-import EnterprisesList from './enterprises-list/enterprises-list';
-import EnterprisesForm from './enterprises-form/enterprises-form';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../store/user/user.atom';
-
-/* eslint-disable-next-line */
-export interface EnterprisesProps {}
-
-export function Enterprises(props: EnterprisesProps) {
+export const Enterprises = () => {
   const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
@@ -28,6 +23,4 @@ export function Enterprises(props: EnterprisesProps) {
       </Routes>
     )
   );
-}
-
-export default Enterprises;
+};

@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import './people-form.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -7,16 +6,16 @@ import { toast } from 'react-hot-toast';
 import { doctypeState } from '../../store/doctype/doctype.atom';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DocType } from '../../models/docType.model';
 import { Enterprise } from '../../models/enterprise.model';
 import { peopleState } from '../../store/people/people.atom';
 import { environment } from '../../../environments/environment';
+import { DocType } from '../../models/doctype.model';
 
-export interface PeopleFormProps {
+interface PeopleFormProps {
   formState: number;
 }
 
-export function PeopleForm(props: PeopleFormProps) {
+export const PeopleForm = (props: PeopleFormProps) => {
   const [docTypes, setDocTypes] = useRecoilState(doctypeState);
   const [entreprises, setEnterprises] = useRecoilState(enterpriseState);
   const setPeople = useSetRecoilState(peopleState);
@@ -235,5 +234,4 @@ export function PeopleForm(props: PeopleFormProps) {
       </div>
     </div>
   );
-}
-export default PeopleForm;
+};

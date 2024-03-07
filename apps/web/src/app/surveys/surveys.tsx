@@ -1,16 +1,12 @@
+import { SurveysDetail } from './surveys-detail/surveys-detail';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import './surveys.scss';
-import SurveysList from './surveys-list/surveys-list';
-import SurveysForm from './surveys-form/surveys-form';
-import SurveysDetail from './surveys-detail/surveys-detail';
+import { SurveysList } from './surveys-list/surveys-list';
+import { SurveysForm } from './surveys-form/surveys-form';
+import { userState } from '../store/user/user.atom';
 import { useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
-import { userState } from '../store/user/user.atom';
 
-/* eslint-disable-next-line */
-export interface SurveysProps {}
-
-export function Surveys(props: SurveysProps) {
+export const Surveys = () => {
   const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
@@ -31,6 +27,4 @@ export function Surveys(props: SurveysProps) {
       </Routes>
     )
   );
-}
-
-export default Surveys;
+};

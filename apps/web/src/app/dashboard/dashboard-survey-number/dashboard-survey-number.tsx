@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
-import './dashboard-survey-number.scss';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
-
-/* eslint-disable-next-line */
-export interface DashboardSurveyNumberProps {}
 
 interface survey {
   id: number;
@@ -12,7 +8,7 @@ interface survey {
   amount: number;
 }
 
-export function DashboardSurveyNumber(props: DashboardSurveyNumberProps) {
+export const DashboardSurveyNumber = () => {
   const [surveys, setSurveys] = useState<Array<survey>>();
 
   useEffect(() => {
@@ -56,6 +52,4 @@ export function DashboardSurveyNumber(props: DashboardSurveyNumberProps) {
       </div>
     </div>
   );
-}
-
-export default DashboardSurveyNumber;
+};

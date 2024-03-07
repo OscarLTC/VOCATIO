@@ -1,15 +1,11 @@
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
-import './dashboard-last-ten-surveys.scss';
 import { useRecoilState } from 'recoil';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
 import { useEffect } from 'react';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
 
-/* eslint-disable-next-line */
-export interface DashboardLastTenSurveysProps {}
-
-export function DashboardLastTenSurveys(props: DashboardLastTenSurveysProps) {
+export const DashboardLastTenSurveys = () => {
   const [surveys, setSurveys] = useRecoilState(surveysEnterpriseState);
 
   const getSurveysProgramming = () => {
@@ -91,6 +87,4 @@ export function DashboardLastTenSurveys(props: DashboardLastTenSurveysProps) {
       )}
     </div>
   );
-}
-
-export default DashboardLastTenSurveys;
+};

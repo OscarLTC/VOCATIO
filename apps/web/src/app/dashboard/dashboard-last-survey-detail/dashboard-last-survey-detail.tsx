@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
-import './dashboard-last-survey-detail.scss';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 
-/* eslint-disable-next-line */
-export interface DashboardLastSurveyDetailProps {}
-
-export function DashboardLastSurveyDetail(
-  props: DashboardLastSurveyDetailProps
-) {
+export const DashboardLastSurveyDetail = () => {
   const [lastSurveyData, setLastSurveyData] =
     useState<surveyProgrammingPerson>();
 
@@ -65,6 +59,4 @@ export function DashboardLastSurveyDetail(
       </div>
     </div>
   );
-}
-
-export default DashboardLastSurveyDetail;
+};

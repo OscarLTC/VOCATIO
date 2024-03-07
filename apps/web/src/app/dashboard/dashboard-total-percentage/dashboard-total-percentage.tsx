@@ -1,14 +1,10 @@
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import ChangingProgressProvider from '../../utils/changingProgressProvider';
-import './dashboard-total-percentage.scss';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { environment } from '../../../environments/environment';
+import { useEffect, useState } from 'react';
 
-/* eslint-disable-next-line */
-export interface DashboardTotalPercentageProps {}
-
-export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
+export const DashboardTotalPercentage = () => {
   const [totalSurveysData, setTotalSurveysData] = useState<{
     total: number;
     answered: number;
@@ -79,6 +75,4 @@ export function DashboardTotalPercentage(props: DashboardTotalPercentageProps) {
       )}
     </div>
   );
-}
-
-export default DashboardTotalPercentage;
+};

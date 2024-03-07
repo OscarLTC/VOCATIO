@@ -1,16 +1,15 @@
 import { Route, Routes } from 'react-router';
-import Layout from './layout/layout';
-import Alumnos from './people/people';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import Enterprises from './enterprises/enterprises';
-import Surveys from './surveys/surveys';
-import Reports from './reports/reports';
-import SignIn from './auth/sign-in/sign-in';
-import SurveysPerson from './surveys/surveys-person/surveys-person';
-import Dashboard from './dashboard/dashboard';
-import ReportsChart from './reports/reports-chart/reports-chart';
-import { surveyPersonState } from './store/people/surveyPerson';
+import { Layout } from './layout/layout';
+import { RecoilRoot } from 'recoil';
+import { Enterprises } from './enterprises/enterprises';
+import { Surveys } from './surveys/surveys';
+import { Reports } from './reports/reports';
+import { SurveysPerson } from './surveys/surveys-person/surveys-person';
+import { Dashboard } from './dashboard/dashboard';
+import { ReportsChart } from './reports/reports-chart/reports-chart';
 import { Toaster } from 'react-hot-toast';
+import { SignIn } from './auth/sign-in/sign-in';
+import { People } from './people/people';
 
 export function App() {
   return (
@@ -37,7 +36,7 @@ export function App() {
           path="/personas/*"
           element={
             <Layout>
-              <Alumnos />
+              <People />
             </Layout>
           }
         />

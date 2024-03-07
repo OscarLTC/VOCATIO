@@ -2,9 +2,6 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { surveyProgrammingPerson } from '../models/surveyProgrammingPerson.model';
 import { Answer } from '../models/answer.model';
-import { Result } from '../models/result.model';
-import { ResultType } from '../models/resultType.model';
-import { Category } from '../models/category.model';
 
 export const getSurveyPersonData = async (
   id: number
@@ -106,7 +103,7 @@ export const getResultArchetype = (ids: number[]) => {
   );
 };
 
-export function getGroupsValues(answers: Array<Answer>, topN: number) {
+export const getGroupsValues = (answers: Array<Answer>, topN: number) => {
   const categoriesForGroup: any = {};
 
   for (const answer of answers) {
@@ -148,4 +145,4 @@ export function getGroupsValues(answers: Array<Answer>, topN: number) {
   >;
 
   return sortedCategories;
-}
+};

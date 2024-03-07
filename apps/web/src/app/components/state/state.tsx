@@ -1,11 +1,8 @@
-import './state.scss';
-
-/* eslint-disable-next-line */
-export interface StateProps {
+interface StateProps {
   stateId: number;
 }
 
-export function State(props: StateProps) {
+export const State = (props: StateProps) => {
   return props.stateId === 1 ? (
     <div className="text-xs w-fit px-2 py-1 text-slate-700 mx-auto bg-slate-300 rounded-lg">
       <div>Programado</div>
@@ -23,6 +20,4 @@ export function State(props: StateProps) {
       <div>Cancelado</div>
     </div>
   ) : null;
-}
-
-export default State;
+};

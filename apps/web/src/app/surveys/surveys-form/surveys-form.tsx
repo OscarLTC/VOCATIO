@@ -1,33 +1,30 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import './surveys-form.scss';
-import { surveysState } from '../../store/survey/survey.atom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { environment } from '../../../environments/environment';
-import { enterpriseState } from '../../store/enterprise/enterprise.atom';
-import toast, { Toaster } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { RiFileExcel2Fill } from 'react-icons/ri';
-import { BsFillPeopleFill } from 'react-icons/bs';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
+import { enterpriseState } from '../../store/enterprise/enterprise.atom';
+import { environment } from '../../../environments/environment';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { surveysState } from '../../store/survey/survey.atom';
+import { peopleState } from '../../store/people/people.atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Enterprise } from '../../models/enterprise.model';
 import { stateState } from '../../store/state/state.atom';
-import { State } from '../../models/state.model';
-
-import 'filepond/dist/filepond.min.css';
-import { Person } from '../../models/person.model';
-import { peopleState } from '../../store/people/people.atom';
-import Select from 'react-select';
-import { HiDocumentAdd } from 'react-icons/hi';
 import { getCustomDate } from '../../utils/dateUtils';
+import { Person } from '../../models/person.model';
+import { RiFileExcel2Fill } from 'react-icons/ri';
+import { BsFillPeopleFill } from 'react-icons/bs';
+import { State } from '../../models/state.model';
+import { HiDocumentAdd } from 'react-icons/hi';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import 'filepond/dist/filepond.min.css';
+import toast from 'react-hot-toast';
+import Select from 'react-select';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface SurveysFormProps {
+interface SurveysFormProps {
   formState: number;
 }
 
-export function SurveysForm(props: SurveysFormProps) {
+export const SurveysForm = (props: SurveysFormProps) => {
   const [surveys, setSurveys] = useRecoilState(surveysState);
   const [enterprises, setEnterprises] = useRecoilState(enterpriseState);
   const [states, setStates] = useRecoilState(stateState);
@@ -471,6 +468,4 @@ export function SurveysForm(props: SurveysFormProps) {
       </div>
     )
   );
-}
-
-export default SurveysForm;
+};

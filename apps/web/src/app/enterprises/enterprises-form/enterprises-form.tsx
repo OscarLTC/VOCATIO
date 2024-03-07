@@ -1,21 +1,18 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import './enterprises-form.scss';
 import { bussinesLineState } from '../../store/bussinesline/bussinesline.atom';
 import { enterpriseState } from '../../store/enterprise/enterprise.atom';
-import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import axios from 'axios';
 import { environment } from '../../../environments/environment';
-import { useEffect } from 'react';
 import { BussinesLine } from '../../models/bussinesLine.model';
-
-/* eslint-disable-next-line */
-export interface EnterprisesFormProps {
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { Link, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import axios from 'axios';
+interface EnterprisesFormProps {
   formState: number;
 }
 
-export function EnterprisesForm(props: EnterprisesFormProps) {
+export const EnterprisesForm = (props: EnterprisesFormProps) => {
   const [bussinesLine, setBussinesLine] = useRecoilState(bussinesLineState);
   const setEnterprises = useSetRecoilState(enterpriseState);
   const {
@@ -190,6 +187,4 @@ export function EnterprisesForm(props: EnterprisesFormProps) {
       </div>
     </div>
   );
-}
-
-export default EnterprisesForm;
+};

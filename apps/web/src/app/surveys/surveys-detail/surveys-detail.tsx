@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
-import './surveys-detail.scss';
-import axios from 'axios';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import { environment } from '../../../environments/environment';
 import { Link, useParams } from 'react-router-dom';
-import { SurveyProgramming } from '../../models/surveyProgramming.model';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface SurveysDetailProps {}
-
-export function SurveysDetail(props: SurveysDetailProps) {
+export const SurveysDetail = () => {
   const [surveyDetails, setSurveyDetails] = useState<SurveyProgramming>();
 
   const { id } = useParams();
@@ -131,6 +127,4 @@ export function SurveysDetail(props: SurveysDetailProps) {
       </div>
     </div>
   );
-}
-
-export default SurveysDetail;
+};

@@ -1,25 +1,22 @@
-import { useRecoilState } from 'recoil';
-import './surveys-list.scss';
 import { surveysEnterpriseState } from '../../store/surveysEnterprise/surveysEnterprise.atom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
 import { environment } from '../../../environments/environment';
+import { State } from '../../components/state/state';
+import { Modal } from '../../components/modal/modal';
+import { formatDate } from '../../utils/dateUtils';
+import { MdDelete, MdEdit } from 'react-icons/md';
+import { RiLoader4Fill } from 'react-icons/ri';
+import { useEffect, useState } from 'react';
+import { GiCancel } from 'react-icons/gi';
 import { ImSearch } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { SurveyProgramming } from '../../models/surveyProgramming.model';
-import { MdDelete, MdEdit } from 'react-icons/md';
-import { GiCancel } from 'react-icons/gi';
-import State from '../../components/state/state';
-import Modal from '../../components/modal/modal';
-import { RiLoader4Fill } from 'react-icons/ri';
-import { formatDate } from '../../utils/dateUtils';
+import { useRecoilState } from 'recoil';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface SurveysListProps {}
-
-export function SurveysList(props: SurveysListProps) {
+export const SurveysList = () => {
   const [surveys, setSurveys] = useRecoilState(surveysEnterpriseState);
-  const [surveyFiltered, setSurveyFiltered] = useState<any>([]);
+  const [surveyFiltered, setSurveyFiltered] = useState([]);
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -66,7 +63,11 @@ export function SurveysList(props: SurveysListProps) {
 
   const getSurveysProgramming = () => {
     axios.get(`${environment.apiUrl}/surveyProgramming/all`).then((res) => {
-      setSurveys(res.data.sort((a: any, b: any) => b.id - a.id));
+      setSurveys(
+        res.data.sort(
+          (a: SurveyProgramming, b: SurveyProgramming) => b.id - a.id
+        )
+      );
     });
   };
 
@@ -75,9 +76,9 @@ export function SurveysList(props: SurveysListProps) {
       setSurveyFiltered(surveys);
     } else if (id == 1) {
       setSurveyFiltered(
-        surveys.filter((item: any) => {
+        surveys.filter((item: SurveyProgramming) => {
           const surveyProgrammingPerson = item.survey_programming_person.filter(
-            (person: any) => person.state.id === 3
+            (person: surveyProgrammingPerson) => person.state.id === 3
           );
           return (
             surveyProgrammingPerson.length > 0 &&
@@ -515,6 +516,4 @@ export function SurveysList(props: SurveysListProps) {
       />
     </div>
   );
-}
-
-export default SurveysList;
+};

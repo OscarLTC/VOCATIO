@@ -1,4 +1,3 @@
-import { Alternative } from './alternative.model';
 import { QuestionAlternative } from './questionAlternative.model';
 import { QuestionCategory } from './questionCategory.model';
 

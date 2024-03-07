@@ -1,8 +1,3 @@
-import { Bar, Doughnut, Radar, PolarArea } from 'react-chartjs-2';
-import { useState, useRef } from 'react';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import './reports-chart.scss';
-import { ResultType } from '../../models/resultType.model';
 import {
   ArcElement,
   BarElement,
@@ -16,7 +11,6 @@ import {
   RadialLinearScale,
   Title,
 } from 'chart.js';
-import { pdf } from '@react-pdf/renderer';
 import {
   convertAnswersToCounts,
   getGroupsValues,
@@ -27,14 +21,19 @@ import {
   getIdsValues,
   getResultArchetype,
 } from '../../dataAccess/surveyProgramming';
-import PdfDocument from '../pdf-document/pdf-document';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
-import { environment } from '../../../environments/environment';
-import { useBoolean, useEffectOnce, useInterval } from 'react-use';
-import { RiLoader2Fill } from 'react-icons/ri';
-import { ResultTypeTwo } from '../../models/result.model';
-import { useRecoilValue } from 'recoil';
 import { surveyPersonState } from '../../store/people/surveyPerson';
+import { useBoolean, useEffectOnce, useInterval } from 'react-use';
+import { environment } from '../../../environments/environment';
+import { ResultType } from '../../models/resultType.model';
+import { ResultTypeTwo } from '../../models/result.model';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import PdfDocument from '../pdf-document/pdf-document';
+import { Bar, Doughnut, Radar } from 'react-chartjs-2';
+import { RiLoader2Fill } from 'react-icons/ri';
+import { pdf } from '@react-pdf/renderer';
+import { useState, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 
 Chart.register(
@@ -51,12 +50,12 @@ Chart.register(
   Title
 );
 
-export interface ReportsChartProps {
+interface ReportsChartProps {
   pdfId?: number;
   surveyId?: number;
 }
 
-export function ReportsChart(props: ReportsChartProps) {
+export const ReportsChart = (props: ReportsChartProps) => {
   const [stylesResult, setStylesResult] = useState<ResultType>();
   const [maxIndexResult, setMaxIndexResult] = useState<number>(0);
   const [maxArchetypoResult, setMaxArchetypoResult] = useState<number[]>();
@@ -809,6 +808,4 @@ export function ReportsChart(props: ReportsChartProps) {
       )}
     </div>
   );
-}
-
-export default ReportsChart;
+};

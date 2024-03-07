@@ -1,16 +1,11 @@
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
-import './reports.scss';
-import ReportsView from './reports-view/reports-view';
-import { PDFViewer } from '@react-pdf/renderer';
-import ReportsPdf from './reports-pdf/reports-pdf';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { ReportsView } from './reports-view/reports-view';
+import { ReportsPdf } from './reports-pdf/reports-pdf';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/user/user.atom';
 import { useEffect } from 'react';
 
-/* eslint-disable-next-line */
-export interface ReportsProps {}
-
-export function Reports(props: ReportsProps) {
+export const Reports = () => {
   const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
@@ -29,6 +24,4 @@ export function Reports(props: ReportsProps) {
       </Routes>
     )
   );
-}
-
-export default Reports;
+};

@@ -1,22 +1,18 @@
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import './surveys-person.scss';
-import axios from 'axios';
-import { environment } from '../../../environments/environment';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
-import { Controller, useForm } from 'react-hook-form';
-import { Question } from '../../models/question.model';
 import { QuestionAlternative } from '../../models/questionAlternative.model';
 import { QuestionCategory } from '../../models/questionCategory.model';
-import toast, { Toaster } from 'react-hot-toast';
+import { surveyPersonState } from '../../store/people/surveyPerson';
+import { environment } from '../../../environments/environment';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Question } from '../../models/question.model';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useState, useRef } from 'react';
 import { BsArrowDownShort } from 'react-icons/bs';
 import { useSetRecoilState } from 'recoil';
-import { surveyPersonState } from '../../store/people/surveyPerson';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface SurveysPersonProps {}
-
-export function SurveysPerson(props: SurveysPersonProps) {
+export const SurveysPerson = () => {
   const [surveyPerson, setSurveyPerson] = useState<
     surveyProgrammingPerson | undefined
   >();
@@ -512,6 +508,4 @@ export function SurveysPerson(props: SurveysPersonProps) {
       )}
     </div>
   );
-}
-
-export default SurveysPerson;
+};

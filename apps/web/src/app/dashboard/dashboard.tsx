@@ -1,15 +1,11 @@
-import DashboardLastSurveyDetail from './dashboard-last-survey-detail/dashboard-last-survey-detail';
-import './dashboard.scss';
+import { DashboardLastSurveyDetail } from './dashboard-last-survey-detail/dashboard-last-survey-detail';
+import { DashboardTotalPercentage } from './dashboard-total-percentage/dashboard-total-percentage';
+import { DashboardLastTenSurveys } from './dashboard-last-ten-surveys/dashboard-last-ten-surveys';
+import { DashboardSurveyNumber } from './dashboard-survey-number/dashboard-survey-number';
+import { DashboardFiveEnterprises } from './dashboard-five-enterprises/dashboard-five-enterprises';
 import 'react-circular-progressbar/dist/styles.css';
-import DashboardTotalPercentage from './dashboard-total-percentage/dashboard-total-percentage';
-import DashboardLastTenSurveys from './dashboard-last-ten-surveys/dashboard-last-ten-surveys';
-import DashboardSurveyNumber from './dashboard-survey-number/dashboard-survey-number';
-import DashboardFiveEnterprises from './dashboard-five-enterprises/dashboard-five-enterprises';
 
-/* eslint-disable-next-line */
-export interface DashboardProps {}
-
-export function Dashboard(props: DashboardProps) {
+export const Dashboard = () => {
   return (
     <div className="lg:h-[100vh] bg-[aliceblue]">
       <div className="h-full w-full p-10 flex flex-col gap-3  ">
@@ -25,6 +21,4 @@ export function Dashboard(props: DashboardProps) {
       </div>
     </div>
   );
-}
-
-export default Dashboard;
+};

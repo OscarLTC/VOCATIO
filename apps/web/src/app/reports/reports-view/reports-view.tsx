@@ -1,35 +1,21 @@
-import { useForm } from 'react-hook-form';
-import { useEffectOnce } from 'react-use';
-import './reports-view.scss';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { SurveyProgramming } from '../../models/surveyProgramming.model';
+import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
 import { environment } from '../../../environments/environment';
 import { Enterprise } from '../../models/enterprise.model';
-import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
-import { SurveyProgramming } from '../../models/surveyProgramming.model';
+import { useEffectOnce } from 'react-use';
+import { useForm } from 'react-hook-form';
 import Select from 'react-select';
-import ReportsChart from '../reports-chart/reports-chart';
-import Enterprises from '../../enterprises/enterprises';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface ReportsViewProps {}
-
-export function ReportsView(props: ReportsViewProps) {
+export const ReportsView = () => {
   const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
   const [surveys, setSurveys] = useState<Array<SurveyProgramming>>([]);
   const [surveysData, setSurveysData] = useState<SurveyProgramming | null>();
   const [searchText, setSearchText] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm({
+  const { register, setValue, handleSubmit, watch } = useForm({
     defaultValues: {
       enterprise_id: '',
       surveyEnterprise_id: '',
@@ -111,13 +97,13 @@ export function ReportsView(props: ReportsViewProps) {
                 <span className="w-24 text-start">Empresa:</span>
                 <Select
                   styles={{
-                    control: (baseStyles, state) => ({
+                    control: (baseStyles) => ({
                       ...baseStyles,
                       textAlign: 'left',
                       backgroundColor: 'transparent',
                       borderColor: 'transparent',
                     }),
-                    option: (provided, state) => ({
+                    option: (provided) => ({
                       ...provided,
                       textAlign: 'left',
                     }),
@@ -136,13 +122,13 @@ export function ReportsView(props: ReportsViewProps) {
                 <span className="w-24 text-start">Encuesta:</span>
                 <Select
                   styles={{
-                    control: (baseStyles, state) => ({
+                    control: (baseStyles) => ({
                       ...baseStyles,
                       textAlign: 'left',
                       backgroundColor: 'transparent',
                       borderColor: 'transparent',
                     }),
-                    option: (provided, state) => ({
+                    option: (provided) => ({
                       ...provided,
                       textAlign: 'left',
                     }),
@@ -295,6 +281,4 @@ export function ReportsView(props: ReportsViewProps) {
       </div>
     </div>
   );
-}
-
-export default ReportsView;
+};

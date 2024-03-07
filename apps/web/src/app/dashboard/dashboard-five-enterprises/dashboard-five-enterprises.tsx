@@ -1,5 +1,4 @@
 import { Bar } from 'react-chartjs-2';
-import './dashboard-five-enterprises.scss';
 import {
   ArcElement,
   BarElement,
@@ -29,10 +28,7 @@ interface enterprise {
   amount: number;
 }
 
-/* eslint-disable-next-line */
-export interface DashboardFiveEnterprisesProps {}
-
-export function DashboardFiveEnterprises(props: DashboardFiveEnterprisesProps) {
+export const DashboardFiveEnterprises = () => {
   const [enterprises, setEnterprises] = useState<Array<enterprise>>();
 
   useEffect(() => {
@@ -122,6 +118,4 @@ export function DashboardFiveEnterprises(props: DashboardFiveEnterprisesProps) {
       )}
     </div>
   );
-}
-
-export default DashboardFiveEnterprises;
+};

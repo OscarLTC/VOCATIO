@@ -8,23 +8,11 @@ import {
   Text,
   View,
 } from '@react-pdf/renderer';
-import './pdf-document-estilos-de-aprendizaje.scss';
 import { formatDate, getCustomDate } from '../../../utils/dateUtils';
 import { Person } from '../../../models/person.model';
 import { SurveyProgramming } from '../../../models/surveyProgramming.model';
 import { Answer } from '../../../models/answer.model';
 import { ResultTypeSix } from '../../../models/result.model';
-
-/* eslint-disable-next-line */
-export interface PdfDocumentEstilosDeAprendizajeProps {
-  imageURL: string;
-  person: Person;
-  surveyProgramming: SurveyProgramming;
-  answers: Answer[];
-  endDate: string;
-  maxIndexSurvey?: number;
-  resultForSurvey: ResultTypeSix;
-}
 
 const styles = StyleSheet.create({
   page: {
@@ -94,10 +82,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+interface PdfDocumentEstilosDeAprendizajeProps {
+  imageURL: string;
+  person: Person;
+  surveyProgramming: SurveyProgramming;
+  answers: Answer[];
+  endDate: string;
+  maxIndexSurvey?: number;
+  resultForSurvey: ResultTypeSix;
+}
 
-export function PdfDocumentEstilosDeAprendizaje(
+export const PdfDocumentEstilosDeAprendizaje = (
   props: PdfDocumentEstilosDeAprendizajeProps
-) {
+) => {
   const getResultSix = () => props.resultForSurvey as ResultTypeSix;
   return (
     <Document>
@@ -621,6 +618,6 @@ export function PdfDocumentEstilosDeAprendizaje(
       </Page>
     </Document>
   );
-}
+};
 
 export default PdfDocumentEstilosDeAprendizaje;

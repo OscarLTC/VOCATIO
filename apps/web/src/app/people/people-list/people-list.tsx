@@ -1,19 +1,15 @@
-import './people-list.scss';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { environment } from '../../../environments/environment';
+import { peopleState } from '../../store/people/people.atom';
+import { Modal } from '../../components/modal/modal';
 import { Person } from '../../models/person.model';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { useEffect, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
+import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { peopleState } from '../../store/people/people.atom';
-import Modal from '../../components/modal/modal';
-import { environment } from '../../../environments/environment';
+import axios from 'axios';
 
-/* eslint-disable-next-line */
-export interface PeopleListProps {}
-
-export function PeopleList(props: PeopleListProps) {
+export const PeopleList = () => {
   const [people, setPeople] = useRecoilState(peopleState);
   const [searchData, setSearchData] = useState<string>('');
   const [idToDelete, setIdToDelete] = useState<number>(0);
@@ -218,5 +214,4 @@ export function PeopleList(props: PeopleListProps) {
       />
     </div>
   );
-}
-export default PeopleList;
+};

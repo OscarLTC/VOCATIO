@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
-import './modal.scss';
 
-/* eslint-disable-next-line */
-export interface ModalProps {
+interface ModalProps {
   isOpen: boolean;
   item: string;
   message: string;
@@ -11,7 +9,7 @@ export interface ModalProps {
   onConfirm?: () => void;
 }
 
-export function Modal(props: ModalProps) {
+export const Modal = (props: ModalProps) => {
   const [isVisible, setIsVisible] = useState(props.isOpen);
 
   useEffect(() => {
@@ -55,6 +53,4 @@ export function Modal(props: ModalProps) {
       </div>
     </div>
   ) : null;
-}
-
-export default Modal;
+};

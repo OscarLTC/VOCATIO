@@ -1,22 +1,17 @@
-import { useState } from 'react';
-import './navbar.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   HiBuildingOffice2,
   HiOutlineClipboardDocumentList,
 } from 'react-icons/hi2';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { MdPendingActions, MdDashboard } from 'react-icons/md';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { userState } from '../../store/user/user.atom';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import { IoPeopleSharp } from 'react-icons/io5';
-// import { BiSolidDashboard } from 'react-icons/bi';
-import { MdPendingActions, MdDashboard } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
-import { userState } from '../../store/user/user.atom';
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { useState } from 'react';
 
-/* eslint-disable-next-line */
-export interface NavbarProps {}
-
-export function Navbar(props: NavbarProps) {
+export const Navbar = () => {
   const setUset = useSetRecoilState(userState);
 
   const location = useLocation();
@@ -274,6 +269,4 @@ export function Navbar(props: NavbarProps) {
       </div>
     </>
   );
-}
-
-export default Navbar;
+};

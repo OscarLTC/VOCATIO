@@ -1,7 +1,6 @@
 import { Answer } from './answer.model';
 import { Person } from './person.model';
 import { State } from './state.model';
-import { Survey } from './survey.model';
 import { SurveyProgramming } from './surveyProgramming.model';
 
 export interface surveyProgrammingPerson {

@@ -7,21 +7,10 @@ import {
   Text,
   View,
 } from '@react-pdf/renderer';
-import './pdf-document-arquetipos.scss';
 import { Person } from '../../../models/person.model';
 import { SurveyProgramming } from '../../../models/surveyProgramming.model';
 import { ResultTypeTwo } from '../../../models/result.model';
-import { useState } from 'react';
 import { formatDateText } from '../../../utils/dateUtils';
-
-/* eslint-disable-next-line */
-export interface PdfDocumentArquetiposProps {
-  person: Person;
-  surveyProgramming: SurveyProgramming;
-  resultForSurvey: ResultTypeTwo[];
-  maxIndexSurvey: number[];
-  imageURL: string;
-}
 
 const styles = StyleSheet.create({
   page: {
@@ -132,7 +121,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export function PdfDocumentArquetipos(props: PdfDocumentArquetiposProps) {
+interface PdfDocumentArquetiposProps {
+  person: Person;
+  surveyProgramming: SurveyProgramming;
+  resultForSurvey: ResultTypeTwo[];
+  maxIndexSurvey: number[];
+  imageURL: string;
+}
+
+export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -1702,6 +1699,4 @@ export function PdfDocumentArquetipos(props: PdfDocumentArquetiposProps) {
       </Page>
     </Document>
   );
-}
-
-export default PdfDocumentArquetipos;
+};
