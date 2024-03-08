@@ -1,7 +1,7 @@
 import { BussinesLine } from './bussinesLine.model';
 
 export interface Enterprise {
-  id: string;
+  id: number;
   name: string;
   contactName: string;
   phoneContact: string;

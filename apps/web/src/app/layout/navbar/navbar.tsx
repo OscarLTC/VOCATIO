@@ -128,7 +128,7 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="lg:hidden block bg-[aliceblue]">
+      <div className="lg:hidden block bg-[aliceblue] ">
         <div className="flex justify-end py-5 px-5">
           {isMenuHidden ? (
             <AiOutlineMenu size={25} onClick={() => setIsMenuHidden(false)} />
@@ -139,7 +139,7 @@ export const Navbar = () => {
         <div
           className={
             !isMenuHidden
-              ? 'fixed left-0 select-none top-0 w-[60%] h-full border-r border-gray-600 bg-white ease-in-out duration-500'
+              ? 'fixed left-0 select-none top-0 w-[60%] h-full border-r border-gray-600 bg-white ease-in-out duration-500 z-10'
               : 'fixed left-[-100%] top-0  h-full   select-none ease-out duration-1000'
           }
         >

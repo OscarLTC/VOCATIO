@@ -17,10 +17,7 @@ export const SignIn = () => {
 
   const {
     register,
-    setValue,
     handleSubmit,
-    reset,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -39,7 +36,7 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="bg-[url('/src/assets/img/motivo_3.png')] bg-contain h-[100vh] w-[100vw] flex">
+    <div className="bg-[url('/src/assets/img/motivo_3.webp')] bg-contain h-[100vh] w-[100vw] flex">
       <form
         className="rounded text-center h-fit self-center mx-auto bg-white p-5 "
         onSubmit={handleSubmit(onSubmit)}
