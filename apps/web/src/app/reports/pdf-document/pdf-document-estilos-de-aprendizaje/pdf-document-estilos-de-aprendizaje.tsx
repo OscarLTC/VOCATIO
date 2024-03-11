@@ -1,6 +1,5 @@
 import {
   Document,
-  Font,
   Image,
   Link,
   Page,
@@ -314,7 +313,7 @@ export const PdfDocumentEstilosDeAprendizaje = (
                   border: '2px',
                   borderColor: '#006699',
                   backgroundColor: `${
-                    1 == props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
+                    1 === props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
                   }`,
                 }}
               ></View>
@@ -328,7 +327,7 @@ export const PdfDocumentEstilosDeAprendizaje = (
                   border: '2px',
                   borderColor: '#006699',
                   backgroundColor: `${
-                    2 == props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
+                    2 === props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
                   }`,
                 }}
               ></View>
@@ -342,7 +341,7 @@ export const PdfDocumentEstilosDeAprendizaje = (
                   border: '2px',
                   borderColor: '#006699',
                   backgroundColor: `${
-                    3 == props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
+                    3 === props.maxIndexSurvey ?? '0' ? '#23ad8c' : '#fff'
                   }`,
                 }}
               ></View>
@@ -472,6 +471,7 @@ export const PdfDocumentEstilosDeAprendizaje = (
                   ) {
                     return <Text key={index}>{`o ${feature}. \n`}</Text>;
                   }
+                  return null;
                 })}
             </Text>
           </View>

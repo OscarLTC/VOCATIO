@@ -11,6 +11,8 @@ import { Person } from '../../../models/person.model';
 import { SurveyProgramming } from '../../../models/surveyProgramming.model';
 import { ResultTypeTwo } from '../../../models/result.model';
 import { formatDateText } from '../../../utils/dateUtils';
+import { MainHeader } from '../../../components/pdf/MainHeader';
+import { MainFooter } from '../../../components/pdf/MainFooter';
 
 const styles = StyleSheet.create({
   page: {
@@ -133,38 +135,10 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.content}>
-          <View style={{ marginTop: 70, marginBottom: 10 }}>
-            <Text style={{ fontSize: 12, fontWeight: 600, letterSpacing: 3 }}>
-              REPORTE DE RESULTADOS
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              borderTop: 3,
-              borderBottom: 3,
-              borderColor: '#013552',
-              paddingVertical: 15,
-              color: '#013552',
-            }}
-          >
-            <View style={{ width: '350px' }}>
-              <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
-                Test de Arquetipos de Personalidad
-              </Text>
-              <Text style={{ fontSize: 15, fontWeight: 'semibold' }}>
-                (Basado en la teoría de Carl Jung)
-              </Text>
-            </View>
-            <Image
-              style={{ width: 70 }}
-              src={'/src/assets/img/logo_principal_color.png'}
-            />
-          </View>
-        </View>
+        <MainHeader
+          title={'Test de Arquetipos\nde Personalidad'}
+          subtitle="(Basado en la teoría de Carl Jung)"
+        />
         <View
           style={{
             marginTop: 25,
@@ -177,80 +151,16 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
             src={'/src/assets/img/portada_arquetipos.png'}
           />
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: '#013552',
-            marginHorizontal: 30,
-            paddingVertical: 30,
-            paddingHorizontal: 60,
-            color: 'white',
-            borderTopLeftRadius: 40,
-            borderTopRightRadius: 40,
-            fontSize: 13,
+        <MainFooter
+          person={{
+            lastName: props.person.lastName,
+            name: props.person.name,
           }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              gap: 5,
-            }}
-          >
-            <Text style={{ fontWeight: 'bold' }}>Nombre y Apellidos:</Text>
-            <Text
-              style={{
-                fontSize: 12,
-                alignSelf: 'center',
-                fontWeight: 'medium',
-              }}
-            >
-              {`${props.person.name} ${props.person.lastName}`}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              gap: 5,
-            }}
-          >
-            <Text style={{ fontWeight: 'bold' }}>Grado de Instrucción:</Text>
-            <Text
-              style={{
-                fontSize: 12,
-                alignSelf: 'center',
-                fontWeight: 'medium',
-              }}
-            >
-              {props.surveyProgramming.section}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              gap: 5,
-            }}
-          >
-            <Text style={{ fontWeight: 'bold' }}>Fecha de Culminación: </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                alignSelf: 'center',
-                fontWeight: 'medium',
-              }}
-            >
-              {formatDateText(props.surveyProgramming.endDate)}
-            </Text>
-          </View>
-        </View>
+          surveyProgramming={{
+            endDate: props.surveyProgramming.endDate,
+            section: props.surveyProgramming.section,
+          }}
+        />
       </Page>
       <Page size="A4" style={styles.page}>
         <View style={{ width: '100%', display: 'flex' }}>
@@ -481,7 +391,9 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
             </Text>
             <Text style={{ fontWeight: 'bold' }}>VOCATIO</Text>
           </View>
-          <Text style={{ fontWeight: 'medium' }}>2023</Text>
+          <Text style={{ fontWeight: 'medium' }}>
+            {new Date().getFullYear()}
+          </Text>
         </View>
       </Page>
       <Page size="A4" style={styles.page}>
@@ -898,7 +810,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginLeft: 20,
                   marginTop: `${
-                    props.resultForSurvey[0]?.category_id == 132 ? 25 : 0
+                    props.resultForSurvey[0]?.category_id === 132 ? 25 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[0]?.image_archetype[0]}`}
@@ -1053,7 +965,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginRight: 20,
                   marginTop: `${
-                    props.resultForSurvey[0].category_id == 132 ? 25 : 0
+                    props.resultForSurvey[0].category_id === 132 ? 25 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[0].image_archetype[1]}`}
@@ -1179,7 +1091,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginRight: 20,
                   marginTop: `${
-                    props.resultForSurvey[1].category_id == 132 ? 20 : 0
+                    props.resultForSurvey[1].category_id === 132 ? 20 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[1].image_archetype[0]}`}
@@ -1213,7 +1125,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginLeft: 20,
                   marginTop: `${
-                    props.resultForSurvey[1].category_id == 132 ? 25 : 0
+                    props.resultForSurvey[1].category_id === 132 ? 25 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[1].image_archetype[1]}`}
@@ -1418,7 +1330,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginRight: 20,
                   marginTop: `${
-                    props.resultForSurvey[2].category_id == 132 ? 25 : 0
+                    props.resultForSurvey[2].category_id === 132 ? 25 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[2].image_archetype[0]}`}
@@ -1452,7 +1364,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
                   width: 200,
                   marginLeft: 20,
                   marginTop: `${
-                    props.resultForSurvey[2].category_id == 132 ? 25 : 0
+                    props.resultForSurvey[2].category_id === 132 ? 25 : 0
                   }`,
                 }}
                 src={`/src/assets/img/${props.resultForSurvey[2].image_archetype[1]}`}

@@ -1,7 +1,7 @@
-import { SurveysDetail } from './surveys-detail/surveys-detail';
+import { SurveysDetail } from './surveys-detail/SurveysDetail';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { SurveysList } from './surveys-list/surveys-list';
-import { SurveysForm } from './surveys-form/surveys-form';
+import { SurveysList } from './surveys-list/SurveysList';
+import { SurveysForm } from './surveys-form/SurveysForm';
 import { userState } from '../store/user/user.atom';
 import { useRecoilValue } from 'recoil';
 import { useEffect } from 'react';

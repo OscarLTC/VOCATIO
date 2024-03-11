@@ -1,8 +1,8 @@
-import { DashboardLastSurveyDetail } from './dashboard-last-survey-detail/dashboard-last-survey-detail';
-import { DashboardTotalPercentage } from './dashboard-total-percentage/dashboard-total-percentage';
-import { DashboardLastTenSurveys } from './dashboard-last-ten-surveys/dashboard-last-ten-surveys';
-import { DashboardSurveyNumber } from './dashboard-survey-number/dashboard-survey-number';
-import { DashboardFiveEnterprises } from './dashboard-five-enterprises/dashboard-five-enterprises';
+import { DashboardLastSurveyDetail } from './dashboard-last-survey-detail/DashboardLastSurveyDetail';
+import { DashboardTotalPercentage } from './dashboard-total-percentage/DashboardTotalPercentage';
+import { DashboardLastTenSurveys } from './dashboard-last-ten-surveys/DashboardLastTenSurveys';
+import { DashboardSurveyNumber } from './dashboard-survey-number/DashboardSurveyNumber';
+import { DashboardFiveEnterprises } from './dashboard-five-enterprises/DashboardFiveEnterprises';
 import 'react-circular-progressbar/dist/styles.css';
 
 export const Dashboard = () => {

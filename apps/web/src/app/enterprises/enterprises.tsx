@@ -1,5 +1,5 @@
-import { EnterprisesList } from './enterprises-list/enterprises-list';
-import { EnterprisesForm } from './enterprises-form/enterprises-form';
+import { EnterprisesList } from './enterprises-list/EnterprisesList';
+import { EnterprisesForm } from './enterprises-form/EnterprisesForm';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { userState } from '../store/user/user.atom';
 import { useRecoilValue } from 'recoil';

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { environment } from '../../../environments/environment';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
 
@@ -39,17 +40,17 @@ export const ReportTable = (props: ReportTableProps) => {
                   {survey.person.name} {survey.person.lastName}
                 </td>
                 <td className="w-20">
-                  {survey.state.id == 2 ? (
+                  {survey.state.id === 2 ? (
                     <div className="w-5 h-5 rounded-full bg-red-500 m-auto"></div>
                   ) : (
                     <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
                   )}
                 </td>
-                {/* <td>
-              <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
-            </td> */}
+                <td>
+                  <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
+                </td>
                 <td className="">
-                  {survey.state.id == 3 ? (
+                  {survey.state.id === 3 ? (
                     <a
                       className="text-blue-600 text-sm"
                       href={survey.pdfBlob}

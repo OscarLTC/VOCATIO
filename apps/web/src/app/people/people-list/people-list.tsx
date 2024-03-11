@@ -1,6 +1,6 @@
 import { environment } from '../../../environments/environment';
 import { peopleState } from '../../store/people/people.atom';
-import { Modal } from '../../components/modal/modal';
+import { Modal } from '../../components/modal/Modal';
 import { Person } from '../../models/person.model';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { useEffect, useState } from 'react';
