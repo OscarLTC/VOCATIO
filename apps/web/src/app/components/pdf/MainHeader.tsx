@@ -9,7 +9,7 @@ export const MainHeader = (props: MainHeaderProps) => {
   return (
     <View
       style={{
-        paddingHorizontal: '25px',
+        paddingHorizontal: 50,
       }}
     >
       <View style={{ marginTop: 70, marginBottom: 10 }}>

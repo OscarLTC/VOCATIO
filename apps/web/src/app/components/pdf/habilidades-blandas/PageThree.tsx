@@ -3,7 +3,7 @@ import { CardHabilidades } from './CardHabilidades';
 import { DocumentsFooter } from '../DocumentsFooter';
 
 export const PageThree = () => {
-  const abilities: Array<{ title: string; content: string }> = [
+  const skills: Array<{ title: string; content: string }> = [
     {
       title: '3. Comunicación',
       content:
@@ -49,11 +49,11 @@ export const PageThree = () => {
             lineHeight: 2,
           }}
         >
-          {abilities.map((ability, index) => (
+          {skills.map((skill, index) => (
             <CardHabilidades
               key={index}
-              title={ability.title}
-              description={ability.content}
+              title={skill.title}
+              description={skill.content}
             />
           ))}
         </View>

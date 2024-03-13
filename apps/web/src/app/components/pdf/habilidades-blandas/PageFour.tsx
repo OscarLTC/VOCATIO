@@ -1,6 +1,7 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
 import { CardHabilidades } from './CardHabilidades';
+import { LogoFooter } from '../LogoFooter';
 
 export const PageFour = () => {
   return (
@@ -46,6 +47,7 @@ export const PageFour = () => {
           </Text>
         </View>
       </View>
+      <LogoFooter />
       <DocumentsFooter />
     </Page>
   );

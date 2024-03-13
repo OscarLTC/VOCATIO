@@ -13,8 +13,12 @@ export const CardHabilidades = (props: CardHabilidadesProps) => {
         backgroundColor: '#f2f2f2',
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
+        borderTopRightRadius: 20,
         paddingBottom: 10,
         marginTop: 10,
+        borderRightWidth: 0.5,
+        borderBottomWidth: 2,
+        borderColor: '#b5b5b5',
       }}
     >
       <View

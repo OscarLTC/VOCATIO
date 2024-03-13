@@ -1,9 +1,10 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
 import { CardHabilidades, CardHabilidadesProps } from './CardHabilidades';
+import { TitlePdf } from '../Title';
 
 export const PageTwo = () => {
-  const abilities: CardHabilidadesProps[] = [
+  const skills: CardHabilidadesProps[] = [
     {
       title: '1. Liderazgo',
       description:
@@ -27,18 +28,7 @@ export const PageTwo = () => {
       }}
     >
       <View style={{ paddingHorizontal: 35, marginTop: 70 }}>
-        <View style={{ borderBottom: 3, borderColor: '#013552' }}>
-          <Text
-            style={{
-              color: '#013552',
-              fontWeight: 'bold',
-              fontSize: 30,
-              paddingLeft: 20,
-            }}
-          >
-            Presentación
-          </Text>
-        </View>
+        <TitlePdf title="Presentación" />
         <View
           style={{
             fontSize: 12,
@@ -63,11 +53,11 @@ export const PageTwo = () => {
           <Text>
             {`Las habilidades blandas más importantes son las siguientes:`}
           </Text>
-          {abilities.map((ability, index) => (
+          {skills.map((skill, index) => (
             <CardHabilidades
               key={index}
-              title={ability.title}
-              description={ability.description}
+              title={skill.title}
+              description={skill.description}
             />
           ))}
         </View>

@@ -16,14 +16,14 @@ export const PageOne = () => {
       <MainHeader title={'Test de Habilidades\nBlandas'} />
       <View
         style={{
-          marginTop: 25,
+          marginTop: 15,
           flexDirection: 'row',
           justifyContent: 'center',
         }}
       >
         <Image
-          style={{ width: 520 }}
-          src={'/src/assets/img/portada_arquetipos.png'}
+          style={{ width: 480 }}
+          src={'/src/assets/img/skills/cover_image.png'}
         />
       </View>
       <MainFooter
