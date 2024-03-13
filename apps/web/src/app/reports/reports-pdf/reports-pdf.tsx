@@ -10,12 +10,12 @@ export const ReportsPdf = () => {
   return (
     <PDFViewer className="h-[100vh]">
       <Document>
-        <PageOne />
+        {/* <PageOne />
         <PageTwo />
         <PageThree />
-        <PageFour />
+        <PageFour /> */}
         <PageFive />
-        <PageSix />
+        {/* <PageSix /> */}
       </Document>
     </PDFViewer>
   );
