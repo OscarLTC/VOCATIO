@@ -1,8 +1,21 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
-import { CardHabilidades } from './CardHabilidades';
+import { CardHabilidades, CardHabilidadesProps } from './CardHabilidades';
 
 export const PageTwo = () => {
+  const abilities: CardHabilidadesProps[] = [
+    {
+      title: '1. Liderazgo',
+      description:
+        'Se  refiere  a  las habilidades  que  se  ponen  en  práctica  para  el  logro  de objetivos  y  metas,  se relaciona  con dirigir,  delegar, gestionar,  promover, motivar, convocar y evaluar las condiciones y resultados de una determinada tarea.',
+    },
+    {
+      title: '2. Trabajo en equipo',
+      description:
+        'Relacionado   a   la   capacidad  de   constituirse   en   un  grupo   humano organizado,   que   poseen   habilidades  y  estrategias  necesarias  para desempeñar  determinada  gestión, demostrando proactividad en el logro de objetivos y metas.',
+    },
+  ];
+
   return (
     <Page
       size="A4"
@@ -50,18 +63,13 @@ export const PageTwo = () => {
           <Text>
             {`Las habilidades blandas más importantes son las siguientes:`}
           </Text>
-          <CardHabilidades
-            title="1. Liderazgo"
-            description={
-              'Se  refiere  a  las habilidades  que  se  ponen  en  práctica  para  el  logro  de objetivos  y  metas,  se relaciona  con dirigir,  delegar, gestionar,  promover, motivar, convocar y evaluar las condiciones y resultados de una determinada tarea.'
-            }
-          />
-          <CardHabilidades
-            title="2. Trabajo en equipo"
-            description={
-              'Relacionado   a   la   capacidad  de   constituirse   en   un  grupo   humano organizado,   que   poseen   habilidades  y  estrategias  necesarias  para desempeñar  determinada  gestión, demostrando proactividad en el logro de objetivos y metas.'
-            }
-          />
+          {abilities.map((ability, index) => (
+            <CardHabilidades
+              key={index}
+              title={ability.title}
+              description={ability.description}
+            />
+          ))}
         </View>
       </View>
       <DocumentsFooter />

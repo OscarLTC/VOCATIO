@@ -1,6 +1,6 @@
 import { Text, View } from '@react-pdf/renderer';
 
-interface CardHabilidadesProps {
+export interface CardHabilidadesProps {
   title: string;
   description: string;
 }
