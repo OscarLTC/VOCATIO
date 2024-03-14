@@ -1,9 +1,9 @@
 import { Page, View } from '@react-pdf/renderer';
 import { TitlePdf } from '../Title';
-import { SkillChart } from './SkillChart';
+import { SkillChart, SkillChartProps } from './SkillChart';
 import { DocumentsFooter } from '../DocumentsFooter';
 
-export const PageFive = () => {
+export const PageFive = (props: SkillChartProps) => {
   return (
     <Page
       size="A4"
@@ -16,7 +16,7 @@ export const PageFive = () => {
     >
       <View style={{ paddingHorizontal: 35, marginTop: 70 }}>
         <TitlePdf title="Gráfica de resultados" />
-        <SkillChart />
+        <SkillChart skills={props.skills} />
       </View>
       <DocumentsFooter />
     </Page>

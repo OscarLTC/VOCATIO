@@ -2,7 +2,18 @@ import { Image, Page, View } from '@react-pdf/renderer';
 import { MainFooter } from '../MainFooter';
 import { MainHeader } from '../MainHeader';
 
-export const PageOne = () => {
+interface PageOneProps {
+  person: {
+    name: string;
+    lastName: string;
+  };
+  surveyProgramming: {
+    section: string;
+    endDate: string;
+  };
+}
+
+export const PageOne = (props: PageOneProps) => {
   return (
     <Page
       size="A4"
@@ -27,14 +38,8 @@ export const PageOne = () => {
         />
       </View>
       <MainFooter
-        person={{
-          name: 'Javier',
-          lastName: 'Vargas Ordinola',
-        }}
-        surveyProgramming={{
-          section: '4to de secundaria',
-          endDate: '2024-04-05',
-        }}
+        person={props.person}
+        surveyProgramming={props.surveyProgramming}
       />
     </Page>
   );

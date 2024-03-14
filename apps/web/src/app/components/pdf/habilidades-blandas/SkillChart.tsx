@@ -1,79 +1,216 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 
-export const SkillChart = () => {
-  const skills = [
+export interface SkillChartProps {
+  skills: Array<{
+    title: string;
+    image: string;
+    percentage: number;
+    color: string;
+  }>;
+}
+
+export const SkillChart = (props: SkillChartProps) => {
+  const levels = [
     {
-      title: 'Liderazgo',
-      image: '/src/assets/img/skills/liderazgo.png',
+      title: 'Muy Bajo',
+      range: '0-19%',
     },
     {
-      title: 'Resolución\nde conflictos',
-      image: '/src/assets/img/skills/resolucion_de_problemas.png',
+      title: 'Bajo',
+      range: '20-39%',
     },
     {
-      title: 'Empatía',
-      image: '/src/assets/img/skills/empatia.png',
+      title: 'Promedio',
+      range: '40-59%',
     },
     {
-      title: 'Gestión\ndel Tiempo',
-      image: '/src/assets/img/skills/gestion_del_tiempo.png',
+      title: 'Alto',
+      range: '60-79%',
     },
     {
-      title: 'Habilidades\norganizativas',
-      image: '/src/assets/img/skills/habilidades_organizativas.png',
-    },
-    {
-      title: 'Trabajo\nen equipo',
-      image: '/src/assets/img/skills/trabajo_en_equipo.png',
-    },
-    {
-      title: 'Comunicación',
-      image: '/src/assets/img/skills/comunicacion.png',
+      title: 'Muy Alto',
+      range: '80-100%',
     },
   ];
 
   return (
-    <View style={{ paddingVertical: 30 }}>
+    <View style={{ paddingVertical: 30, flexDirection: 'row' }}>
       <View
         style={{
           height: 500,
           paddingVertical: 10,
           fontSize: 10,
-          borderRightWidth: 1,
           overflow: 'hidden',
           flexDirection: 'column',
           justifyContent: 'space-between',
           width: 150,
         }}
       >
-        {skills.map((skill, index) => (
+        {props.skills
+          .sort((a, b) => b.percentage - a.percentage)
+          .map((skill, index) => (
+            <View
+              key={index}
+              style={{
+                textAlign: 'right',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 10,
+              }}
+            >
+              <Text style={{ fontSize: 9, width: 70, fontWeight: 'demibold' }}>
+                {skill.title}
+              </Text>
+              <Image
+                src={`/src/assets/img/skills/${skill.image}`}
+                style={{
+                  width: 60,
+                  height: 60,
+                }}
+              />
+            </View>
+          ))}
+      </View>
+      <View
+        style={{
+          flexDirection: 'column',
+        }}
+      >
+        <View
+          style={{
+            height: 500,
+            borderLeftWidth: 1,
+            justifyContent: 'space-between',
+            flexDirection: 'column',
+          }}
+        >
+          {props.skills.map((skill, index) => (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                height: '100%',
+                gap: 10,
+              }}
+              key={index}
+            >
+              <View
+                style={{
+                  height: 30,
+                  width: 3.3 * skill.percentage,
+                  backgroundColor: skill.color,
+                }}
+              ></View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  textAlign: 'center',
+                  fontWeight: 'demibold',
+                }}
+              >{`${skill.percentage}%`}</Text>
+            </View>
+          ))}
+        </View>
+        <View>
           <View
-            key={index}
             style={{
-              textAlign: 'right',
+              borderLeftWidth: 1,
+              height: 10,
               flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
+              width: 330,
+              borderBottomWidth: 1,
             }}
           >
-            <Text style={{ fontSize: 9, width: 70, fontWeight: 'demibold' }}>
-              {skill.title}
-            </Text>
-            <Image
-              src={skill.image}
-              style={{
-                width: 60,
-                height: 60,
-                marginVertical: 'auto',
-                objectFit: 'contain',
-              }}
-            />
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: '20%',
+                    borderRightWidth: 1,
+                  }}
+                ></View>
+              ))}
           </View>
-        ))}
-      </View>
-      <View>
-        <View></View>
-        <View></View>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <View
+              style={{
+                width: 330,
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                position: 'absolute',
+                left: -32,
+              }}
+            >
+              {Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: '#a8a8a8',
+                      textAlign: 'center',
+                      width: '20%',
+                    }}
+                  >
+                    {index * 20}
+                  </Text>
+                ))}
+            </View>
+            <Text
+              style={{
+                fontSize: 8,
+                color: '#a8a8a8',
+                textAlign: 'right',
+                width: 338,
+              }}
+            >
+              100
+            </Text>
+          </View>
+          <View
+            style={{
+              width: 330,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            {levels.map((level, index) => (
+              <View
+                key={index}
+                style={{
+                  flexDirection: 'column',
+                  fontSize: 8,
+                  color: '#494949',
+                  width: '20%',
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: 'center',
+                  }}
+                >
+                  {level.title}
+                </Text>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                  }}
+                >
+                  {level.range}
+                </Text>
+              </View>
+            ))}
+          </View>
+          <View style={{ width: 330, marginTop: 15 }}>
+            <Text
+              style={{ fontSize: 9, fontWeight: 'bold', textAlign: 'center' }}
+            >
+              Niveles de desarrollo
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
   );
