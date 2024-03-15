@@ -32,7 +32,7 @@ export const SurveysDetail = () => {
                 className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="text"
                 readOnly
-                defaultValue={surveyDetails?.survey.name}
+                defaultValue={surveyDetails?.survey?.name}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
@@ -43,7 +43,7 @@ export const SurveysDetail = () => {
                 className="sm:w-52 w-36 bg-gray-200 p-2 rounded outline-none"
                 type="text"
                 readOnly
-                defaultValue={surveyDetails?.enterprise.name}
+                defaultValue={surveyDetails?.enterprise?.name}
               />
             </div>
             <div className="mt-10 flex gap-4 items-center place-content-center">
@@ -98,7 +98,7 @@ export const SurveysDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {surveyDetails?.survey_programming_person.map((survey) => (
+                  {surveyDetails?.survey_programming_person?.map((survey) => (
                     <tr
                       className="even:bg-white odd:bg-gray-100"
                       key={survey.person?.id}

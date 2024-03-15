@@ -20,6 +20,7 @@ import {
   getSurveyPersonData,
   getIdsValues,
   getResultArchetype,
+  getSkillData,
 } from '../../dataAccess/surveyProgramming';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { surveyPersonState } from '../../store/people/surveyPerson';
@@ -124,8 +125,8 @@ export const ReportsChart = (props: ReportsChartProps) => {
           });
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 3) {
-          const skillsCount: any = getCategoriesValues(res.answers, 3);
-          setSkillsResult(skillsCount);
+          const skills: any = getSkillData(res.answers);
+          setSkillsResult(skills);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 4) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
@@ -173,6 +174,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
             maxIndexSurvey={
               surveyId === 6 ? maxIndexResult : maxArchetypoResult
             }
+            skills={skillsResult}
           />
         );
 
@@ -380,77 +382,10 @@ export const ReportsChart = (props: ReportsChartProps) => {
                   duration: 0,
                   onComplete: generate,
                 },
-                indexAxis: 'y' as const,
-                scales: {
-                  x: {
-                    beginAtZero: true,
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                },
-                elements: {
-                  bar: {
-                    borderWidth: 3,
-                    borderRadius: {
-                      bottomRight: 10,
-                      topRight: 10,
-                    },
-                  },
-                },
-                responsive: true,
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: '#000',
-                    font: {
-                      size: 30,
-                    },
-                  },
-                  legend: {
-                    position: 'top' as const,
-                    labels: {
-                      font: {
-                        size: 30,
-                      },
-                    },
-                  },
-                },
               }}
               data={{
-                labels: [
-                  skillsResult && skillsResult[0][0],
-                  skillsResult && skillsResult[1][0],
-                  skillsResult && skillsResult[2][0],
-                ],
-                datasets: [
-                  {
-                    label: 'Habilidad Principal',
-                    data: [
-                      skillsResult && skillsResult[0][1],
-                      skillsResult && skillsResult[1][1],
-                      skillsResult && skillsResult[2][1],
-                    ],
-                    borderColor: '#006699',
-                    borderWidth: 3,
-                    backgroundColor: ['#23ad8c', 'white', 'white'],
-                  },
-                ],
+                labels: [],
+                datasets: [],
               }}
             />
           )}

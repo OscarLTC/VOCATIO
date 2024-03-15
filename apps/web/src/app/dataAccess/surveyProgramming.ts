@@ -2,6 +2,8 @@ import axios from 'axios';
 import { environment } from '../../environments/environment';
 import { surveyProgrammingPerson } from '../models/surveyProgrammingPerson.model';
 import { Answer } from '../models/answer.model';
+import { SkillChartProps } from '../components/pdf/habilidades-blandas/SkillChart';
+import { SkillImages } from '../models/skill.enum';
 
 export const getSurveyPersonData = async (
   id: number
@@ -95,6 +97,43 @@ export const getIdsValues = (
     : (Object.entries(sumCategories).slice(0, topN) as Array<[string, number]>);
 
   return sortedCategories;
+};
+
+export const getSkillData = (answers: Array<Answer>) => {
+  const skills: SkillChartProps['skills'] = [];
+  const categories = getCategoriesValues(answers, 7);
+
+  type SkillImages = {
+    [key: string]: string;
+  };
+
+  const SkillImages: SkillImages = {
+    Liderazgo: 'liderazgo',
+    'Resolución\nde conflictos': 'resolucion_de_problemas',
+    Empatía: 'empatia',
+    'Gestión\ndel Tiempo': 'gestion_del_tiempo',
+    'Habilidades\norganizativas': 'habilidades_organizativas',
+    'Trabajo\nen equipo': 'trabajo_en_equipo',
+    Comunicación: 'comunicacion',
+  };
+
+  for (const category of categories) {
+    const title = category[0];
+    const percentage = category[1] / 30;
+    const color =
+      percentage < 0.4 ? '#9f9f9f' : percentage < 0.6 ? '#686868' : '#0a937c';
+
+    skills.push({
+      title,
+      image: `${SkillImages[title]}.png`,
+      percentage: Number((percentage * 100).toFixed(0)),
+      color,
+    });
+  }
+
+  console.log(skills);
+
+  return skills;
 };
 
 export const getResultArchetype = (ids: number[]) => {

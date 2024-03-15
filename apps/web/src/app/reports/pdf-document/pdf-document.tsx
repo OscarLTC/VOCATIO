@@ -10,6 +10,7 @@ import {
 import PdfDocumentEstilosDeAprendizaje from './pdf-document-estilos-de-aprendizaje/pdf-document-estilos-de-aprendizaje';
 import { PdfDocumentArquetipos } from './pdf-document-arquetipos/pdf-document-arquetipos';
 import { PdfDocumentGeneral } from './pdf-document-general/pdf-document-general';
+import { PdfDocumentHabilidadesBlandas } from './pdf-document-habilidades-blandas/PdfDocumentHabilidadesBlandas';
 
 interface PdfDocumentProps {
   imageURL: string;
@@ -20,6 +21,7 @@ interface PdfDocumentProps {
   endDate: string;
   maxIndexSurvey?: number | number[];
   resultForSurvey: ResultTypeSix | ResultTypeFour | ResultTypeTwo[];
+  skills?: any;
 }
 
 Font.register({
@@ -99,9 +101,11 @@ Font.register({
 });
 
 export const PdfDocument = (props: PdfDocumentProps) => {
+  console.log(props);
   return (
     <>
       {JSON.stringify(props)}
+
       {props.surveyId === 2 && (
         <PdfDocumentArquetipos
           person={props.person}
@@ -111,8 +115,20 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           maxIndexSurvey={props.maxIndexSurvey as number[]}
         />
       )}
+      {props.surveyId === 3 && (
+        <PdfDocumentHabilidadesBlandas
+          person={{
+            name: props.person.name,
+            lastName: props.person.lastName,
+          }}
+          surveyProgramming={{
+            section: props.surveyProgramming.section,
+            endDate: props.surveyProgramming.endDate,
+          }}
+          skills={props.skills}
+        />
+      )}
       {(props.surveyId === 1 ||
-        props.surveyId === 3 ||
         props.surveyId === 4 ||
         props.surveyId === 5 ||
         props.surveyId === 7) && (
@@ -135,15 +151,6 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           resultForSurvey={props.resultForSurvey as ResultTypeSix}
           surveyProgramming={props.surveyProgramming}
           maxIndexSurvey={props.maxIndexSurvey as number}
-        />
-      )}
-      {props.surveyId === 8 && (
-        <PdfDocumentArquetipos
-          person={props.person}
-          surveyProgramming={props.surveyProgramming}
-          imageURL={props.imageURL}
-          resultForSurvey={props.resultForSurvey as ResultTypeTwo[]}
-          maxIndexSurvey={props.maxIndexSurvey as number[]}
         />
       )}
     </>

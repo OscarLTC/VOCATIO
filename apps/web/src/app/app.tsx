@@ -7,9 +7,9 @@ import { ReportsChart } from './reports/reports-chart/reports-chart';
 import { Toaster } from 'react-hot-toast';
 import { SignIn } from './auth/sign-in/SignIn';
 import { People } from './people/people';
-import { Enterprises } from './enterprises/enterprises';
-import { Dashboard } from './dashboard/dashboard';
-import { Surveys } from './surveys/surveys';
+import { Enterprises } from './enterprises/Enterprises';
+import { Dashboard } from './dashboard/Dashboard';
+import { Surveys } from './surveys/Surveys';
 
 export function App() {
   return (

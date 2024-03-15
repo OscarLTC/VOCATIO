@@ -2,7 +2,7 @@ import { Image, Page, View } from '@react-pdf/renderer';
 import { MainFooter } from '../MainFooter';
 import { MainHeader } from '../MainHeader';
 
-interface PageOneProps {
+export interface PageOneProps {
   person: {
     name: string;
     lastName: string;
