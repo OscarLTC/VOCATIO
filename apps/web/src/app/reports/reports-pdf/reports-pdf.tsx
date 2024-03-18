@@ -1,7 +1,8 @@
 import { Document, PDFViewer } from '@react-pdf/renderer';
 import { PdfDocumentHabilidadesBlandas } from '../pdf-document/pdf-document-habilidades-blandas/PdfDocumentHabilidadesBlandas';
+import { PdfDocumentHabitosDeEstudio } from '../pdf-document/pdf-document-habitos-de-estudio/PdfDocumentHabitosDeEstudio';
 
-export const skillsData = [
+export const data = [
   {
     title: 'Liderazgo',
     image: 'liderazgo.png',
@@ -49,7 +50,7 @@ export const skillsData = [
 export const ReportsPdf = () => {
   return (
     <PDFViewer className="h-[100vh]">
-      <PdfDocumentHabilidadesBlandas
+      <PdfDocumentHabitosDeEstudio
         person={{
           name: 'Juan',
           lastName: 'Perez',
@@ -58,7 +59,7 @@ export const ReportsPdf = () => {
           section: 'Sección 1',
           endDate: '2021-12-12',
         }}
-        skills={skillsData}
+        habits={data}
       />
     </PDFViewer>
   );

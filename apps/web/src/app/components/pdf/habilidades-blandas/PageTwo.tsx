@@ -1,10 +1,10 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
-import { CardHabilidades, CardHabilidadesProps } from './CardHabilidades';
 import { TitlePdf } from '../Title';
+import { CardVar, CardVarProps } from '../CardVar';
 
 export const PageTwo = () => {
-  const skills: CardHabilidadesProps[] = [
+  const skills: Omit<CardVarProps, 'color'>[] = [
     {
       title: '1. Liderazgo',
       description:
@@ -54,7 +54,8 @@ export const PageTwo = () => {
             {`Las habilidades blandas más importantes son las siguientes:`}
           </Text>
           {skills.map((skill, index) => (
-            <CardHabilidades
+            <CardVar
+              color="#06917a"
               key={index}
               title={skill.title}
               description={skill.description}

@@ -1,7 +1,7 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
-import { CardHabilidades } from './CardHabilidades';
 import { LogoFooter } from '../LogoFooter';
+import { CardVar } from '../CardVar';
 
 export const PageFour = () => {
   return (
@@ -27,7 +27,8 @@ export const PageFour = () => {
             lineHeight: 2,
           }}
         >
-          <CardHabilidades
+          <CardVar
+            color="#06917a"
             title="7. Empatía"
             description="Es la habilidad que nos permite no sólo comprender y entender a la otra parte, sino también conectarnos con su vivencia, como los expresa y como lo siente, favoreciendo la interacción y entendimiento mutuo, facilita los acuerdos y también mejora la comunicación en todos los contextos."
           />
