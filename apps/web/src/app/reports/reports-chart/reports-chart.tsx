@@ -21,6 +21,7 @@ import {
   getIdsValues,
   getResultArchetype,
   getSkillData,
+  getHabitsData,
 } from '../../dataAccess/surveyProgramming';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { surveyPersonState } from '../../store/people/surveyPerson';
@@ -36,6 +37,7 @@ import { pdf } from '@react-pdf/renderer';
 import { useState, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
+import { data } from '../reports-pdf/reports-pdf';
 
 Chart.register(
   CategoryScale,
@@ -143,8 +145,8 @@ export const ReportsChart = (props: ReportsChartProps) => {
           setMaxIndexResult(resultMaxIndex);
           setIsDataChartReady(true);
         } else {
-          const skillsCount: any = getCategoriesValues(res.answers, 3);
-          setSkillsResult(skillsCount);
+          const habits: any = getHabitsData(res.answers);
+          setSkillsResult(habits);
           setIsDataChartReady(true);
         }
       }
@@ -174,7 +176,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
             maxIndexSurvey={
               surveyId === 6 ? maxIndexResult : maxArchetypoResult
             }
-            skills={skillsResult}
+            data={skillsResult}
           />
         );
 
@@ -652,77 +654,10 @@ export const ReportsChart = (props: ReportsChartProps) => {
                   duration: 0,
                   onComplete: generate,
                 },
-                indexAxis: 'y' as const,
-                scales: {
-                  x: {
-                    beginAtZero: true,
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                },
-                elements: {
-                  bar: {
-                    borderWidth: 3,
-                    borderRadius: {
-                      bottomRight: 10,
-                      topRight: 10,
-                    },
-                  },
-                },
-                responsive: true,
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: '#000',
-                    font: {
-                      size: 30,
-                    },
-                  },
-                  legend: {
-                    position: 'top' as const,
-                    labels: {
-                      font: {
-                        size: 30,
-                      },
-                    },
-                  },
-                },
               }}
               data={{
-                labels: [
-                  skillsResult && skillsResult[0][0],
-                  skillsResult && skillsResult[1][0],
-                  skillsResult && skillsResult[2][0],
-                ],
-                datasets: [
-                  {
-                    label: 'Inteligencia Principal',
-                    data: [
-                      skillsResult && skillsResult[0][1],
-                      skillsResult && skillsResult[1][1],
-                      skillsResult && skillsResult[2][1],
-                    ],
-                    borderColor: '#006699',
-                    borderWidth: 3,
-                    backgroundColor: ['#23ad8c', 'white', 'white'],
-                  },
-                ],
+                labels: [],
+                datasets: [],
               }}
             />
           )}

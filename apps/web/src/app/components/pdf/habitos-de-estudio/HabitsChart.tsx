@@ -47,8 +47,8 @@ export const HabitsChart = (props: HabitsChartProps) => {
         }}
       >
         {props.habits
-          .sort((a, b) => b.percentage - a.percentage)
-          .map((habit, index) => (
+          ?.sort((a, b) => b.percentage - a.percentage)
+          ?.map((habit, index) => (
             <View
               key={index}
               style={{
@@ -58,14 +58,14 @@ export const HabitsChart = (props: HabitsChartProps) => {
                 gap: 10,
               }}
             >
-              <Text style={{ fontSize: 9, width: 70, fontWeight: 'demibold' }}>
+              <Text style={{ fontSize: 8, width: 80, fontWeight: 'demibold' }}>
                 {habit.title}
               </Text>
               <Image
-                src={`/src/assets/img/skills/${habit.image}`}
+                src={`/src/assets/img/habits/${habit.image}`}
                 style={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                 }}
               />
             </View>
@@ -84,7 +84,7 @@ export const HabitsChart = (props: HabitsChartProps) => {
             flexDirection: 'column',
           }}
         >
-          {props.habits.map((habit, index) => (
+          {props.habits?.map((habit, index) => (
             <View
               style={{
                 flexDirection: 'row',
@@ -147,6 +147,7 @@ export const HabitsChart = (props: HabitsChartProps) => {
                 .fill(0)
                 .map((_, index) => (
                   <Text
+                    key={index}
                     style={{
                       fontSize: 8,
                       color: '#a8a8a8',

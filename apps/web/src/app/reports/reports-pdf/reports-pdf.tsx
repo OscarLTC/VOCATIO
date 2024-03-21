@@ -1,56 +1,55 @@
 import { Document, PDFViewer } from '@react-pdf/renderer';
 import { PdfDocumentHabilidadesBlandas } from '../pdf-document/pdf-document-habilidades-blandas/PdfDocumentHabilidadesBlandas';
 import { PdfDocumentHabitosDeEstudio } from '../pdf-document/pdf-document-habitos-de-estudio/PdfDocumentHabitosDeEstudio';
+import { PdfDocumentInteligenciasMultiples } from '../pdf-document/pdf-document-inteligencias-multiples/PdfDocumentInteligenciasMultiples';
 
 export const data = [
   {
-    title: 'Liderazgo',
-    image: 'liderazgo.png',
-    percentage: 100,
-    color: '#0a937c',
+    title: 'Interpersonal',
+    percentage: 95,
+    color: '#e37047',
   },
   {
-    title: 'Resolución\nde conflictos',
-    image: 'resolucion_de_problemas.png',
-    percentage: 75,
-    color: '#0a937c',
+    title: 'Lingüística - Verbal',
+    percentage: 85,
+    color: '#e37047',
   },
   {
-    title: 'Empatía',
-    image: 'empatia.png',
-    percentage: 70,
-    color: '#0a937c',
+    title: 'Lógico - Matemática',
+    percentage: 65,
+    color: '#808080',
   },
   {
-    title: 'Gestión\ndel Tiempo',
-    image: 'gestion_del_tiempo.png',
-    percentage: 55,
-    color: '#686868',
+    title: 'Natural',
+    percentage: 35,
+    color: '#404040',
   },
   {
-    title: 'Habilidades\norganizativas',
-    image: 'habilidades_organizativas.png',
-    percentage: 40,
-    color: '#686868',
-  },
-  {
-    title: 'Trabajo\nen equipo',
-    image: 'trabajo_en_equipo.png',
-    percentage: 30,
+    title: 'Visual - Espacial',
+    percentage: 25,
     color: '#9f9f9f',
   },
   {
-    title: 'Comunicación',
-    image: 'comunicacion.png',
-    percentage: 20,
-    color: '#9f9f9f',
+    title: 'Intrapersonal',
+    percentage: 15,
+    color: '#404040',
+  },
+  {
+    title: 'Kinestésica - Corporal',
+    percentage: 5,
+    color: '#bfbfbf',
+  },
+  {
+    title: 'Musical',
+    percentage: 5,
+    color: '#606060',
   },
 ];
 
 export const ReportsPdf = () => {
   return (
     <PDFViewer className="h-[100vh]">
-      <PdfDocumentHabitosDeEstudio
+      <PdfDocumentInteligenciasMultiples
         person={{
           name: 'Juan',
           lastName: 'Perez',
@@ -59,7 +58,7 @@ export const ReportsPdf = () => {
           section: 'Sección 1',
           endDate: '2021-12-12',
         }}
-        habits={data}
+        intelligences={data}
       />
     </PDFViewer>
   );

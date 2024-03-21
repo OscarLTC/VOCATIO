@@ -4,6 +4,7 @@ import { surveyProgrammingPerson } from '../models/surveyProgrammingPerson.model
 import { Answer } from '../models/answer.model';
 import { SkillChartProps } from '../components/pdf/habilidades-blandas/SkillChart';
 import { SkillImages } from '../models/skill.enum';
+import { HabitsChartProps } from '../components/pdf/habitos-de-estudio/HabitsChart';
 
 export const getSurveyPersonData = async (
   id: number
@@ -131,9 +132,45 @@ export const getSkillData = (answers: Array<Answer>) => {
     });
   }
 
-  console.log(skills);
-
   return skills;
+};
+
+export const getHabitsData = (answers: Array<Answer>) => {
+  const habits: HabitsChartProps['habits'] = [];
+  const categories = getCategoriesValues(answers, 8);
+
+  type HabitsImages = {
+    [key: string]: string;
+  };
+
+  const HabitImage: HabitsImages = {
+    'Condiciones\nambientales': 'condiciones_ambientales',
+    'Actitud\nen clase': 'actitud_en_clase',
+    'Realización\nde tareas': 'realizacion_de_tareas',
+    'Respuesta frente\na exámenes': 'respuesta_frente_a_examenes',
+    'Planificación\nde actividades': 'planificacion_de_actividades',
+    'Técnicas\nde estudio': 'tecnicas_de_estudio',
+    'Condiciones\nfísicas': 'condiciones_fisicas',
+    'Motivación\npor el estudio': 'motivacion_por_el_estudio',
+  };
+
+  for (const category of categories) {
+    const title = category[0];
+    const percentage = category[1] / 10;
+    const color =
+      percentage < 0.4 ? '#bfbfbf' : percentage < 0.6 ? '#686868' : '#4a77da';
+
+    habits.push({
+      title,
+      image: `${HabitImage[title]}.png`,
+      percentage: Number((percentage * 100).toFixed(0)),
+      color,
+    });
+  }
+
+  console.log(habits);
+
+  return habits;
 };
 
 export const getResultArchetype = (ids: number[]) => {

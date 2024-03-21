@@ -11,6 +11,7 @@ import PdfDocumentEstilosDeAprendizaje from './pdf-document-estilos-de-aprendiza
 import { PdfDocumentArquetipos } from './pdf-document-arquetipos/pdf-document-arquetipos';
 import { PdfDocumentGeneral } from './pdf-document-general/pdf-document-general';
 import { PdfDocumentHabilidadesBlandas } from './pdf-document-habilidades-blandas/PdfDocumentHabilidadesBlandas';
+import { PdfDocumentHabitosDeEstudio } from './pdf-document-habitos-de-estudio/PdfDocumentHabitosDeEstudio';
 
 interface PdfDocumentProps {
   imageURL: string;
@@ -21,7 +22,7 @@ interface PdfDocumentProps {
   endDate: string;
   maxIndexSurvey?: number | number[];
   resultForSurvey: ResultTypeSix | ResultTypeFour | ResultTypeTwo[];
-  skills?: any;
+  data?: any;
 }
 
 Font.register({
@@ -125,14 +126,24 @@ export const PdfDocument = (props: PdfDocumentProps) => {
             section: props.surveyProgramming.section,
             endDate: props.surveyProgramming.endDate,
           }}
-          skills={props.skills}
+          skills={props.data}
         />
       )}
-      {(props.surveyId === 1 ||
-        props.surveyId === 4 ||
-        props.surveyId === 5 ||
-        props.surveyId === 7) && (
-        <PdfDocumentGeneral
+      {props.surveyId === 7 && (
+        <PdfDocumentHabitosDeEstudio
+          habits={props.data}
+          person={{
+            name: props.person.name,
+            lastName: props.person.lastName,
+          }}
+          surveyProgramming={{
+            section: props.surveyProgramming.section,
+            endDate: props.surveyProgramming.endDate,
+          }}
+        />
+      )}
+      {props.surveyId === 6 && (
+        <PdfDocumentEstilosDeAprendizaje
           answers={props.answers}
           endDate={props.endDate}
           imageURL={props.imageURL}
@@ -142,8 +153,10 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           maxIndexSurvey={props.maxIndexSurvey as number}
         />
       )}
-      {props.surveyId === 6 && (
-        <PdfDocumentEstilosDeAprendizaje
+      {(props.surveyId === 1 ||
+        props.surveyId === 4 ||
+        props.surveyId === 5) && (
+        <PdfDocumentGeneral
           answers={props.answers}
           endDate={props.endDate}
           imageURL={props.imageURL}

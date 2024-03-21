@@ -26,7 +26,7 @@ export const PdfDocumentHabitosDeEstudio = (
       <PageTwo />
       <PageThree />
       <PageFour />
-      {/* <PageFive habits={props.habits} /> */}
+      <PageFive habits={props.habits} />
       <PageSix />
     </Document>
   );
