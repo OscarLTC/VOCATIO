@@ -1,12 +1,14 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
 import { LogoFooter } from '../LogoFooter';
-import { CardVar } from '../CardVar';
-import { IntelligencesChart } from './IntelligenceChart';
+import {
+  IntelligencesChart,
+  IntelligencesChartProps,
+} from './IntelligenceChart';
 import { data } from '../../../reports/reports-pdf/reports-pdf';
 import { TitlePdf } from '../Title';
 
-export const PageFour = () => {
+export const PageFour = (props: IntelligencesChartProps) => {
   return (
     <Page
       size="A4"
@@ -31,7 +33,7 @@ export const PageFour = () => {
           }}
         >
           <TitlePdf title="Resultados" />
-          <IntelligencesChart intelligences={data} />
+          <IntelligencesChart intelligences={props.intelligences} />
         </View>
       </View>
       <LogoFooter />

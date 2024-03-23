@@ -16,7 +16,7 @@ export const PageTwo = () => {
     },
     {
       intelligence: 'Kinestésica -\nCorporal',
-      image: 'kinestesica',
+      image: 'kinestesica_corporal',
     },
     {
       intelligence: 'Musical',

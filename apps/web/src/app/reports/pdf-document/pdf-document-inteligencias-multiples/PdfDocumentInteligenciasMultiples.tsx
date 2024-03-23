@@ -8,17 +8,23 @@ import { PageThree } from '../../../components/pdf/inteligencias-multiples/PageT
 import { IntelligencesChartProps } from '../../../components/pdf/inteligencias-multiples/IntelligenceChart';
 import { PageFour } from '../../../components/pdf/inteligencias-multiples/PageFour';
 import { PageNive } from '../../../components/pdf/inteligencias-multiples/PageNive';
+import {
+  PageData,
+  PageDataProps,
+} from '../../../components/pdf/inteligencias-multiples/PagesData';
 
 interface PdfDocumentInteligenciasMultiplesProps
   extends PageOneProps,
-    IntelligencesChartProps {}
+    IntelligencesChartProps {
+  intelligencesData: PageDataProps['data'][];
+}
 
 export const PdfDocumentInteligenciasMultiples = (
   props: PdfDocumentInteligenciasMultiplesProps
 ) => {
   return (
     <Document>
-      {/* <PageOne
+      <PageOne
         person={{
           name: 'John',
           lastName: 'Doe',
@@ -30,7 +36,9 @@ export const PdfDocumentInteligenciasMultiples = (
       />
       <PageTwo />
       <PageThree />
-      <PageFour /> */}
+      <PageFour intelligences={props.intelligences} />
+      <PageData data={props.intelligencesData[0]} />
+      <PageData data={props.intelligencesData[1]} />
       <PageNive />
     </Document>
   );

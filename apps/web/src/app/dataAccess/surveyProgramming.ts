@@ -5,6 +5,10 @@ import { Answer } from '../models/answer.model';
 import { SkillChartProps } from '../components/pdf/habilidades-blandas/SkillChart';
 import { SkillImages } from '../models/skill.enum';
 import { HabitsChartProps } from '../components/pdf/habitos-de-estudio/HabitsChart';
+import { HabitImage } from '../models/habits.model';
+import { SkillImage } from '../models/skills.model';
+import { IntelligenceData } from '../models/intelligences';
+import { IntelligencesChartProps } from '../components/pdf/inteligencias-multiples/IntelligenceChart';
 
 export const getSurveyPersonData = async (
   id: number
@@ -104,20 +108,6 @@ export const getSkillData = (answers: Array<Answer>) => {
   const skills: SkillChartProps['skills'] = [];
   const categories = getCategoriesValues(answers, 7);
 
-  type SkillImages = {
-    [key: string]: string;
-  };
-
-  const SkillImages: SkillImages = {
-    Liderazgo: 'liderazgo',
-    'Resolución\nde conflictos': 'resolucion_de_problemas',
-    Empatía: 'empatia',
-    'Gestión\ndel Tiempo': 'gestion_del_tiempo',
-    'Habilidades\norganizativas': 'habilidades_organizativas',
-    'Trabajo\nen equipo': 'trabajo_en_equipo',
-    Comunicación: 'comunicacion',
-  };
-
   for (const category of categories) {
     const title = category[0];
     const percentage = category[1] / 30;
@@ -126,7 +116,7 @@ export const getSkillData = (answers: Array<Answer>) => {
 
     skills.push({
       title,
-      image: `${SkillImages[title]}.png`,
+      image: `${SkillImage[title]}.png`,
       percentage: Number((percentage * 100).toFixed(0)),
       color,
     });
@@ -138,21 +128,6 @@ export const getSkillData = (answers: Array<Answer>) => {
 export const getHabitsData = (answers: Array<Answer>) => {
   const habits: HabitsChartProps['habits'] = [];
   const categories = getCategoriesValues(answers, 8);
-
-  type HabitsImages = {
-    [key: string]: string;
-  };
-
-  const HabitImage: HabitsImages = {
-    'Condiciones\nambientales': 'condiciones_ambientales',
-    'Actitud\nen clase': 'actitud_en_clase',
-    'Realización\nde tareas': 'realizacion_de_tareas',
-    'Respuesta frente\na exámenes': 'respuesta_frente_a_examenes',
-    'Planificación\nde actividades': 'planificacion_de_actividades',
-    'Técnicas\nde estudio': 'tecnicas_de_estudio',
-    'Condiciones\nfísicas': 'condiciones_fisicas',
-    'Motivación\npor el estudio': 'motivacion_por_el_estudio',
-  };
 
   for (const category of categories) {
     const title = category[0];
@@ -171,6 +146,41 @@ export const getHabitsData = (answers: Array<Answer>) => {
   console.log(habits);
 
   return habits;
+};
+
+export const getIntelligenceData = (answers: Array<Answer>) => {
+  const intelligences: IntelligencesChartProps['intelligences'] = [];
+  const categories = getCategoriesValues(answers, 8);
+  let index = 0;
+  for (const category of categories) {
+    const title = category[0];
+    const percentage = category[1] / 30;
+
+    const color =
+      index === 0
+        ? '#e37047'
+        : index === 1
+        ? '#e37047'
+        : index === 2
+        ? '#808080'
+        : index === 3
+        ? '#404040'
+        : index === 4
+        ? '#9f9f9f'
+        : index === 5
+        ? '#404040'
+        : index === 6
+        ? '#bfbfbf'
+        : '#606060';
+    intelligences.push({
+      title,
+      percentage: Number((percentage * 100).toFixed(0)),
+      color,
+    });
+    index++;
+  }
+
+  return intelligences.sort((a, b) => b.percentage - a.percentage);
 };
 
 export const getResultArchetype = (ids: number[]) => {

@@ -22,6 +22,7 @@ import {
   getResultArchetype,
   getSkillData,
   getHabitsData,
+  getIntelligenceData,
 } from '../../dataAccess/surveyProgramming';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { surveyPersonState } from '../../store/people/surveyPerson';
@@ -38,6 +39,8 @@ import { useState, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import { data } from '../reports-pdf/reports-pdf';
+import { PageDataProps } from '../../components/pdf/inteligencias-multiples/PagesData';
+import { IntelligenceData } from '../../models/intelligences';
 
 Chart.register(
   CategoryScale,
@@ -70,6 +73,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
   const [isPdfReady, setIsPdfReady] = useState(false);
   const [resultArchetype, setResultArchetype] = useState();
   const [dataArchetype, setDataArchetype] = useState<number[]>();
+  const [intelligencesData, setIntelligencesData] = useState<any>();
   const surveyPerson = useRecoilValue(surveyPersonState);
 
   const chartRef = useRef(null);
@@ -131,8 +135,9 @@ export const ReportsChart = (props: ReportsChartProps) => {
           setSkillsResult(skills);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 4) {
-          const skillsCount: any = getCategoriesValues(res.answers, 3);
+          const skillsCount: any = getIntelligenceData(res.answers);
           setSkillsResult(skillsCount);
+          setIntelligencesData(intelligencesData);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 5) {
           const skillsCount: any = getCategoriesValues(res.answers, 3);
@@ -177,6 +182,14 @@ export const ReportsChart = (props: ReportsChartProps) => {
               surveyId === 6 ? maxIndexResult : maxArchetypoResult
             }
             data={skillsResult}
+            intelligencesData={[
+              IntelligenceData[
+                skillsResult[0].title as keyof typeof IntelligenceData
+              ],
+              IntelligenceData[
+                skillsResult[1].title as keyof typeof IntelligenceData
+              ],
+            ]}
           />
         );
 

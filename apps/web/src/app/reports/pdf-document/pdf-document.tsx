@@ -12,6 +12,7 @@ import { PdfDocumentArquetipos } from './pdf-document-arquetipos/pdf-document-ar
 import { PdfDocumentGeneral } from './pdf-document-general/pdf-document-general';
 import { PdfDocumentHabilidadesBlandas } from './pdf-document-habilidades-blandas/PdfDocumentHabilidadesBlandas';
 import { PdfDocumentHabitosDeEstudio } from './pdf-document-habitos-de-estudio/PdfDocumentHabitosDeEstudio';
+import { PdfDocumentInteligenciasMultiples } from './pdf-document-inteligencias-multiples/PdfDocumentInteligenciasMultiples';
 
 interface PdfDocumentProps {
   imageURL: string;
@@ -23,6 +24,7 @@ interface PdfDocumentProps {
   maxIndexSurvey?: number | number[];
   resultForSurvey: ResultTypeSix | ResultTypeFour | ResultTypeTwo[];
   data?: any;
+  intelligencesData?: any;
 }
 
 Font.register({
@@ -129,6 +131,20 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           skills={props.data}
         />
       )}
+      {props.surveyId === 4 && (
+        <PdfDocumentInteligenciasMultiples
+          person={{
+            name: props.person.name,
+            lastName: props.person.lastName,
+          }}
+          surveyProgramming={{
+            section: props.surveyProgramming.section,
+            endDate: props.surveyProgramming.endDate,
+          }}
+          intelligences={props.data}
+          intelligencesData={props.intelligencesData}
+        />
+      )}
       {props.surveyId === 7 && (
         <PdfDocumentHabitosDeEstudio
           habits={props.data}
@@ -153,9 +169,7 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           maxIndexSurvey={props.maxIndexSurvey as number}
         />
       )}
-      {(props.surveyId === 1 ||
-        props.surveyId === 4 ||
-        props.surveyId === 5) && (
+      {(props.surveyId === 1 || props.surveyId === 5) && (
         <PdfDocumentGeneral
           answers={props.answers}
           endDate={props.endDate}
