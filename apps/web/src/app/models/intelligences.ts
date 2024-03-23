@@ -11,7 +11,8 @@ enum Intelligence {
 
 export const IntelligenceData = {
   [Intelligence.LinguisticoVerbal]: {
-    text1: 'linguistico_verbal',
+    text1:
+      'La poseen por lo general, los escritores, los poetas, los buenos redactores. Utiliza tanto el hemisferio izquierdo como el derecho del cerebro.',
     text2:
       'Es de gran apoyo el aprendizaje por proyectos o el trabajo colaborativo donde tengas que hacer uso de la experesión verbal y otros medios comunicativos.',
     image: 'linguistico_verbal',
@@ -32,7 +33,8 @@ export const IntelligenceData = {
       'La inteligencia lingüística-verbal es la capacidad de entender y de producir mensajes orales o escritos. Las personas como los líderes políticos, los escritores o los profesionales de la enseñanza la poseen en un grado de desarrollo superior. Las personas que destacan en la inteligencia lingüística-verbal disfrutan especialmente con actividades que incluyen historias, debates, diálogos, chistes, lecturas.',
   },
   [Intelligence.LogicoMatematica]: {
-    text1: 'logico_matematico',
+    text1:
+      'La utilizamos para resolver problemas de lógica y matemáticas. Es la inteligencia que tienen los científicos. Se corresponde con el modo de pensamiento del  hemisferio lógico y con lo que nuestra cultura ha considerado siempre como la única inteligencia.',
     text2:
       'Son de gran utilidad los ejercicios de lógica-matemática, juegos de serie, la calificación de procesos o secuencias  y la correspondencia en las respuestas ya sean ejercicios lógicos o matemáticos.',
     image: 'logico_matematico',
@@ -52,7 +54,8 @@ export const IntelligenceData = {
       'La inteligencia lógica-matemática está estrechamente vinculada a la capacidad de razonamiento, de secuenciación y de creación de hipótesis. En su grado máximo de desarrollo se identifica con el pensamiento científico.',
   },
   [Intelligence.VisualEspacial]: {
-    text1: 'visual_espacial',
+    text1:
+      'Esta inteligencia consiste en formar un modelo mental del mundo en tres dimensiones. Es la inteligencia que tienen los marineros, los ingenieros, los cirujanos, los escultores,  los arquitectos, los decoradores, etc.',
     text2:
       'Los laberintos, unir las líneas de puntos y buscar diferencias son excelentes para desarrollar las habilidades visuales.',
     image: 'visual_espacial',
@@ -74,7 +77,8 @@ export const IntelligenceData = {
       'La inteligencia espacial se define como la capacidad de crear modelos mentales, la misma que se requiere para visualizar rutas o comprender los mapas. Es también la capacidad de la que hace uso el lector mientras que está leyendo la descripción de un lugar y se crea una imagen mental del mismo.',
   },
   [Intelligence.KinestesicaCorporal]: {
-    text1: 'kinestesica_corporal',
+    text1:
+      'Relacionada a la capacidad de utilizar el propio cuerpo para realizar actividades o resolver problemas. Es la inteligencia de los deportistas, los artesanos, los cirujanos y los bailarines, etc.',
     text2:
       'Son excelentes las actividades que requieran movimientos físicos, juegos, actuación, baile, deportes, manualidades como artesanía, pintura y ejercicios.',
     image: 'kinestesica_corporal',
@@ -95,7 +99,8 @@ export const IntelligenceData = {
       'La inteligencia kinestésica - corporal es la habilidad del uso del cuerpo para la expresión, también se refiere al manejo de objetos físicos con destreza. En la literatura clásica se refleja en la expresión mente sana en cuerpo sano que hace referencia a la habilidad de cultivar el poder mental. ',
   },
   [Intelligence.Musical]: {
-    text1: 'musical',
+    text1:
+      'Naturalmente, es la inteligencia relacionada a los cantantes, compositores, músicos, etc.',
     text2:
       'Es importante, atender a los sonidos cotidianos y del entorno,  Cantar diferentes canciones de distintos géneros , silbar o tararear y finalmente aprender a tocar algún instrumento.',
     image: 'musical',
@@ -116,7 +121,8 @@ export const IntelligenceData = {
       'La inteligencia musical es la capacidad de percibir, apreciar y producir ritmos y melodías. Trabajar, por ejemplo, con canciones o con textos sonorizados musicalmente ayuda a mejorar la pronunciación, a la vez que los efectos musicales permiten la concentración y la conexión con el yo, la estimulación de procesos creativos, el aislamiento sonoro o la creación de un ambiente de aula relajado pero productivo.',
   },
   [Intelligence.Interpersonal]: {
-    text1: 'interpersonal',
+    text1:
+      'Esta inteligencia nos permite entender a los demás, y la solemos encontrar en los vendedores, políticos, profesores o psicòlogos.',
     text2:
       'Aprender a escuchar a los demás, participar en actividades sociales, resolver o ser participe en solución de conflictos,ser empático, conocer a nuevas personas.',
     image: 'interpersonal',
@@ -137,7 +143,8 @@ export const IntelligenceData = {
       'La inteligencia interpersonal se define como la capacidad de percibir, transformar y activar las relaciones con los demás. Es característica de los líderes, aunque todas las personas se necesitan para trabajar de forma cooperativa o simplemente para convivir en armonía.',
   },
   [Intelligence.Intrapersonal]: {
-    text1: 'intrapersonal',
+    text1:
+      'Esta inteligencia nos permite entendernos a nosotros mismos. No está asociada a ninguna actividad concreta, pues es más de tipo introspectivo. ',
     text2:
       'Practicar la autoevaluación identificando tus habilidades y debililidades, aprender a indentificar las emociones, juegos de roles, identificar los propios sentimientos.',
     image: 'intrapersonal',
@@ -158,7 +165,8 @@ export const IntelligenceData = {
       'La inteligencia intrapersonal se fundamenta en el don de conocerse a sí mismo y en la capacidad de poder actuar sobre sus propias emociones. Recordar la propia apariencia cuando se era menor, controlar la ira, expresar sentimientos sin herir a otras personas o estudiar apoyándose de su propio estilo de aprendizaje son momentos en los que se utiliza esta inteligencia. Esta inteligencia incita a la reflexión, la visualización, el auto descubrimiento y el conocimiento personal.',
   },
   [Intelligence.Natural]: {
-    text1: 'natural',
+    text1:
+      'Esta inteligencia es la que utilizamos cuando observamos y estudiamos la naturaleza. Es la que demuestran los biólogos, los veterinarios, los herbolarios, etc.',
     text2:
       'Observar el desarrollo de una planta o animal de manera práctica. Detectar y analizar problemas medioambientales en el entorno.',
     image: 'natural',
