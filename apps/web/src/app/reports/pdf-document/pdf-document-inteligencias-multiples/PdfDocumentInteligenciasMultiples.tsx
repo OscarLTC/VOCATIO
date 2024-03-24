@@ -25,14 +25,8 @@ export const PdfDocumentInteligenciasMultiples = (
   return (
     <Document>
       <PageOne
-        person={{
-          name: 'John',
-          lastName: 'Doe',
-        }}
-        surveyProgramming={{
-          endDate: '2021-10-10',
-          section: 'Section 1',
-        }}
+        person={props.person}
+        surveyProgramming={props.surveyProgramming}
       />
       <PageTwo />
       <PageThree />

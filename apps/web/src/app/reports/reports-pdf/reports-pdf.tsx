@@ -1,6 +1,7 @@
 import { PDFViewer } from '@react-pdf/renderer';
 import { PdfDocumentInteligenciasMultiples } from '../pdf-document/pdf-document-inteligencias-multiples/PdfDocumentInteligenciasMultiples';
 import { indicators } from '../../components/pdf/inteligencias-multiples/PagesData';
+import { PdfDocumentInteresVocacional } from '../pdf-document/pdf-document-interes-vocacional/PdfDocumentInteresVocacional';
 
 export const data = [
   {
@@ -48,7 +49,7 @@ export const data = [
 export const ReportsPdf = () => {
   return (
     <PDFViewer className="h-[100vh]">
-      <PdfDocumentInteligenciasMultiples
+      <PdfDocumentInteresVocacional
         person={{
           name: 'Juan',
           lastName: 'Perez',
@@ -57,31 +58,7 @@ export const ReportsPdf = () => {
           section: 'Sección 1',
           endDate: '2021-12-12',
         }}
-        intelligences={data}
-        intelligencesData={[
-          {
-            indicators: indicators,
-            text1:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc.',
-            text2:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc.',
-            image: 'interpersonal.png',
-            title: 'Interpersonal',
-            description:
-              'Es de gran apoyo el aprendizaje por proyectos o el trabajo colaborativo donde tengas que hacer uso de la experesión verbal y otros medios comunicativos.',
-          },
-          {
-            indicators: indicators,
-            text1:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc.',
-            text2:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc.',
-            image: 'linguistica-verbal.png',
-            title: 'Lingüística - Verbal',
-            description:
-              'Es de gran apoyo el aprendizaje por proyectos o el trabajo colaborativo donde tengas que hacer uso de la experesión verbal y otros medios comunicativos.',
-          },
-        ]}
+        interes="asd"
       />
     </PDFViewer>
   );
