@@ -5,6 +5,13 @@ import {
 } from '../../../components/pdf/interes-vocacional/PageOne';
 import { PageTwo } from '../../../components/pdf/interes-vocacional/PageTwo';
 import { PageThree } from '../../../components/pdf/interes-vocacional/PageThree';
+import { PageFour } from '../../../components/pdf/interes-vocacional/PageFour';
+import { PageNine } from '../../../components/pdf/interes-vocacional/PageNine';
+import {
+  PageFive,
+  interests,
+} from '../../../components/pdf/interes-vocacional/PageFive';
+import { PageSix } from '../../../components/pdf/interes-vocacional/PageSix';
 
 interface PdfDocumentInteresVocacionalProps extends PageOneProps {
   // Add your own props here
@@ -16,7 +23,7 @@ export const PdfDocumentInteresVocacional = (
 ) => {
   return (
     <Document>
-      <PageOne
+      {/* <PageOne
         person={{
           name: 'John',
           lastName: 'Doe',
@@ -27,7 +34,11 @@ export const PdfDocumentInteresVocacional = (
         }}
       />
       <PageTwo />
-      <PageThree />
+      <PageThree /> */}
+      {/* <PageFour /> */}
+      {/* <PageFive interests={interests} /> */}
+      <PageSix />
+      {/* <PageNine /> */}
     </Document>
   );
 };

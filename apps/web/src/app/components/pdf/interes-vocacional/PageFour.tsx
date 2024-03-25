@@ -1,7 +1,6 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { DocumentsFooter } from '../DocumentsFooter';
-import { LogoFooter } from '../LogoFooter';
-import { CardVar } from '../CardVar';
+import { TableLevels } from './TableLevels';
 
 export const PageFour = () => {
   return (
@@ -14,7 +13,7 @@ export const PageFour = () => {
         color: '#434343',
       }}
     >
-      <View style={{ paddingHorizontal: 35, marginTop: 70 }}>
+      <View style={{ paddingHorizontal: 35, marginTop: 50 }}>
         <View
           style={{
             fontSize: 12,
@@ -24,31 +23,53 @@ export const PageFour = () => {
             fontWeight: 'light',
             gap: 10,
             textAlign: 'justify',
-            lineHeight: 2,
+            lineHeight: 1.5,
           }}
         >
-          <CardVar
-            color="#06917a"
-            title="7. Empatía"
-            description="Es la habilidad que nos permite no sólo comprender y entender a la otra parte, sino también conectarnos con su vivencia, como los expresa y como lo siente, favoreciendo la interacción y entendimiento mutuo, facilita los acuerdos y también mejora la comunicación en todos los contextos."
-          />
-          <Text
+          <View style={{ borderBottom: 3, borderColor: '#013552' }}>
+            <Text
+              style={{
+                color: '#013552',
+                fontWeight: 'bold',
+                fontSize: 25,
+                paddingLeft: 10,
+              }}
+            >
+              {'Interpretación de resultados'}
+            </Text>
+          </View>
+          <View
             style={{
-              marginTop: 40,
+              paddingHorizontal: 10,
+              marginTop: 10,
+              gap: 20,
             }}
           >
-            {
-              'El presente reporte muestra los resultados en base a nuestro instrumento psicométrico, el cuál ha sido desarrollado de acuerdo a las teorías modernas sobre las habilidades blandas.'
-            }
-          </Text>
-          <Text>
-            {
-              'A continuación, apreciarás el nivel de desarrollo en cada una de las habilidades blandas.'
-            }
-          </Text>
+            <Text>
+              {
+                'De acuerdo a tus respuestas, se ha elaborado una tabla de resultados en la cual encontrarás, todas las áreas evaluadas con sus respectivos puntajes de acuerdo al nivel de interés que presentas.'
+              }
+            </Text>
+            <Text>{'Existiendo 5 niveles:'}</Text>
+            <TableLevels />
+            <Text style={{ marginTop: 20 }}>
+              {
+                'Posteriormente, encontrarás sólo la descripción del área de interés y las carreras que correspondan, cuyos puntajes se hayan ubicado en el rango de alto y/o muy alto, pues son los que evidencian una preferencia vocacional significativa.'
+              }
+            </Text>
+            <Text>
+              {
+                'De no contarse con algún puntaje por encima del nivel medio, sería inoportuno recomendar un área vocacional o carrera, pues la elección de una carrera debe realizarse con un nivel de confianza alto.'
+              }
+            </Text>
+            <Text>
+              {
+                'A continuación, la gráfica de resultados y su detallada explicación.  '
+              }
+            </Text>
+          </View>
         </View>
       </View>
-      <LogoFooter />
       <DocumentsFooter />
     </Page>
   );

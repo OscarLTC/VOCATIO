@@ -1,15 +1,14 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 
-export interface SkillChartProps {
-  skills: Array<{
+export interface InterestChartProps {
+  interests: Array<{
     title: string;
-    image: string;
     percentage: number;
     color: string;
   }>;
 }
 
-export const SkillChart = (props: SkillChartProps) => {
+export const InterestChart = (props: InterestChartProps) => {
   const levels = [
     {
       title: 'Muy Bajo',
@@ -38,36 +37,28 @@ export const SkillChart = (props: SkillChartProps) => {
       <View
         style={{
           height: 500,
-          paddingVertical: 10,
+          paddingTop: 10,
           fontSize: 10,
           overflow: 'hidden',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          width: 150,
+          width: 160,
         }}
       >
-        {props.skills
-          .sort((a, b) => b.percentage - a.percentage)
-          .map((skill, index) => (
+        {props.interests
+          .sort((a, b) => b.percentage + a.percentage)
+          .map((interest, index) => (
             <View
               key={index}
               style={{
                 textAlign: 'right',
                 flexDirection: 'row',
+                height: 20,
                 alignItems: 'center',
-                gap: 10,
+                lineHeight: 1,
               }}
             >
-              <Text style={{ fontSize: 9, width: 70, fontWeight: 'demibold' }}>
-                {skill.title}
-              </Text>
-              <Image
-                src={`/src/assets/img/skills/${skill.image}`}
-                style={{
-                  width: 60,
-                  height: 60,
-                }}
-              />
+              <Text style={{ fontSize: 7, width: 150 }}>{interest.title}</Text>
             </View>
           ))}
       </View>
@@ -79,37 +70,40 @@ export const SkillChart = (props: SkillChartProps) => {
         <View
           style={{
             height: 500,
+            paddingTop: 10,
             borderLeftWidth: 1,
             justifyContent: 'space-between',
             flexDirection: 'column',
           }}
         >
-          {props.skills.map((skill, index) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                height: '100%',
-                gap: 10,
-              }}
-              key={index}
-            >
+          {props.interests
+            .sort((a, b) => b.percentage - a.percentage)
+            .map((interest, index) => (
               <View
                 style={{
-                  height: 30,
-                  width: 3.3 * skill.percentage,
-                  backgroundColor: skill.color,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  height: '100%',
+                  gap: 10,
                 }}
-              ></View>
-              <Text
-                style={{
-                  fontSize: 15,
-                  textAlign: 'center',
-                  fontWeight: 'demibold',
-                }}
-              >{`${skill.percentage}%`}</Text>
-            </View>
-          ))}
+                key={index}
+              >
+                <View
+                  style={{
+                    height: 20,
+                    width: 3.3 * interest.percentage,
+                    backgroundColor: interest.color,
+                  }}
+                ></View>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: 'center',
+                    fontWeight: 'demibold',
+                  }}
+                >{`${interest.percentage}%`}</Text>
+              </View>
+            ))}
         </View>
         <View>
           <View
