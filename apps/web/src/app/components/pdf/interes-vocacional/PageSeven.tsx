@@ -1,10 +1,10 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { TitlePdf } from '../Title';
 import { InterestData } from './InterestData';
-import { DocumentsFooter } from '../DocumentsFooter';
 import { LogoFooter } from '../LogoFooter';
+import { DocumentsFooter } from '../DocumentsFooter';
 
-export const PageSix = () => {
+export const PageSeven = () => {
   return (
     <Page
       size="A4"
@@ -15,8 +15,7 @@ export const PageSix = () => {
         color: '#434343',
       }}
     >
-      <View style={{ paddingHorizontal: 35, marginTop: 70 }}>
-        <TitlePdf title="Grupos vocacionales de interés" />
+      <View style={{ paddingHorizontal: 35, marginTop: 100 }}>
         <View
           style={{
             paddingVertical: 10,
@@ -31,7 +30,7 @@ export const PageSix = () => {
               color: '#0a3552',
             }}
           >
-            Área de interés muy alto:
+            Área de interés alto:
           </Text>
           <InterestData
             careers={[
@@ -49,7 +48,6 @@ export const PageSix = () => {
           />
         </View>
       </View>
-      <LogoFooter />
       <DocumentsFooter />
     </Page>
   );

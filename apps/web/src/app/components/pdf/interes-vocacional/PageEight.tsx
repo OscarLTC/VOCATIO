@@ -1,10 +1,10 @@
 import { Page, Text, View } from '@react-pdf/renderer';
 import { TitlePdf } from '../Title';
 import { InterestData } from './InterestData';
-import { DocumentsFooter } from '../DocumentsFooter';
 import { LogoFooter } from '../LogoFooter';
+import { DocumentsFooter } from '../DocumentsFooter';
 
-export const PageSix = () => {
+export const PageEight = () => {
   return (
     <Page
       size="A4"
@@ -15,31 +15,20 @@ export const PageSix = () => {
         color: '#434343',
       }}
     >
-      <View style={{ paddingHorizontal: 35, marginTop: 70 }}>
-        <TitlePdf title="Grupos vocacionales de interés" />
+      <View style={{ paddingHorizontal: 35, marginTop: 100 }}>
         <View
           style={{
             paddingVertical: 10,
             marginTop: 20,
           }}
         >
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 20,
-              textAlign: 'center',
-              color: '#0a3552',
-            }}
-          >
-            Área de interés muy alto:
-          </Text>
           <InterestData
             careers={[
               'Física',
               'Química',
               'Biología',
               'Matemáticas',
-              'Bioquímica',
+              'Ingeniería de\nTelecomunicaciones',
             ]}
             color="#e07047"
             description="Las carreras relacionadas a las ciencias puras y/o experimentales, son todas aquellas que requieren del método científico para su estudio, con la finalidad de encontrar respuestas o explicaciones a distintos fenómenos y cuestionamientos."
@@ -49,7 +38,6 @@ export const PageSix = () => {
           />
         </View>
       </View>
-      <LogoFooter />
       <DocumentsFooter />
     </Page>
   );
