@@ -1,11 +1,11 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 
-interface InterestDataProps {
+export interface InterestDataProps {
   color: string;
   image: string;
   title: string;
   description: string;
-  porcentage: number;
+  percentage: number;
   careers: string[];
 }
 
@@ -57,7 +57,7 @@ export const InterestData = (props: InterestDataProps) => {
                 fontSize: 55,
                 fontWeight: 'bold',
               }}
-            >{`${props.porcentage}%`}</Text>
+            >{`${props.percentage}%`}</Text>
           </View>
         </View>
         <View
@@ -66,7 +66,7 @@ export const InterestData = (props: InterestDataProps) => {
             padding: 20,
           }}
         >
-          <Image src={`/src/assets/img/interest/${props.image}`} />
+          <Image src={`/src/assets/img/interest/${props.image}.png`} />
         </View>
       </View>
       <View style={{ marginTop: 20 }}>
@@ -109,7 +109,7 @@ export const InterestData = (props: InterestDataProps) => {
             gap: 20,
           }}
         >
-          {props.careers.map((career, index) => (
+          {props.careers?.map((career, index) => (
             <View
               key={index}
               style={{

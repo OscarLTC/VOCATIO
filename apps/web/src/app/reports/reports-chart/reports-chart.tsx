@@ -23,6 +23,7 @@ import {
   getSkillData,
   getHabitsData,
   getIntelligenceData,
+  getInterestsData,
 } from '../../dataAccess/surveyProgramming';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { surveyPersonState } from '../../store/people/surveyPerson';
@@ -41,6 +42,7 @@ import axios from 'axios';
 import { data } from '../reports-pdf/reports-pdf';
 import { PageDataProps } from '../../components/pdf/inteligencias-multiples/PagesData';
 import { IntelligenceData } from '../../models/intelligences';
+import { InteresData } from '../../models/interest.mode';
 
 Chart.register(
   CategoryScale,
@@ -95,7 +97,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
       if (res) {
         setSurveyPersonData(res);
         if (res.survey_programming.survey.id === 1) {
-          const skillsCount: any = getGroupsValues(res.answers, 3);
+          const skillsCount: any = getInterestsData(res.answers);
           setSkillsResult(skillsCount);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 2) {
@@ -190,6 +192,26 @@ export const ReportsChart = (props: ReportsChartProps) => {
                 skillsResult[1].title as keyof typeof IntelligenceData
               ],
             ]}
+            interestsData={[
+              {
+                ...InteresData[
+                  skillsResult[0].title as keyof typeof InteresData
+                ],
+                percentage: skillsResult[0].percentage,
+              },
+              {
+                ...InteresData[
+                  skillsResult[1].title as keyof typeof InteresData
+                ],
+                percentage: skillsResult[1].percentage,
+              },
+              {
+                ...InteresData[
+                  skillsResult[2].title as keyof typeof InteresData
+                ],
+                percentage: skillsResult[2].percentage,
+              },
+            ]}
           />
         );
 
@@ -232,77 +254,10 @@ export const ReportsChart = (props: ReportsChartProps) => {
                   duration: 0,
                   onComplete: generate,
                 },
-                indexAxis: 'y' as const,
-                scales: {
-                  x: {
-                    beginAtZero: true,
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    ticks: {
-                      font: {
-                        size: 20,
-                      },
-                    },
-                    grid: {
-                      display: false,
-                    },
-                  },
-                },
-                elements: {
-                  bar: {
-                    borderWidth: 3,
-                    borderRadius: {
-                      bottomRight: 10,
-                      topRight: 10,
-                    },
-                  },
-                },
-                responsive: true,
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: '#000',
-                    font: {
-                      size: 30,
-                    },
-                  },
-                  legend: {
-                    position: 'top' as const,
-                    labels: {
-                      font: {
-                        size: 30,
-                      },
-                    },
-                  },
-                },
               }}
               data={{
-                labels: [
-                  skillsResult && skillsResult[0][0],
-                  skillsResult && skillsResult[1][0],
-                  skillsResult && skillsResult[2][0],
-                ],
-                datasets: [
-                  {
-                    label: 'Interes Principal',
-                    data: [
-                      skillsResult && skillsResult[0][1],
-                      skillsResult && skillsResult[1][1],
-                      skillsResult && skillsResult[2][1],
-                    ],
-                    borderColor: '#006699',
-                    borderWidth: 3,
-                    backgroundColor: ['#23ad8c', 'white', 'white'],
-                  },
-                ],
+                labels: [],
+                datasets: [],
               }}
             />
           )}

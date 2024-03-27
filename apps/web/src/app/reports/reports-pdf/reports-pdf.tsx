@@ -2,6 +2,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { PdfDocumentInteligenciasMultiples } from '../pdf-document/pdf-document-inteligencias-multiples/PdfDocumentInteligenciasMultiples';
 import { indicators } from '../../components/pdf/inteligencias-multiples/PagesData';
 import { PdfDocumentInteresVocacional } from '../pdf-document/pdf-document-interes-vocacional/PdfDocumentInteresVocacional';
+import { interests } from '../../components/pdf/interes-vocacional/PageFive';
 
 export const data = [
   {
@@ -58,7 +59,33 @@ export const ReportsPdf = () => {
           section: 'Sección 1',
           endDate: '2021-12-12',
         }}
-        interes="asd"
+        interests={interests}
+        data={[
+          {
+            careers: ['asd'],
+            color: '#e37047',
+            description: 'asd',
+            image: 'asd',
+            title: 'asd',
+            percentage: 95,
+          },
+          {
+            careers: ['asd'],
+            color: '#e37047',
+            description: 'asd',
+            image: 'asd',
+            title: 'asd',
+            percentage: 95,
+          },
+          {
+            careers: ['asd'],
+            color: '#e37047',
+            description: 'asd',
+            image: 'asd',
+            title: 'asd',
+            percentage: 95,
+          },
+        ]}
       />
     </PDFViewer>
   );

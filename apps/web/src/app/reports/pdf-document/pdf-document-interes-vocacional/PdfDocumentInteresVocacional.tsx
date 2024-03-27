@@ -7,41 +7,30 @@ import { PageTwo } from '../../../components/pdf/interes-vocacional/PageTwo';
 import { PageThree } from '../../../components/pdf/interes-vocacional/PageThree';
 import { PageFour } from '../../../components/pdf/interes-vocacional/PageFour';
 import { PageNine } from '../../../components/pdf/interes-vocacional/PageNine';
+import { PageFive } from '../../../components/pdf/interes-vocacional/PageFive';
 import {
-  PageFive,
-  interests,
-} from '../../../components/pdf/interes-vocacional/PageFive';
-import { PageSix } from '../../../components/pdf/interes-vocacional/PageSix';
-import { PageSeven } from '../../../components/pdf/interes-vocacional/PageSeven';
-import { PageEight } from '../../../components/pdf/interes-vocacional/PageEight';
+  PageData,
+  PageDataProps,
+} from '../../../components/pdf/interes-vocacional/PageData';
+import { InterestChartProps } from '../../../components/pdf/interes-vocacional/InterestChart';
 
-interface PdfDocumentInteresVocacionalProps extends PageOneProps {
-  // Add your own props here
-  interes: string;
-}
+interface PdfDocumentInteresVocacionalProps
+  extends PageOneProps,
+    PageDataProps,
+    PageDataProps,
+    InterestChartProps {}
 
 export const PdfDocumentInteresVocacional = (
   props: PdfDocumentInteresVocacionalProps
 ) => {
   return (
     <Document>
-      <PageOne
-        person={{
-          name: 'John',
-          lastName: 'Doe',
-        }}
-        surveyProgramming={{
-          endDate: '2021-10-10',
-          section: 'Section 1',
-        }}
-      />
+      <PageOne {...props} />
       <PageTwo />
       <PageThree />
       <PageFour />
-      <PageFive interests={interests} />
-      <PageSix />
-      <PageSeven />
-      <PageEight />
+      <PageFive interests={props.interests} />
+      <PageData data={props.data} />
       <PageNine />
     </Document>
   );

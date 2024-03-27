@@ -9,6 +9,9 @@ import { HabitImage } from '../models/habits.model';
 import { SkillImage } from '../models/skills.model';
 import { IntelligenceData } from '../models/intelligences';
 import { IntelligencesChartProps } from '../components/pdf/inteligencias-multiples/IntelligenceChart';
+import { InterestDataProps } from '../components/pdf/interes-vocacional/InterestData';
+import { InterestChartProps } from '../components/pdf/interes-vocacional/InterestChart';
+import { InteresData } from '../models/interest.mode';
 
 export const getSurveyPersonData = async (
   id: number
@@ -181,6 +184,67 @@ export const getIntelligenceData = (answers: Array<Answer>) => {
   }
 
   return intelligences.sort((a, b) => b.percentage - a.percentage);
+};
+
+export const getInterestsData = (answers: Array<Answer>) => {
+  const interestsData: InterestChartProps['interests'] = [];
+  const categories = getGroupsValues(answers, 21);
+  let index = 0;
+  for (const category of categories) {
+    const title = category[0];
+    const percentage = (category[1] - 20) / 80;
+
+    const color =
+      index === 0
+        ? InteresData[title as keyof typeof InteresData].color
+        : index === 1
+        ? InteresData[title as keyof typeof InteresData].color
+        : index === 2
+        ? InteresData[title as keyof typeof InteresData].color
+        : index === 3
+        ? '#404040'
+        : index === 4
+        ? '#9f9f9f'
+        : index === 5
+        ? '#202020'
+        : index === 6
+        ? '#c1c1c1'
+        : index === 7
+        ? '#606060'
+        : index === 8
+        ? '#000000'
+        : index === 9
+        ? '#dfdfdf'
+        : index === 10
+        ? '#808080'
+        : index === 11
+        ? '#404040'
+        : index === 12
+        ? '#9f9f9f'
+        : index === 13
+        ? '#202020'
+        : index === 14
+        ? '#bfbfbf'
+        : index === 15
+        ? '#606060'
+        : index === 16
+        ? '#000000'
+        : index === 17
+        ? '#dfdfdf'
+        : index === 18
+        ? '#808080'
+        : index === 19
+        ? '#404040'
+        : '#9f9f9f';
+    interestsData.push({
+      color,
+      percentage: Number((percentage * 100).toFixed(0)),
+      title,
+    });
+    index++;
+  }
+  console.log(interestsData, 'interestsData');
+  return interestsData;
 };
 
 export const getResultArchetype = (ids: number[]) => {

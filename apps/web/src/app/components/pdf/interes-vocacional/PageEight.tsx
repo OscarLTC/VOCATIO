@@ -1,10 +1,8 @@
-import { Page, Text, View } from '@react-pdf/renderer';
-import { TitlePdf } from '../Title';
-import { InterestData } from './InterestData';
-import { LogoFooter } from '../LogoFooter';
+import { Page, View } from '@react-pdf/renderer';
+import { InterestData, InterestDataProps } from './InterestData';
 import { DocumentsFooter } from '../DocumentsFooter';
 
-export const PageEight = () => {
+export const PageEight = (props: InterestDataProps) => {
   return (
     <Page
       size="A4"
@@ -22,20 +20,7 @@ export const PageEight = () => {
             marginTop: 20,
           }}
         >
-          <InterestData
-            careers={[
-              'Física',
-              'Química',
-              'Biología',
-              'Matemáticas',
-              'Ingeniería de\nTelecomunicaciones',
-            ]}
-            color="#e07047"
-            description="Las carreras relacionadas a las ciencias puras y/o experimentales, son todas aquellas que requieren del método científico para su estudio, con la finalidad de encontrar respuestas o explicaciones a distintos fenómenos y cuestionamientos."
-            porcentage={85}
-            title={'Ciencias puras\nexperimentales'}
-            image="o_ciencias_puras.png"
-          />
+          <InterestData {...props} />
         </View>
       </View>
       <DocumentsFooter />
