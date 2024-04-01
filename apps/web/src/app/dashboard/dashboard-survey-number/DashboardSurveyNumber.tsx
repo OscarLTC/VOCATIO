@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { Surveys } from '../../surveys/Surveys';
+import { Survey } from '../../models/survey.model';
 
 interface survey {
   id: number;
@@ -24,27 +26,33 @@ export const DashboardSurveyNumber = () => {
       <div className="h-full justify-center flex">
         <div className="self-center w-full p-1">
           {surveys ? (
-            surveys.map((survey) => (
-              <div
-                key={survey.id}
-                className="text-sm flex m-2 bg-slate-200 rounded"
-              >
-                <h3 className="self-center p-1 text-left w-full">
-                  {survey.name}
-                </h3>
-                <p
-                  className={`w-8 h-8 p-1 text-white rounded ${
-                    surveys[0].amount <= survey.amount
-                      ? 'bg-green-500'
-                      : surveys[6].amount == survey.amount
-                      ? 'bg-red-500'
-                      : 'bg-yellow-500'
-                  }`}
+            surveys.map((survey) => {
+              if (survey.id === 5) {
+                return true;
+              }
+
+              return (
+                <div
+                  key={survey.id}
+                  className="text-sm flex m-2 bg-slate-200 rounded"
                 >
-                  {survey.amount}
-                </p>
-              </div>
-            ))
+                  <h3 className="self-center p-1 text-left w-full">
+                    {survey.name}
+                  </h3>
+                  <p
+                    className={`w-8 h-8 p-1 text-white rounded ${
+                      surveys[0].amount <= survey.amount
+                        ? 'bg-green-500'
+                        : surveys[6].amount == survey.amount
+                        ? 'bg-red-500'
+                        : 'bg-yellow-500'
+                    }`}
+                  >
+                    {survey.amount}
+                  </p>
+                </div>
+              );
+            })
           ) : (
             <div className="h-72 w-full bg-slate-200 p-1 animate-pulse rounded"></div>
           )}

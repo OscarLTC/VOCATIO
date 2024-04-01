@@ -19,6 +19,7 @@ import 'filepond/dist/filepond.min.css';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import axios from 'axios';
+import { Survey } from '../../models/survey.model';
 
 interface SurveysFormProps {
   formState: number;
@@ -180,9 +181,10 @@ export const SurveysForm = (props: SurveysFormProps) => {
   };
 
   const getSurveys = async () => {
-    await axios
-      .get(`${environment.apiUrl}/survey/all`)
-      .then((res) => setSurveys(res.data));
+    await axios.get(`${environment.apiUrl}/survey/all`).then((res) => {
+      res.data.splice(4, 1);
+      setSurveys(res.data);
+    });
   };
 
   const getEnterprises = async () => {
@@ -289,9 +291,9 @@ export const SurveysForm = (props: SurveysFormProps) => {
                         textAlign: 'left',
                       }),
                     }}
-                    options={surveys?.map((person: Person) => ({
-                      value: person.id,
-                      label: `${person.name}`,
+                    options={surveys?.map((survey: Survey) => ({
+                      value: survey.id,
+                      label: `${survey.name}`,
                     }))}
                     className="basic-multi-select bg-gray-200 sm:w-64 w-56 rounded outline-none"
                     classNamePrefix="select"
