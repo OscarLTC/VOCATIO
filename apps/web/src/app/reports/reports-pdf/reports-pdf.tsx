@@ -3,6 +3,7 @@ import { PdfDocumentInteligenciasMultiples } from '../pdf-document/pdf-document-
 import { indicators } from '../../components/pdf/inteligencias-multiples/PagesData';
 import { PdfDocumentInteresVocacional } from '../pdf-document/pdf-document-interes-vocacional/PdfDocumentInteresVocacional';
 import { interests } from '../../components/pdf/interes-vocacional/PageFive';
+import { PdfDocumentArquetipos } from '../pdf-document/pdf-document-arquetipos/pdf-document-arquetipos';
 
 export const data = [
   {
@@ -50,7 +51,9 @@ export const data = [
 export const ReportsPdf = () => {
   return (
     <PDFViewer className="h-[100vh]">
-      <PdfDocumentInteresVocacional
+      <PdfDocumentArquetipos
+        imageURL=""
+        maxIndexSurvey={[]}
         person={{
           name: 'Juan',
           lastName: 'Perez',
@@ -59,33 +62,7 @@ export const ReportsPdf = () => {
           section: 'Sección 1',
           endDate: '2021-12-12',
         }}
-        interests={interests}
-        data={[
-          {
-            careers: ['asd'],
-            color: '#e37047',
-            description: 'asd',
-            image: 'asd',
-            title: 'asd',
-            percentage: 95,
-          },
-          {
-            careers: ['asd'],
-            color: '#e37047',
-            description: 'asd',
-            image: 'asd',
-            title: 'asd',
-            percentage: 95,
-          },
-          {
-            careers: ['asd'],
-            color: '#e37047',
-            description: 'asd',
-            image: 'asd',
-            title: 'asd',
-            percentage: 95,
-          },
-        ]}
+        resultForSurvey={[]}
       />
     </PDFViewer>
   );
