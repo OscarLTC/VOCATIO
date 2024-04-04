@@ -1,9 +1,10 @@
 import { Image, Page, Text, View } from '@react-pdf/renderer';
 import { LogoHeader } from './LogoHeader';
 import { DocumentsFooter } from '../DocumentsFooter';
+import { ResultTypeTwo } from '../../../models/result.model';
 
-interface PageFiveProps {
-  resultForSurvey: any;
+export interface PageFiveProps {
+  resultForSurvey: ResultTypeTwo;
 }
 
 export const PageFive = (props: PageFiveProps) => {
@@ -56,7 +57,7 @@ export const PageFive = (props: PageFiveProps) => {
                   props.resultForSurvey?.category_id === 132 ? 25 : 0
                 }`,
               }}
-              src={`/src/assets/img/${props.resultForSurvey?.image_archetype[0]}`}
+              src={`/src/assets/img/archetypes/${props.resultForSurvey?.image_archetype[0]}`}
             />
             <View
               style={{
@@ -106,7 +107,7 @@ export const PageFive = (props: PageFiveProps) => {
                   color: '#595959',
                 }}
               >
-                {props.resultForSurvey[0].definition}
+                {props.resultForSurvey.definition}
               </Text>
             </View>
           </View>
@@ -209,7 +210,7 @@ export const PageFive = (props: PageFiveProps) => {
                   props.resultForSurvey.category_id === 132 ? 25 : 0
                 }`,
               }}
-              src={`/src/assets/img/${props.resultForSurvey.image_archetype[1]}`}
+              src={`/src/assets/img/archetypes/${props.resultForSurvey.image_archetype[1]}`}
             />
             <View
               style={{

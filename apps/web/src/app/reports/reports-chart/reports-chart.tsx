@@ -102,6 +102,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 2) {
           const skillsCount = getIdsValues(res.answers, 3, true);
+          setSkillsResult([]);
           const resultsIndex = skillsCount.map(
             (skill) => skill[0] as unknown as number
           );
@@ -186,30 +187,30 @@ export const ReportsChart = (props: ReportsChartProps) => {
             data={skillsResult}
             intelligencesData={[
               IntelligenceData[
-                skillsResult[0].title as keyof typeof IntelligenceData
+                skillsResult[0]?.title as keyof typeof IntelligenceData
               ],
               IntelligenceData[
-                skillsResult[1].title as keyof typeof IntelligenceData
+                skillsResult[1]?.title as keyof typeof IntelligenceData
               ],
             ]}
             interestsData={[
               {
                 ...InteresData[
-                  skillsResult[0].title as keyof typeof InteresData
+                  skillsResult[0]?.title as keyof typeof InteresData
                 ],
-                percentage: skillsResult[0].percentage,
+                percentage: skillsResult[0]?.percentage,
               },
               {
                 ...InteresData[
-                  skillsResult[1].title as keyof typeof InteresData
+                  skillsResult[1]?.title as keyof typeof InteresData
                 ],
-                percentage: skillsResult[1].percentage,
+                percentage: skillsResult[1]?.percentage,
               },
               {
                 ...InteresData[
-                  skillsResult[2].title as keyof typeof InteresData
+                  skillsResult[2]?.title as keyof typeof InteresData
                 ],
-                percentage: skillsResult[2].percentage,
+                percentage: skillsResult[2]?.percentage,
               },
             ]}
           />
@@ -261,83 +262,21 @@ export const ReportsChart = (props: ReportsChartProps) => {
               }}
             />
           )}
-          {surveyPerson.surveyId == 2 && dataArchetype && (
-            <Radar
+          {surveyPerson.surveyId == 2 && (
+            <Bar
               ref={chartRef}
               width={60}
-              data={{
-                labels: [
-                  'Control',
-                  'Innovacion',
-                  'Servicio',
-                  'Conocimiento',
-                  'Libertad',
-                  'Seguridad',
-                  'Intimidad',
-                  'Pertenencia',
-                  'Diversion',
-                  'Poder',
-                  'Liberacion y cambio',
-                  'Maestria',
-                ],
-                datasets: [
-                  {
-                    data: [
-                      dataArchetype[0],
-                      dataArchetype[1],
-                      dataArchetype[2],
-                      dataArchetype[9],
-                      dataArchetype[10],
-                      dataArchetype[11],
-                      dataArchetype[3],
-                      dataArchetype[4],
-                      dataArchetype[5],
-                      dataArchetype[8],
-                      dataArchetype[7],
-                      dataArchetype[6],
-                    ],
-                    backgroundColor: 'rgba(1, 53, 82, 0.2)',
-                    borderColor: 'rgba(1, 53, 82, 1)',
-                    borderWidth: 1,
-                  },
-                ],
-              }}
+              height={'30px'}
               options={{
                 animation: {
                   delay: 0,
                   duration: 0,
                   onComplete: generate,
                 },
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                  datalabels: {
-                    color: 'black',
-                    font: {
-                      size: 18,
-                      weight: 'bold',
-                    },
-                  },
-                },
-                scales: {
-                  r: {
-                    grid: {
-                      circular: true,
-                    },
-                    beginAtZero: true,
-                    ticks: {
-                      display: false,
-                    },
-                    pointLabels: {
-                      color: 'black',
-                      font: {
-                        size: 15,
-                      },
-                    },
-                    startAngle: -30,
-                  },
-                },
+              }}
+              data={{
+                labels: [],
+                datasets: [],
               }}
             />
           )}

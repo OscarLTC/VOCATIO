@@ -122,9 +122,7 @@ export const PdfDocument = (props: PdfDocumentProps) => {
         <PdfDocumentArquetipos
           person={props.person}
           surveyProgramming={props.surveyProgramming}
-          imageURL={props.imageURL}
           resultForSurvey={props.resultForSurvey as ResultTypeTwo[]}
-          maxIndexSurvey={props.maxIndexSurvey as number[]}
         />
       )}
       {props.surveyId === 3 && (

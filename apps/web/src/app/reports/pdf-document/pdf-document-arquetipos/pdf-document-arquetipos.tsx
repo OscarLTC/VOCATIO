@@ -14,8 +14,6 @@ import { PageEight } from '../../../components/pdf/arquetipos/PageEight';
 
 interface PdfDocumentArquetiposProps extends PageOneProps {
   resultForSurvey: ResultTypeTwo[];
-  maxIndexSurvey: number[];
-  imageURL: string;
 }
 
 export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
@@ -28,9 +26,9 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
       <PageTwo />
       <PageThree />
       <PageFour />
-      {/* <PageFive/>
-      <PageSix/>
-      <PageSeven/> */}
+      <PageFive resultForSurvey={props.resultForSurvey[0]} />
+      <PageSix resultForSurvey={props.resultForSurvey[1]} />
+      <PageSeven resultForSurvey={props.resultForSurvey[2]} />
       <PageEight />
     </Document>
   );

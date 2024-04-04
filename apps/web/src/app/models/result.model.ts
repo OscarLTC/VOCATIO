@@ -23,7 +23,6 @@ export interface ResultTypeTwo extends Result {
   group_archetype: {
     color: string;
     hero: string;
-    id: number;
   };
   image_archetype: string[];
 }

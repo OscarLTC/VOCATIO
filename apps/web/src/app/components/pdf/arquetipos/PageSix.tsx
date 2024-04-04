@@ -1,12 +1,9 @@
 import { Image, Page, Text, View } from '@react-pdf/renderer';
 import { LogoHeader } from './LogoHeader';
 import { DocumentsFooter } from '../DocumentsFooter';
+import { PageFiveProps } from './PageFive';
 
-interface PageSixProps {
-  resultForSurvey: any;
-}
-
-export const PageSix = (props: PageSixProps) => {
+export const PageSix = (props: PageFiveProps) => {
   return (
     <Page
       size="A4"
@@ -94,7 +91,7 @@ export const PageSix = (props: PageSixProps) => {
                   props.resultForSurvey.category_id === 132 ? 20 : 0
                 }`,
               }}
-              src={`/src/assets/img/${props.resultForSurvey.image_archetype[0]}`}
+              src={`/src/assets/img/archetypes/${props.resultForSurvey.image_archetype[0]}`}
             />
             <View
               style={{
@@ -128,7 +125,7 @@ export const PageSix = (props: PageSixProps) => {
                   props.resultForSurvey.category_id === 132 ? 25 : 0
                 }`,
               }}
-              src={`/src/assets/img/${props.resultForSurvey.image_archetype[1]}`}
+              src={`/src/assets/img/archetypes/${props.resultForSurvey.image_archetype[1]}`}
             />
             <View
               style={{

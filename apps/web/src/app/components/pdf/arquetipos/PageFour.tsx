@@ -23,7 +23,16 @@ export const PageFour = () => {
             Gráfico de Resultados
           </Text>
         </View>
-        <ArchetypesChart archetypes={data} />
+        <ArchetypesChart
+        // archetypes={[
+        //   {
+        //     title: 'Arquetipos',
+        //     color: '#013552',
+        //     percentage: 100,
+        //     selected: true,
+        //   },
+        // ]}
+        />
       </View>
       <DocumentsFooter />
     </Page>

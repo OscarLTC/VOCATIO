@@ -5,10 +5,11 @@ interface ArchetypesChartProps {
     title: string;
     percentage: number;
     color: string;
-  }[];
+    selected: boolean;
+  }[][];
 }
 
-export const ArchetypesChart = (props: ArchetypesChartProps) => {
+export const ArchetypesChart = () => {
   const levels = [
     {
       title: 'Muy Bajo',
@@ -32,36 +33,203 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
     },
   ];
 
+  const archetypesCategories = [
+    {
+      title: 'Promover\nestructura\nal mundo',
+      category: 'Orden',
+      archetypes: ['El Gobernante', 'El Creador', 'El Cuidador'],
+      color: '#e96e49',
+    },
+    {
+      title: 'Conectar\ncon otros',
+      category: 'Social',
+      archetypes: ['El Bromista', 'El Amante', 'El Amigo'],
+      color: '#ea89a9',
+    },
+    {
+      title: 'Dejar una\nhuella en el\nmundo',
+      category: 'Ego',
+      archetypes: ['El Héroe', 'El Rebelde', 'El Mago'],
+      color: '#274f9c',
+    },
+    {
+      title: 'Perseguir la\nesperitualidad\ny la realización',
+      category: 'Libertad',
+      archetypes: ['El Inocente', 'El Explorador', 'El Sabio'],
+      color: '#00957c',
+    },
+  ];
+
+  const data = [
+    {
+      color: '#e96e49',
+      category: 'Orden',
+      archetypes: [
+        {
+          title: 'El Gobernante',
+          percentage: 90,
+          selected: true,
+        },
+        {
+          title: 'El Creador',
+          percentage: 85,
+          selected: true,
+        },
+        {
+          title: 'El Cuidador',
+          percentage: 55,
+          selected: false,
+        },
+      ],
+    },
+    {
+      color: '#ea89a9',
+      category: 'Social',
+      archetypes: [
+        {
+          title: 'El Bromista',
+          percentage: 70,
+          selected: false,
+        },
+        {
+          title: 'El Amante',
+          percentage: 60,
+          selected: false,
+        },
+        {
+          title: 'El Amigo',
+          percentage: 50,
+          selected: false,
+        },
+      ],
+    },
+    {
+      color: '#274f9c',
+      category: 'Ego',
+      archetypes: [
+        {
+          title: 'El Héroe',
+          percentage: 80,
+          selected: true,
+        },
+        {
+          title: 'El Rebelde',
+          percentage: 60,
+          selected: false,
+        },
+        {
+          title: 'El Mago',
+          percentage: 45,
+          selected: false,
+        },
+      ],
+    },
+    {
+      color: '#00957c',
+      category: 'Libertad',
+      archetypes: [
+        {
+          title: 'El Inocente',
+          percentage: 50,
+          selected: false,
+        },
+        {
+          title: 'El Explorador',
+          percentage: 45,
+          selected: false,
+        },
+        {
+          title: 'El Sabio',
+          percentage: 35,
+          selected: false,
+        },
+      ],
+    },
+  ];
+
   return (
     <View style={{ paddingVertical: 30, flexDirection: 'row' }}>
       <View
         style={{
-          height: 500,
-          paddingVertical: 10,
           fontSize: 10,
           overflow: 'hidden',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          width: 150,
+          width: 220,
         }}
       >
-        {props.archetypes
-          .sort((a, b) => b.percentage - a.percentage)
-          .map((archetype, index) => (
+        <View
+          style={{
+            height: 450,
+            flexDirection: 'column',
+            gap: 10,
+          }}
+        >
+          {archetypesCategories.map((category, index) => (
             <View
-              key={index}
               style={{
-                textAlign: 'right',
                 flexDirection: 'row',
-                alignItems: 'center',
-                gap: 10,
+                color: 'white',
+                borderLeftWidth: 1,
+                borderTopWidth: 1,
+                height: 100,
               }}
             >
-              <Text style={{ fontSize: 9, width: 70, fontWeight: 'demibold' }}>
-                {archetype.title}
-              </Text>
+              <View
+                style={{
+                  width: 150,
+                  textAlign: 'center',
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  backgroundColor: category.color,
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderBottomWidth: 1,
+                }}
+              >
+                <Text>{category.title}</Text>
+                <Text
+                  style={{
+                    fontWeight: 'normal',
+                    fontStyle: 'italic',
+                    textTransform: 'uppercase',
+                    fontSize: 12,
+                  }}
+                >
+                  ({category.category})
+                </Text>
+              </View>
+              <View
+                style={{
+                  width: 100,
+                  textAlign: 'center',
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderLeftWidth: 1,
+                }}
+              >
+                {category.archetypes.map((archetype, index) => (
+                  <View
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      backgroundColor: category.color,
+                      borderBottomWidth: 1,
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text>{archetype}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           ))}
+        </View>
       </View>
       <View
         style={{
@@ -70,69 +238,80 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
       >
         <View
           style={{
-            height: 500,
+            height: 450,
             borderLeftWidth: 1,
             justifyContent: 'space-between',
             flexDirection: 'column',
+            width: 250,
           }}
         >
-          {props.archetypes.map((archetype, index) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                height: '100%',
-                gap: 10,
-              }}
-              key={index}
-            >
+          <View style={{ flexDirection: 'column', gap: 10 }}>
+            {data.map((category, index) => (
               <View
                 style={{
-                  height: 30,
-                  width: 3.3 * archetype.percentage,
-                  backgroundColor: archetype.color,
+                  height: 100,
+                  justifyContent: 'space-between',
+                  flexDirection: 'column',
                 }}
-              ></View>
-              <Text
-                style={{
-                  fontSize: 15,
-                  textAlign: 'center',
-                  fontWeight: 'demibold',
-                }}
-              >{`${archetype.percentage}%`}</Text>
-            </View>
-          ))}
+              >
+                {category.archetypes.map((archetype, index) => (
+                  <View style={{ flexDirection: 'row', width: 300 }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        height: '100%',
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: archetype.percentage * 2.5,
+                          height: 30,
+                          backgroundColor: archetype.selected
+                            ? category.color
+                            : '#a7a7a7',
+                          flexDirection: 'row',
+                          alignSelf: 'center',
+                          marginVertical: 10,
+                        }}
+                      ></View>
+                    </View>
+
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        textAlign: 'center',
+                        fontWeight: 'demibold',
+                        alignSelf: 'center',
+                        marginLeft: 10,
+                      }}
+                    >
+                      {archetype.percentage}%
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
         </View>
         <View>
           <View
             style={{
               borderLeftWidth: 1,
-              height: 10,
+              height: 5,
               flexDirection: 'row',
-              width: 330,
+              width: 250,
               borderBottomWidth: 1,
             }}
-          >
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <View
-                  key={index}
-                  style={{
-                    width: '20%',
-                    borderRightWidth: 1,
-                  }}
-                ></View>
-              ))}
-          </View>
+          ></View>
           <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <View
               style={{
-                width: 330,
+                width: 250,
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 position: 'absolute',
-                left: -32,
+                left: -28,
               }}
             >
               {Array(5)
@@ -155,7 +334,7 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
                 fontSize: 8,
                 color: '#a8a8a8',
                 textAlign: 'right',
-                width: 338,
+                width: 258,
               }}
             >
               100
@@ -163,7 +342,7 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
           </View>
           <View
             style={{
-              width: 330,
+              width: 250,
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}
@@ -173,8 +352,8 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
                 key={index}
                 style={{
                   flexDirection: 'column',
-                  fontSize: 8,
-                  color: '#494949',
+                  fontSize: 7,
+                  color: '#484848',
                   width: '20%',
                 }}
               >
@@ -195,7 +374,7 @@ export const ArchetypesChart = (props: ArchetypesChartProps) => {
               </View>
             ))}
           </View>
-          <View style={{ width: 330, marginTop: 15 }}>
+          <View style={{ width: 250, marginTop: 15 }}>
             <Text
               style={{ fontSize: 9, fontWeight: 'bold', textAlign: 'center' }}
             >
