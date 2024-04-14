@@ -1,6 +1,5 @@
 import { surveyProgrammingState } from '../../store/surveyProgramming/surveyProgramming.atom';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
-import { HiDocumentDownload, HiDocumentSearch } from 'react-icons/hi';
 import { environment } from '../../../environments/environment';
 import { Enterprise } from '../../models/enterprise.model';
 import { useEffectOnce } from 'react-use';
@@ -10,6 +9,8 @@ import Select from 'react-select';
 import { useState } from 'react';
 import axios from 'axios';
 import { onExportarClick } from '../../utils/exportExcel';
+import { BsFileEarmarkExcelFill, BsFileEarmarkPdfFill, BsFillFileEarmarkArrowDownFill } from 'react-icons/bs';
+import { onExportZip } from '../../utils/exportZip';
 
 export const ReportForm = () => {
   const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
@@ -54,6 +55,19 @@ export const ReportForm = () => {
     }
   };
 
+  const onDownloadZip = (id:any) => {
+    axios
+      .get(
+        `${environment.apiUrl}/surveyProgramming/zip/${id}/`
+      )
+      .then((res) => {
+        const link = document.createElement('a');
+        document.body.appendChild(link);
+        link.click();
+      });
+  
+  }
+
   useEffectOnce(() => {
     if (!entreprises) {
       const getEnterprises = () => {
@@ -76,7 +90,7 @@ export const ReportForm = () => {
       className="w-fit bg-white  shadow px-4 py-4 rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="md:flex gap-4 ">
+      <div className="md:flex md:flex-col gap-4 ">
         <div>
           <div className="sm:flex gap-1 items-center text-left">
             <span className="w-24 text-start">Empresa:</span>
@@ -132,8 +146,8 @@ export const ReportForm = () => {
           </div>
         </div>
         <div className="flex self-end gap-2 mt-4 md:mt-0 text-white">
-          <button className="py-2 px-4 rounded bg-yellow-400 h-fit flex">
-            <HiDocumentSearch className="self-center mr-2" size={25} />
+          <button className="py-2 px-4 rounded items-center bg-yellow-400 h-fit flex">
+            <BsFillFileEarmarkArrowDownFill  className="self-center mr-2" size={25} />
             <span>Ver Estado</span>
           </button>
           <button
@@ -142,12 +156,25 @@ export const ReportForm = () => {
               surveysData && onExportarClick(exportId, surveysData)
             }
             disabled={isDisabled}
-            className={`py-2 px-4 rounded h-fit flex ${
+            className={`py-2 px-4 items-center rounded h-fit flex ${
               isDisabled ? 'bg-gray-300' : 'bg-green-600'
             }`}
           >
-            <HiDocumentDownload className="self-center mr-2" size={25} />
+            <BsFileEarmarkExcelFill  className="self-center mr-2" size={25} />
             <span>Exportar links</span>
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              surveysData && onExportZip(exportId, `${surveysData.id} - ${surveysData.name} - ${surveysData.section} - ${surveysData.survey.name}`)
+            }
+            disabled={isDisabled}
+            className={`py-2 px-4 rounded h-fit items-center flex ${
+              isDisabled ? 'bg-gray-300' : 'bg-[#e2574c]'
+            }`}
+          >
+            <BsFileEarmarkPdfFill className="self-center mr-2" size={25} />
+            <span>Descargar ZIP</span>
           </button>
         </div>
       </div>
