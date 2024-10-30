@@ -11,9 +11,11 @@ import { PageFive } from '../../../components/pdf/arquetipos/PageFive';
 import { PageSix } from '../../../components/pdf/arquetipos/PageSix';
 import { PageSeven } from '../../../components/pdf/arquetipos/PageSeven';
 import { PageEight } from '../../../components/pdf/arquetipos/PageEight';
+import { ArchetypesChartProps } from '../../../components/pdf/arquetipos/ArchetypesChart';
 
 interface PdfDocumentArquetiposProps extends PageOneProps {
   resultForSurvey: ResultTypeTwo[];
+  arquetypesData: ArchetypesChartProps;
 }
 
 export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
@@ -25,7 +27,7 @@ export const PdfDocumentArquetipos = (props: PdfDocumentArquetiposProps) => {
       />
       <PageTwo />
       <PageThree />
-      <PageFour />
+      <PageFour archetypesData={props.arquetypesData.archetypesData} />
       <PageFive resultForSurvey={props.resultForSurvey[0]} />
       <PageSix resultForSurvey={props.resultForSurvey[1]} />
       <PageSeven resultForSurvey={props.resultForSurvey[2]} />

@@ -79,9 +79,9 @@ export const PageTwo = () => {
                 letter: 'b',
               },
               {
-                title: 'El Control',
+                title: 'El Servicio',
                 description:
-                  'Buscan crear una familia o comunidad próspera y exitosa. Arquetipo: El Gobernante.',
+                  'Buscan proteger y hacerse cargo de las necesidades de otro. Arquetipo: El Cuidador.',
                 letter: 'c',
               },
             ]}

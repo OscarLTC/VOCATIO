@@ -8,6 +8,10 @@ interface ReportTableProps {
 }
 
 export const ReportTable = (props: ReportTableProps) => {
+  const generatePdf = (id: number) => async () => {
+    return;
+  };
+
   return (
     <div className="mt-3 overflow-y-auto h-[30rem]">
       <table className="w-full p-4">
@@ -46,11 +50,11 @@ export const ReportTable = (props: ReportTableProps) => {
                     <div className="w-5 h-5 rounded-full bg-green-600 m-auto"></div>
                   )}
                 </td>
-                <td>
+                {/* <td>
                   <Link to={`/reportes/pdf/${survey.id}`}>PDF </Link>
-                </td>
+                </td> */}
                 <td className="">
-                  {survey.state.id === 3 ? (
+                  {survey.pdfBlob ? (
                     <a
                       className="text-blue-600 text-sm"
                       href={survey.pdfBlob}
@@ -60,6 +64,16 @@ export const ReportTable = (props: ReportTableProps) => {
                     >
                       {`${environment.surveyDomain}/reportes/pdf/${survey.id}`}
                     </a>
+                  ) : survey.state.id === 3 ? (
+                    <div className="flex gap-3 justify-center items-center">
+                      <span className="">No se ha generado correctamente</span>
+                      <button
+                        className="p-1 bg-green-500 text-white rounded-md"
+                        onClick={generatePdf(survey.id)}
+                      >
+                        Generar
+                      </button>
+                    </div>
                   ) : (
                     ''
                   )}

@@ -106,7 +106,6 @@ Font.register({
 });
 
 export const PdfDocument = (props: PdfDocumentProps) => {
-  console.log(props);
   return (
     <>
       {JSON.stringify(props)}
@@ -123,6 +122,7 @@ export const PdfDocument = (props: PdfDocumentProps) => {
           person={props.person}
           surveyProgramming={props.surveyProgramming}
           resultForSurvey={props.resultForSurvey as ResultTypeTwo[]}
+          arquetypesData={{ archetypesData: props.data }}
         />
       )}
       {props.surveyId === 3 && (

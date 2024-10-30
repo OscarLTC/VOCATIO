@@ -9,8 +9,14 @@ import Select from 'react-select';
 import { useState } from 'react';
 import axios from 'axios';
 import { onExportarClick } from '../../utils/exportExcel';
-import { BsFileEarmarkExcelFill, BsFileEarmarkPdfFill, BsFillFileEarmarkArrowDownFill } from 'react-icons/bs';
+import {
+  BsFileEarmarkExcelFill,
+  BsFileEarmarkPdfFill,
+  BsFillFileEarmarkArrowDownFill,
+} from 'react-icons/bs';
 import { onExportZip } from '../../utils/exportZip';
+import { getSurveyProgramming } from '../../serivces/surveryprogramming.services';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export const ReportForm = () => {
   const [entreprises, setEnterprises] = useState<Array<Enterprise>>();
@@ -18,6 +24,7 @@ export const ReportForm = () => {
   const [surveysData, setSurveysData] = useRecoilState(surveyProgrammingState);
 
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, setValue, handleSubmit, watch } = useForm({
     defaultValues: {
@@ -45,28 +52,30 @@ export const ReportForm = () => {
     setValue('surveyEnterprise_id', selectedOption?.value);
   };
 
-  const onSubmit = (data: any) => {
-    const selectedSurvey = surveys.find(
-      (survey) => survey.id === data.surveyEnterprise_id
-    );
-    if (selectedSurvey) {
-      setSurveysData(selectedSurvey);
+  const onSubmit = async (data: any) => {
+    try {
+      setIsLoading(true);
+      const surveyProgramming = await getSurveyProgramming(
+        data.surveyEnterprise_id
+      );
+      setSurveysData(surveyProgramming);
+      setIsLoading(false);
       setIsDisabled(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
     }
   };
 
-  const onDownloadZip = (id:any) => {
+  const onDownloadZip = (id: any) => {
     axios
-      .get(
-        `${environment.apiUrl}/surveyProgramming/zip/${id}/`
-      )
+      .get(`${environment.apiUrl}/surveyProgramming/zip/${id}/`)
       .then((res) => {
         const link = document.createElement('a');
         document.body.appendChild(link);
         link.click();
       });
-  
-  }
+  };
 
   useEffectOnce(() => {
     if (!entreprises) {
@@ -83,6 +92,12 @@ export const ReportForm = () => {
       };
       getEnterprises();
     }
+
+    return () => {
+      setEnterprises([]);
+      setSurveys([]);
+      setSurveysData(null);
+    };
   });
 
   return (
@@ -147,7 +162,17 @@ export const ReportForm = () => {
         </div>
         <div className="flex self-end gap-2 mt-4 md:mt-0 text-white">
           <button className="py-2 px-4 rounded items-center bg-yellow-400 h-fit flex">
-            <BsFillFileEarmarkArrowDownFill  className="self-center mr-2" size={25} />
+            {isLoading ? (
+              <AiOutlineLoading3Quarters
+                className="animate-spin self-center mr-2"
+                size={25}
+              />
+            ) : (
+              <BsFillFileEarmarkArrowDownFill
+                className="self-center mr-2"
+                size={25}
+              />
+            )}
             <span>Ver Estado</span>
           </button>
           <button
@@ -160,13 +185,17 @@ export const ReportForm = () => {
               isDisabled ? 'bg-gray-300' : 'bg-green-600'
             }`}
           >
-            <BsFileEarmarkExcelFill  className="self-center mr-2" size={25} />
+            <BsFileEarmarkExcelFill className="self-center mr-2" size={25} />
             <span>Exportar links</span>
           </button>
           <button
             type="button"
             onClick={() =>
-              surveysData && onExportZip(exportId, `${surveysData.id} - ${surveysData.name} - ${surveysData.section} - ${surveysData.survey.name}`)
+              surveysData &&
+              onExportZip(
+                exportId,
+                `${surveysData.id} - ${surveysData.name} - ${surveysData.section} - ${surveysData.survey.name}`
+              )
             }
             disabled={isDisabled}
             className={`py-2 px-4 rounded h-fit items-center flex ${

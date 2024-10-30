@@ -1,15 +1,14 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 
-interface ArchetypesChartProps {
-  archetypes: {
-    title: string;
+export interface ArchetypesChartProps {
+  archetypesData: Array<{
     percentage: number;
-    color: string;
     selected: boolean;
-  }[][];
+    title: string;
+  }>;
 }
 
-export const ArchetypesChart = () => {
+export const ArchetypesChart = (props: ArchetypesChartProps) => {
   const levels = [
     {
       title: 'Muy Bajo',
@@ -67,18 +66,18 @@ export const ArchetypesChart = () => {
       archetypes: [
         {
           title: 'El Gobernante',
-          percentage: 90,
-          selected: true,
+          percentage: props.archetypesData[0].percentage,
+          selected: props.archetypesData[0].selected,
         },
         {
           title: 'El Creador',
-          percentage: 85,
-          selected: true,
+          percentage: props.archetypesData[1].percentage,
+          selected: props.archetypesData[1].selected,
         },
         {
           title: 'El Cuidador',
-          percentage: 55,
-          selected: false,
+          percentage: props.archetypesData[2].percentage,
+          selected: props.archetypesData[2].selected,
         },
       ],
     },
@@ -88,18 +87,18 @@ export const ArchetypesChart = () => {
       archetypes: [
         {
           title: 'El Bromista',
-          percentage: 70,
-          selected: false,
+          percentage: props.archetypesData[3].percentage,
+          selected: props.archetypesData[3].selected,
         },
         {
           title: 'El Amante',
-          percentage: 60,
-          selected: false,
+          percentage: props.archetypesData[4].percentage,
+          selected: props.archetypesData[4].selected,
         },
         {
           title: 'El Amigo',
-          percentage: 50,
-          selected: false,
+          percentage: props.archetypesData[5].percentage,
+          selected: props.archetypesData[5].selected,
         },
       ],
     },
@@ -109,18 +108,18 @@ export const ArchetypesChart = () => {
       archetypes: [
         {
           title: 'El Héroe',
-          percentage: 80,
-          selected: true,
+          percentage: props.archetypesData[6].percentage,
+          selected: props.archetypesData[6].selected,
         },
         {
           title: 'El Rebelde',
-          percentage: 60,
-          selected: false,
+          percentage: props.archetypesData[7].percentage,
+          selected: props.archetypesData[7].selected,
         },
         {
           title: 'El Mago',
-          percentage: 45,
-          selected: false,
+          percentage: props.archetypesData[8].percentage,
+          selected: props.archetypesData[8].selected,
         },
       ],
     },
@@ -130,18 +129,18 @@ export const ArchetypesChart = () => {
       archetypes: [
         {
           title: 'El Inocente',
-          percentage: 50,
-          selected: false,
+          percentage: props.archetypesData[9].percentage,
+          selected: props.archetypesData[9].selected,
         },
         {
           title: 'El Explorador',
-          percentage: 45,
-          selected: false,
+          percentage: props.archetypesData[10].percentage,
+          selected: props.archetypesData[10].selected,
         },
         {
           title: 'El Sabio',
-          percentage: 35,
-          selected: false,
+          percentage: props.archetypesData[11].percentage,
+          selected: props.archetypesData[11].selected,
         },
       ],
     },

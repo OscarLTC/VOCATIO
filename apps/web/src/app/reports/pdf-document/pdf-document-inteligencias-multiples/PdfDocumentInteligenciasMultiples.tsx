@@ -22,6 +22,7 @@ interface PdfDocumentInteligenciasMultiplesProps
 export const PdfDocumentInteligenciasMultiples = (
   props: PdfDocumentInteligenciasMultiplesProps
 ) => {
+  console.log(props);
   return (
     <Document>
       <PageOne

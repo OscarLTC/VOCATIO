@@ -141,7 +141,6 @@ export const SurveysForm = (props: SurveysFormProps) => {
           surveyProgrammingPersonIds: surveyProgrammingPersonIds,
         })
         .then((res) => {
-          console.log(res);
           toast.remove();
           toast.success('Encuesta programada');
           reset();
@@ -149,7 +148,6 @@ export const SurveysForm = (props: SurveysFormProps) => {
           navigate('/encuestas');
         })
         .catch((res) => {
-          console.log(res);
           setIsLoaded(false);
 
           toast.error('No se pudo programar la encuesta');

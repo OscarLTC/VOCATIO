@@ -110,9 +110,9 @@ export const PageSix = () => {
                   style={{
                     color: '#fff',
                   }}
-                  src="gerencia@vocatio.pe"
+                  src="informes@vocatio.pe"
                 >
-                  gerencia@vocatio.pe
+                  informes@vocatio.pe
                 </Link>
                 {',  con   gusto   un  profesional especializado te atenderá.'}
               </Text>

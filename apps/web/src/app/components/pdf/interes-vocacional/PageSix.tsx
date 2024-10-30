@@ -20,7 +20,7 @@ export const PageSix = (props: InterestDataProps) => {
         <View
           style={{
             paddingVertical: 10,
-            marginTop: 20,
+            marginTop: 10,
           }}
         >
           <Text

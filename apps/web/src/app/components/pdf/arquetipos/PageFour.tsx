@@ -1,10 +1,10 @@
 import { Image, Page, Text, View } from '@react-pdf/renderer';
 import { LogoHeader } from './LogoHeader';
 import { DocumentsFooter } from '../DocumentsFooter';
-import { ArchetypesChart } from './ArchetypesChart';
+import { ArchetypesChart, ArchetypesChartProps } from './ArchetypesChart';
 import { data } from '../../../reports/reports-pdf/reports-pdf';
 
-export const PageFour = () => {
+export const PageFour = (data: ArchetypesChartProps) => {
   return (
     <Page
       size="A4"
@@ -23,16 +23,7 @@ export const PageFour = () => {
             Gráfico de Resultados
           </Text>
         </View>
-        <ArchetypesChart
-        // archetypes={[
-        //   {
-        //     title: 'Arquetipos',
-        //     color: '#013552',
-        //     percentage: 100,
-        //     selected: true,
-        //   },
-        // ]}
-        />
+        <ArchetypesChart archetypesData={data.archetypesData} />
       </View>
       <DocumentsFooter />
     </Page>

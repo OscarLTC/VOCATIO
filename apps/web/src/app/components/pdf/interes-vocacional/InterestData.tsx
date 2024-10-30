@@ -69,7 +69,7 @@ export const InterestData = (props: InterestDataProps) => {
           <Image src={`/src/assets/img/interest/${props.image}.png`} />
         </View>
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 10 }}>
         <Text
           style={{
             fontSize: 12,
@@ -83,7 +83,7 @@ export const InterestData = (props: InterestDataProps) => {
       </View>
       <View
         style={{
-          marginTop: 40,
+          marginTop: 20,
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',

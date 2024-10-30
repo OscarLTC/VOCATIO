@@ -12,6 +12,7 @@ import { IntelligencesChartProps } from '../components/pdf/inteligencias-multipl
 import { InterestDataProps } from '../components/pdf/interes-vocacional/InterestData';
 import { InterestChartProps } from '../components/pdf/interes-vocacional/InterestChart';
 import { InteresData } from '../models/interest.mode';
+import { ArchetypesChartProps } from '../components/pdf/arquetipos/ArchetypesChart';
 
 export const getSurveyPersonData = async (
   id: number
@@ -118,7 +119,7 @@ export const getSkillData = (answers: Array<Answer>) => {
       percentage < 0.4 ? '#9f9f9f' : percentage < 0.6 ? '#686868' : '#0a937c';
 
     skills.push({
-      title,
+      title: title,
       image: `${SkillImage[title]}.png`,
       percentage: Number((percentage * 100).toFixed(0)),
       color,
@@ -145,8 +146,6 @@ export const getHabitsData = (answers: Array<Answer>) => {
       color,
     });
   }
-
-  console.log(habits);
 
   return habits;
 };
@@ -243,7 +242,6 @@ export const getInterestsData = (answers: Array<Answer>) => {
     });
     index++;
   }
-  console.log(interestsData, 'interestsData');
   return interestsData;
 };
 
@@ -296,3 +294,41 @@ export const getGroupsValues = (answers: Array<Answer>, topN: number) => {
 
   return sortedCategories;
 };
+
+export const getArquetypesData = (answers: Array<Answer>) => {
+  const arquetypesData: any = [];
+  const categories = getCategoriesValues(answers, 12);
+  for (const category of categories) {
+    const percentage = category[1] / 30;
+    
+    arquetypesData.push(Object.values({
+      percentage: Number((percentage * 100).toFixed(0)),
+      selected: category[0] === categories[0][0] || category[0] === categories[1][0] || category[0] === categories[2][0],
+      title: category[0],
+    }));
+  }
+
+  return orderArchetypes(arquetypesData)
+}
+
+const orderArchetypes = (archetypes: any) => {
+  const orderedArchetypes = [ "GOBERNANTE (CONTROL)","CREADOR (INNOVACION)", "CUIDADOR (SERVICIO)", "BUFON (DIVERSIÓN)", "AMANTE (INTIMIDAD)",  "AMIGO  (PERTENENCIA)","HEROE (MAESTRIA)","REBELDE (LIBERACIÓN Y CAMBIO)","MAGO (PODER)", "INOCENTE ( OPTIMISMO)",  "EXPLORADOR (LIBERTAD)","SABIO (CONOCIMIENTO)"];
+
+  const orderedArchetypesData = [];
+
+  for (const archetype of orderedArchetypes) {
+    const data = archetypes.find((category: any) => category[2] === archetype);
+    if (data) {
+      orderedArchetypesData.push(data);
+    }
+  }
+
+  const newArray = orderedArchetypesData.map((item: any) => {
+    return {
+      percentage: item[0],
+      selected: item[1],
+      title: item[2],
+    }
+  })
+  return newArray;
+}

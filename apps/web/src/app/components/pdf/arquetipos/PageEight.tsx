@@ -91,7 +91,7 @@ export const PageEight = () => {
               Si tienes alguna duda o consulta sobre tus resultados puedes
               escribirnos a:{' '}
               <Link style={{ textDecoration: 'none', color: 'white' }} src="">
-                gerencia@vocatio.pe
+                informes@vocatio.pe
               </Link>
               , con gusto un profesional especializado te atenderá.
             </Text>

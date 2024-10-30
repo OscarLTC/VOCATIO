@@ -597,7 +597,7 @@ export const PdfDocumentEstilosDeAprendizaje = (
           >
             <Text>
               Si tienes alguna duda o consulta sobre tus resultados puedes
-              escribirnos a: <Link src="#">gerencia@vocatio.pe</Link>, con gusto
+              escribirnos a: <Link src="#">informes@vocatio.pe</Link>, con gusto
               un profesional especializado te atenderá.
             </Text>
           </View>

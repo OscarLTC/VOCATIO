@@ -24,6 +24,7 @@ import {
   getHabitsData,
   getIntelligenceData,
   getInterestsData,
+  getArquetypesData,
 } from '../../dataAccess/surveyProgramming';
 import { surveyProgrammingPerson } from '../../models/surveyProgrammingPerson.model';
 import { surveyPersonState } from '../../store/people/surveyPerson';
@@ -101,8 +102,9 @@ export const ReportsChart = (props: ReportsChartProps) => {
           setSkillsResult(skillsCount);
           setIsDataChartReady(true);
         } else if (res.survey_programming.survey.id === 2) {
-          const skillsCount = getIdsValues(res.answers, 3, true);
-          setSkillsResult([]);
+          const skillsCount = getIdsValues(res.answers, 12, true);
+          const arquetypesChart = getArquetypesData(res.answers);
+          setSkillsResult(arquetypesChart);
           const resultsIndex = skillsCount.map(
             (skill) => skill[0] as unknown as number
           );
@@ -185,34 +187,42 @@ export const ReportsChart = (props: ReportsChartProps) => {
               surveyId === 6 ? maxIndexResult : maxArchetypoResult
             }
             data={skillsResult}
-            intelligencesData={[
-              IntelligenceData[
-                skillsResult[0]?.title as keyof typeof IntelligenceData
-              ],
-              IntelligenceData[
-                skillsResult[1]?.title as keyof typeof IntelligenceData
-              ],
-            ]}
-            interestsData={[
-              {
-                ...InteresData[
-                  skillsResult[0]?.title as keyof typeof InteresData
-                ],
-                percentage: skillsResult[0]?.percentage,
-              },
-              {
-                ...InteresData[
-                  skillsResult[1]?.title as keyof typeof InteresData
-                ],
-                percentage: skillsResult[1]?.percentage,
-              },
-              {
-                ...InteresData[
-                  skillsResult[2]?.title as keyof typeof InteresData
-                ],
-                percentage: skillsResult[2]?.percentage,
-              },
-            ]}
+            intelligencesData={
+              surveyId !== 6
+                ? [
+                    IntelligenceData[
+                      skillsResult[0]?.title as keyof typeof IntelligenceData
+                    ],
+                    IntelligenceData[
+                      skillsResult[1]?.title as keyof typeof IntelligenceData
+                    ],
+                  ]
+                : null
+            }
+            interestsData={
+              surveyId !== 6
+                ? [
+                    {
+                      ...InteresData[
+                        skillsResult[0]?.title as keyof typeof InteresData
+                      ],
+                      percentage: skillsResult[0]?.percentage,
+                    },
+                    {
+                      ...InteresData[
+                        skillsResult[1]?.title as keyof typeof InteresData
+                      ],
+                      percentage: skillsResult[1]?.percentage,
+                    },
+                    {
+                      ...InteresData[
+                        skillsResult[2]?.title as keyof typeof InteresData
+                      ],
+                      percentage: skillsResult[2]?.percentage,
+                    },
+                  ]
+                : null
+            }
           />
         );
 
