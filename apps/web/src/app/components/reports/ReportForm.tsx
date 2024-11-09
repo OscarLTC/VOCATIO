@@ -15,7 +15,10 @@ import {
   BsFillFileEarmarkArrowDownFill,
 } from 'react-icons/bs';
 import { onExportZip } from '../../utils/exportZip';
-import { getSurveyProgramming } from '../../serivces/surveryprogramming.services';
+import {
+  getSurveyProgramming,
+  getSurveyProgrammingByEnterprise,
+} from '../../serivces/surveryprogramming.services';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export const ReportForm = () => {
@@ -35,15 +38,15 @@ export const ReportForm = () => {
 
   const exportId = watch('surveyEnterprise_id');
 
-  const onEnterpriseChange = (selectedOption: any) => {
+  const onEnterpriseChange = async (selectedOption: any) => {
     setIsDisabled(true);
     setSurveysData(null);
     setValue('enterprise_id', selectedOption?.value);
-    axios
-      .get(
-        `${environment.apiUrl}/surveyProgramming/enterprise/${selectedOption.value}`
-      )
-      .then((res) => setSurveys(res.data));
+    setValue('surveyEnterprise_id', '');
+    const surveys = await getSurveyProgrammingByEnterprise(
+      selectedOption?.value
+    );
+    setSurveys(surveys);
   };
 
   const onSurveyEnterpriseChange = (selectedOption: any) => {
@@ -65,16 +68,6 @@ export const ReportForm = () => {
       console.error(error);
       setIsLoading(false);
     }
-  };
-
-  const onDownloadZip = (id: any) => {
-    axios
-      .get(`${environment.apiUrl}/surveyProgramming/zip/${id}/`)
-      .then((res) => {
-        const link = document.createElement('a');
-        document.body.appendChild(link);
-        link.click();
-      });
   };
 
   useEffectOnce(() => {
@@ -135,6 +128,7 @@ export const ReportForm = () => {
           <div className="sm:flex gap-1 mt-5 items-center  text-left">
             <span className="w-24 text-start">Encuesta:</span>
             <Select
+              isLoading={surveys === null}
               styles={{
                 control: (baseStyles) => ({
                   ...baseStyles,
@@ -151,7 +145,9 @@ export const ReportForm = () => {
               id="surveyEnterprise_id"
               {...register('surveyEnterprise_id', { required: true })}
               options={surveys
-                .sort((a, b) => b.id - a.id)
+                .sort(
+                  (a: SurveyProgramming, b: SurveyProgramming) => b.id - a.id
+                )
                 .map((survey: SurveyProgramming) => ({
                   value: survey.id,
                   label: `${survey.id} - ${survey.name} - ${survey.section} - ${survey.survey.name}`,

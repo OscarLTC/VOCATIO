@@ -13,7 +13,6 @@ import {
 } from 'chart.js';
 import {
   convertAnswersToCounts,
-  getGroupsValues,
   getCategoriesValues,
   getMaxIndex,
   getResult,
@@ -44,6 +43,7 @@ import { data } from '../reports-pdf/reports-pdf';
 import { PageDataProps } from '../../components/pdf/inteligencias-multiples/PagesData';
 import { IntelligenceData } from '../../models/intelligences';
 import { InteresData } from '../../models/interest.mode';
+import { Link } from 'react-router-dom';
 
 Chart.register(
   CategoryScale,
@@ -84,6 +84,7 @@ export const ReportsChart = (props: ReportsChartProps) => {
   const [count, setCount] = useState(0);
   const [delay, setDelay] = useState(1000);
   const [isRunning, toggleIsRunning] = useBoolean(true);
+  const [isPdfGenerated, setIsPdfGenerated] = useState(false);
 
   useInterval(
     () => {
@@ -93,6 +94,8 @@ export const ReportsChart = (props: ReportsChartProps) => {
   );
 
   useEffectOnce(() => {
+    localStorage.getItem('vocatioUser') && setIsPdfGenerated(true);
+
     getSurveyPersonData(surveyPerson.idPdf).then((res) => {
       setIsDataChartReady(false);
       if (res) {
@@ -582,10 +585,16 @@ export const ReportsChart = (props: ReportsChartProps) => {
       )}
       {isPdfReady ? (
         <div className="text-center flex mx-auto gap-3 rounded self-center select-none p-4 bg-white w-fit h-fit">
-          <h4 className="self-center font-bold">
-            Se ha completado correctamente la encuesta <br /> Puede cerrar esta
-            página
-          </h4>
+          {isPdfGenerated ? (
+            <Link to={`/reportes/`} className="text-blue-600 text-sm">
+              Volver a reportes
+            </Link>
+          ) : (
+            <h4 className="self-center font-bold">
+              Se ha completado correctamente la encuesta <br /> Puede cerrar
+              estapágina
+            </h4>
+          )}
         </div>
       ) : (
         <div className="text-center flex mx-auto gap-3 rounded self-center select-none p-4 bg-white w-fit h-fit">

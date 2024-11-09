@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { environment } from '../../../environments/environment';
 import { SurveyProgramming } from '../../models/surveyProgramming.model';
+import { getSurveyProgramming } from '../../serivces/surveryprogramming.services';
+import { useSetRecoilState } from 'recoil';
+import { surveyProgrammingState } from '../../store/surveyProgramming/surveyProgramming.atom';
+import { surveyPersonState } from '../../store/people/surveyPerson';
 
 interface ReportTableProps {
   searchText: string;
@@ -8,8 +12,22 @@ interface ReportTableProps {
 }
 
 export const ReportTable = (props: ReportTableProps) => {
+  const setSurveyData = useSetRecoilState(surveyProgrammingState);
+  const setSurveyPersonState = useSetRecoilState(surveyPersonState);
+  const navigate = useNavigate();
+
+  const fetchSurveyProgramming = async () => {
+    const response = await getSurveyProgramming(props.surveysData.id);
+    setSurveyData(response);
+  };
+
   const generatePdf = (id: number) => async () => {
-    return;
+    // setSurveyPersonState({
+    //   idPdf: id,
+    //   surveyId: props.surveysData.survey.id,
+    // });
+    // navigate('/encuestas/register/');
+    // await fetchSurveyProgramming();
   };
 
   return (
@@ -71,7 +89,7 @@ export const ReportTable = (props: ReportTableProps) => {
                         className="p-1 bg-green-500 text-white rounded-md"
                         onClick={generatePdf(survey.id)}
                       >
-                        Generar
+                        Regenerar
                       </button>
                     </div>
                   ) : (
