@@ -4,7 +4,7 @@ enum Intelligence {
   LogicoMatematica = 'Lógico - Matemática',
   Natural = 'Natural',
   VisualEspacial = 'Visual - Espacial',
-  Intrapersonal = ' ',
+  Intrapersonal = 'Intrapersonal',
   KinestesicaCorporal = 'Kinestésica - Corporal',
   Musical = 'Musical',
 }

@@ -22,12 +22,12 @@ export const ReportTable = (props: ReportTableProps) => {
   };
 
   const generatePdf = (id: number) => async () => {
-    // setSurveyPersonState({
-    //   idPdf: id,
-    //   surveyId: props.surveysData.survey.id,
-    // });
-    // navigate('/encuestas/register/');
-    // await fetchSurveyProgramming();
+    setSurveyPersonState({
+      idPdf: id,
+      surveyId: props.surveysData.survey.id,
+    });
+    navigate('/encuestas/register/');
+    await fetchSurveyProgramming();
   };
 
   return (
